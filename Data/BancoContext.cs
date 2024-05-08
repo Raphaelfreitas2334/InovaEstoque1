@@ -13,7 +13,8 @@ namespace ControleDeContatos.Data
         public DbSet<UsuarioModel> Usuario { get; set; }
         public DbSet<FornecedorModel> Fornecedor { get; set;}
         public DbSet<AlimentoModel> Alimentos { get; set; }
-        //public DbSet<EstoqueModel> Estoque { get; set; }
+        public DbSet<LogsModel> Logs { get; set; }
+        
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {

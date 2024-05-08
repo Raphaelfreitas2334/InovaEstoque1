@@ -3,6 +3,7 @@ using ControleDeContatos.Data;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
@@ -20,14 +21,17 @@ namespace WebApplication1.Controllers
         private readonly IAlimentoRepositorio _alimentoRepositorio;
         private readonly IFornecedorRepositorio _fornecedorRepositorio;
         private readonly ISessao _sessao;
+        private readonly BancoContext _bancoContext;
 
         public AlimentoController(IAlimentoRepositorio alimento,
                                   ISessao sessao,
-                                  IFornecedorRepositorio fornecedor) 
+                                  IFornecedorRepositorio fornecedor,
+                                  BancoContext bancoContext)
         {
             _alimentoRepositorio = alimento;
             _fornecedorRepositorio = fornecedor;
             _sessao = sessao;
+            _bancoContext = bancoContext;
         }
 
         public class SeuViewModel
@@ -124,48 +128,61 @@ namespace WebApplication1.Controllers
         [HttpPost]
         public IActionResult CadastrarAlimento(AlimentoModel alimento)
         {
-            try
+            using (var transaction = _bancoContext.Database.BeginTransaction())
             {
-                if (ModelState.IsValid)
+                try
                 {
-                    if (alimento.quantidadeAtual < 1 || alimento.quantidadeMaxima < 1 || alimento.quantidadeMinima < 1)
+                    if (ModelState.IsValid)
                     {
-                        TempData["ERRO"] = "Você não pode cadastrar quantidades menores que zero!";
-                        return RedirectToAction("Index");
-                    }
-                    if (alimento.quantidadeAtual < alimento.quantidadeMinima)
-                    {
-                        TempData["ERRO"] = "Você não pode cadastrar uma quantidades menor que a quantidade minina!";
-                        return RedirectToAction("Index");
-                    }
-                    if (alimento.quantidadeAtual > alimento.quantidadeMaxima)
-                    {
-                        TempData["ERRO"] = "Você não pode cadastrar quantidades maior que a quantidade maxima!";
+                        if (alimento.quantidadeAtual < 1 || alimento.quantidadeMaxima < 1 || alimento.quantidadeMinima < 1)
+                        {
+                            TempData["ERRO"] = "Você não pode cadastrar quantidades menores que zero!";
+                            return RedirectToAction("Index");
+                        }
+                        if (alimento.quantidadeAtual < alimento.quantidadeMinima)
+                        {
+                            TempData["ERRO"] = "Você não pode cadastrar uma quantidades menor que a quantidade minina!";
+                            return RedirectToAction("Index");
+                        }
+                        if (alimento.quantidadeAtual > alimento.quantidadeMaxima)
+                        {
+                            TempData["ERRO"] = "Você não pode cadastrar quantidades maior que a quantidade maxima!";
+                            return RedirectToAction("Index");
+                        }
+
+                        // Cadastro do alimento
+                        UsuarioModel usuarioLogado = _sessao.BuscarSessaoDoUsuario();
+                        alimento.IDusuario = usuarioLogado.Id;
+                        alimento.UsuarioNome = usuarioLogado.NomeUsuario;
+                        alimento = _alimentoRepositorio.AdicionarAlimento(alimento);
+
+                        // Cadastro do log
+                        LogsModel log = new LogsModel();
+                        log.IdAlimento = alimento.Id.ToString(); // Supondo que o ID do alimento seja gerado automaticamente após o cadastro
+                        log.NomeAlimeto = alimento.nomeAlimento;
+                        log.UsuarioCadastrou = usuarioLogado.NomeUsuario;
+                        log.QuantidadeAlimento = alimento.quantidadeRetirada;
+                        log.DataCadastro = DateTime.Now;
+                        // Adicione outros dados ao log conforme necessário
+                        _bancoContext.Logs.Add(log);
+                        _bancoContext.SaveChanges();
+
+                        transaction.Commit(); // Confirma a transação se tudo foi bem-sucedido
+                        TempData["SUCESSO"] = "Alimento cadastrado com sucesso!";
                         return RedirectToAction("Index");
                     }
                     else
                     {
-                        UsuarioModel usuarioLogago = _sessao.BuscarSessaoDoUsuario();
-
-                        alimento.FornecedorNome = alimento.FornecedorNome;
-                        alimento.IDusuario = usuarioLogago.Id;
-                        alimento.UsuarioNome = usuarioLogago.NomeUsuario;
-                        alimento = _alimentoRepositorio.AdicionarAlimento(alimento);
-                        TempData["SUCESSO"] = "Alimento Cadastrado com sucesso!";
+                        TempData["ERRO"] = "Não foi possível cadastrar. Lembre-se de preencher todos os campos.";
                         return RedirectToAction("Index");
                     }
                 }
-                else
+                catch (System.Exception erro)
                 {
-                    TempData["ERRO"] = "Não foi possivel cadastra, Lenbre-se cadastre todos campos";
+                    transaction.Rollback(); // Reverte a transação em caso de erro
+                    TempData["ERRO"] = $"Não foi possível cadastrar o alimento. Detalhes do erro: {erro.Message}";
                     return RedirectToAction("Index");
                 }
-
-            }
-            catch (System.Exception erro)
-            {
-                TempData["ERRO"] = $"Alimento cadastrado com sucesso! tetalhes do erro: {erro.Message}";
-                return RedirectToAction("Index");
             }
         }
 
