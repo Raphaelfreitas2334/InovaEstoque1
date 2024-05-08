@@ -1,0 +1,103 @@
+﻿@model AlimentoModel
+@{
+    ViewData["Title"] = "Novo alimento";
+}
+
+
+
+<link rel="stylesheet" href="~/css/AlimentoCSS/cadastrarAlimento.css" />
+
+
+    @if (TempData["SUCESSO"] != null)
+    {
+        <div id="AlertOfSucess" role="alert">
+            <button type="button" onclick="fecharMensagem()" class="btn btn-outline-danger btn-sm close-alert" aria-label="Close">X</button>
+
+            @TempData["SUCESSO"]
+        </div>
+    }
+
+    @if (TempData["ERRO"] != null)
+    {
+        <div id="AlertOfSucess" role="alert">
+            <button type="button" onclick="fecharMensagem()" class="btn btn-outline-danger btn-sm close-alert" aria-label="Close">X</button>
+
+            @TempData["ERRO"]
+        </div>
+    }
+
+
+<div>
+    <form asp-controller="Alimento" asp-action="CadastrarAlimento" method="POST" id="formAlimento">
+        <div>
+            <div id="tituloEditarAlimento">
+                <h1>Cadastro de alimentos</h1>
+            </div>
+            <div class="mb-3">
+                <label for="nomeAlimento" class="form-label">Nome do alimento</label>
+                <input type="text" class="form-control" id="nomeAlimento" placeholder="Macarrão" asp-for="nomeAlimento">
+                @Html.ValidationMessageFor(x => x.nomeAlimento)
+            </div>
+            <div class="mb-3">
+                <label for="vencimento" class="form-label">Data vencimento</label>
+                <input type="date" class="form-control" id="vencimento" placeholder="25/05/24" asp-for="dataVencimento">
+                @Html.ValidationMessageFor(x => x.dataVencimento)
+            </div>
+            <div class="mb-3">
+                <label for="unidadeMedida" class="form-label">Unidade de medida</label>
+                <select asp-for="unidadeMedida" class="form-control" id="unidadeMedida">
+                    <option value="Kg">Kg</option>
+                    <option value="LT">LITROS</option>
+                    <option value="PC">PACOTE</option>
+                    <option value="UN">UNIDADE</option>
+                </select>
+                @Html.ValidationMessageFor(x => x.unidadeMedida)
+            </div>
+            <div>
+                <label for="FornecedorNome" class="form-label">Fornecedor</label>
+                <select asp-for="FornecedorNome" asp-items="ViewBag.Alimentos" class="form-control" id="FornecedorNome">
+                    <option value="">Selecione um Fornecedor</option>
+                </select>
+            </div>
+            <div class="mb-3">
+                <label for="quantidadeMaxima" class="form-label">Quantidade maxima</label>
+                <input type="number" min="0" class="form-control" id="quantidadeMaxima" placeholder="0.0" asp-for="quantidadeMaxima">
+                @Html.ValidationMessageFor(x => x.quantidadeMaxima)
+            </div>
+            <div class="mb-3">
+                <label for="quantidadeMinima" class="form-label">Quantidade Minima</label>
+                <input type="number" min="0" class="form-control" id="quantidadeMinima" placeholder="0.0" asp-for="quantidadeMinima">
+                @Html.ValidationMessageFor(x => x.quantidadeMinima)
+            </div>
+            <div class="mb-3">
+                <label for="quantidadeAtual" class="form-label">Quantidade atual</label>
+                <input type="number" min="0" class="form-control" id="quantidadeAtual" placeholder="0.0" asp-for="quantidadeAtual">
+                @Html.ValidationMessageFor(x => x.quantidadeAtual)
+            </div>
+            <div id="contBtns">
+                <button id="btnSalvar">Salvar</button>
+            </div>
+        </div>
+    </form>
+</div>
+
+
+
+<script src="./js/scripts.js"></script>
+<script>
+    document.getElementById('formAlimento').addEventListener('submit', function (e) {
+        var nomeAlimento = document.getElementById('nomeAlimento').value;
+        var vencimento = document.getElementById('vencimento').value;
+        var unidadeMedida = document.getElementById('unidadeMedida').value;
+        var FornecedorNome = document.getElementById('FornecedorNome').value;
+        var quantidadeMaxima = document.getElementById('quantidadeMaxima').value;
+        var quantidadeMinima = document.getElementById('quantidadeMinima').value;
+        var quantidadeAtual = document.getElementById('quantidadeAtual').value;
+
+        if (nomeAlimento === '' || vencimento === '' || unidadeMedida === '' || FornecedorNome === '' || quantidadeMaxima === '' || quantidadeMinima === '' || quantidadeAtual === '') {
+            // Se algum campo estiver vazio, exibe um alerta e impede a submissão do formulário
+            alert('Por favor, preencha todos os campos.');
+            e.preventDefault();
+        }
+    });
+</script>    

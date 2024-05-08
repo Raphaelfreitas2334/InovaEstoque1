@@ -1,0 +1,246 @@
+﻿@model List<AlimentoModel>
+@{
+    ViewData["Title"] = "Página de Impressão Vencendo";
+}
+
+<link rel="stylesheet" href="~/css/UsuarioCSS/UsuarioCSS.css" />
+<br />
+<h1 class="text-center">@ViewData["Title"]</h1>
+<br />
+<button onclick="window.print()">Imprimir esta página</button>
+
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Toggle Divs</title>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script>
+        $(document).ready(function () {
+            $("#btn1").click(function () {
+                $("#div1").show();
+                $("#div2").hide();
+                $("#div3").hide();
+            });
+
+            $("#btn2").click(function () {
+                $("#div2").show();
+                $("#div1").hide();
+                $("#div3").hide();
+            });
+
+            $("#btn3").click(function () {
+                $("#div3").show();
+                $("#div1").hide();
+                $("#div2").hide();
+            });
+        });
+    </script>
+</head>
+<body>
+    <div class="dropdown">
+        <button id="DropdownMenu" class="btn btn-primary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+            Tipo de pesquisa
+        </button>
+        <div id="DropdownMenu" class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+            <button id="btn1">Já vencidos</button>
+            <button id="btn2">Para vencer</button>
+            <button id="btn3">Listar tudo</button>
+        </div>
+    </div>
+
+        <div id="div2" style="display: none;"> @* Div dos que estão para vencer *@
+            <div id="conteudo">
+                <section>
+                    <table class="table table-Alimento" id="table-Vencendo">
+                        <thead>
+                            <tr class="text-bg-success">
+                                <th id="codigo">#</th>
+                                <th scope="col">Descrição</th>
+                                <th scope="col">Vencimento</th>
+                                <th scope="col">Dias par vencer</th>
+                                <th scope="col">Status</th>
+                                <th scope="col">Unidade de medida</th>
+                                <th scope="col">Quantidade atual</th>
+                                <th scope="col">Quantidade Minima</th>
+
+                            </tr>
+                        </thead>
+                        <tbody>
+
+                            @if (Model != null && Model.Any())
+                            {
+                                foreach (AlimentoModel alimento in Model)
+                                {
+                                    DateTime data1 = DateTime.Now; // primeira data
+                                    DateTime data2 = DateTime.Parse(alimento.dataVencimento); // segunda data
+
+                                    TimeSpan diferenca = data1 - data2; // obtém a diferença entre as datas
+
+                                    <tr>
+                                        @if (Math.Abs(diferenca.TotalDays) >= 1) // verifica se a diferença é de 10 dias ou menos
+                                        {
+                                            @if (Math.Abs(diferenca.TotalDays) <= 10)
+                                            {
+                                                <td>@alimento.Id</td>
+                                                <td>@alimento.nomeAlimento</td>
+                                                <td>@alimento.dataVencimento</td>
+                                                <td>Falta @Math.Abs(diferenca.Days) dias</td>
+                                                <td><span class="badge badge-warning rounded-pill d-inline text-black">vencendo</span></td>
+                                                <td>@alimento.unidadeMedida</td>
+                                                <td>@alimento.quantidadeAtual</td>
+                                                <td>@alimento.quantidadeMinima</td>
+                                            }
+                                        }
+
+                                    </tr>
+                                }
+                            }
+                        </tbody>
+                    </table>
+
+                </section>
+
+            </div>
+        </div>
+        <div id="div1" style="display: none;"> @* Div dos que estão Vencidos *@
+            <div id="conteudo">
+                <section>
+                    <table class="table table-Alimento" id="table-Vencendo">
+                        <thead>
+                            <tr class="text-bg-success">
+                                <th id="codigo">#</th>
+                                <th scope="col">Descrição</th>
+                                <th scope="col">Vencimento</th>
+                                <th scope="col">Dias par vencer</th>
+                                <th scope="col">Status</th>
+                                <th scope="col">Unidade de medida</th>
+                                <th scope="col">Quantidade atual</th>
+                                <th scope="col">Quantidade Minima</th>
+
+                            </tr>
+                        </thead>
+                        <tbody>
+
+                            @if (Model != null && Model.Any())
+                            {
+                                foreach (AlimentoModel alimento in Model)
+                                {
+                                    DateTime data1 = DateTime.Now; // primeira data
+                                    DateTime data2 = DateTime.Parse(alimento.dataVencimento); // segunda data
+
+                                    TimeSpan diferenca = data1 - data2; // obtém a diferença entre as datas
+
+                                    <tr>
+                                        @if (diferenca.TotalDays <= 0) // verifica se a diferença é de 10 dias ou menos
+                                        {
+                                            
+                                        }
+                                        else
+                                        {
+                                            <td>@alimento.Id</td>
+                                            <td>@alimento.nomeAlimento</td>
+                                            <td>@alimento.dataVencimento</td>
+                                            <td>Venceu á @Math.Abs(diferenca.Days) dias</td>
+                                            <td><span class="badge badge-danger rounded-pill d-inline text-black">Venceu</span></td>
+                                            <td>@alimento.unidadeMedida</td>
+                                            <td>@alimento.quantidadeAtual</td>
+                                            <td>@alimento.quantidadeMinima</td>
+                                        }
+
+                                    </tr>
+                                }
+                            }
+                        </tbody>
+                    </table>
+
+                </section>
+
+            </div>
+        </div>
+        <div id="div3"> @* Div de todos vencendo e vencidos *@
+            <div id="conteudo">
+                <section>
+                    <table class="table table-Alimento" id="table-Vencendo">
+                        <thead>
+                            <tr class="text-bg-danger">
+                                <th id="codigo">#</th>
+                                <th scope="col">Descrição</th>
+                                <th scope="col">Vencimento</th>
+                                <th scope="col">Dias par vencer</th>
+                                <th scope="col">Status</th>
+                                <th scope="col">Unidade de medida</th>
+                                <th scope="col">Quantidade atual</th>
+                                <th scope="col">Quantidade Minima</th>
+
+                            </tr>
+                        </thead>
+                        <tbody>
+
+                            @if (Model != null && Model.Any())
+                            {
+                                foreach (AlimentoModel alimento in Model)
+                                {
+                                    DateTime data1 = DateTime.Now; // primeira data
+                                    DateTime data2 = DateTime.Parse(alimento.dataVencimento); // segunda data
+
+                                    TimeSpan diferenca = data1 - data2; // obtém a diferença entre as datas
+
+                                    <tr>
+                                        @if (Math.Abs(diferenca.TotalDays) >= 1 && Math.Abs(diferenca.TotalDays) <= 10) // verifica se a diferença é de 10 dias ou menos
+                                        {
+                                            <td>@alimento.Id</td>
+                                            <td>@alimento.nomeAlimento</td>
+                                            <td>@alimento.dataVencimento</td>
+                                            <td>Falta @Math.Abs(diferenca.Days) dias</td>
+                                            <td><span class="badge badge-warning rounded-pill d-inline text-black">vencendo</span></td>
+                                            <td>@alimento.unidadeMedida</td>
+                                            <td>@alimento.quantidadeAtual</td>
+                                            <td>@alimento.quantidadeMinima</td>
+
+                                        }
+                                        else
+                                        {
+
+                                            <td>@alimento.Id</td>
+                                            <td>@alimento.nomeAlimento</td>
+                                            <td>@alimento.dataVencimento</td>
+                                            <td>Venceu á @Math.Abs(diferenca.Days) dias</td>
+                                            <td><span class="badge badge-danger rounded-pill d-inline text-black">Venceu</span></td>
+                                            <td>@alimento.unidadeMedida</td>
+                                            <td>@alimento.quantidadeAtual</td>
+                                            <td>@alimento.quantidadeMinima</td>
+
+                                        }
+
+                                    </tr>
+                                }
+                            }
+                        </tbody>
+                    </table>
+
+                </section>
+            </div>
+        </div>
+  
+</body>
+</html>
+
+<style>
+    @@media print {
+        body {
+            color: gray;
+        }
+
+        #conteudo {
+            font-size: 14pt;
+        }
+
+        button {
+            display: none;
+        }
+
+        #DropdownMenu {
+            display: none;
+        }
+    }
+</style>

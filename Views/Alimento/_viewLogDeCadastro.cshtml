@@ -1,0 +1,37 @@
+﻿@model AlimentoModel
+@{
+    ViewData["Title"] = "Confirmação de apagar o Fornecedor";
+}
+
+<link rel="stylesheet" href="~/css/AlimentoCSS/indexAlimento.css" />
+<link rel="stylesheet" href="~/css/AlimentoCSS/excluirRegistro.css"/>
+
+<h1 class="text-danger text-center">Registro de alterações</h1>
+
+<div id="containerDell" class="modal-extra-large">
+    <div id="box-tableDell">
+        <div id="">
+            <table>
+                <tr>
+                    <th scope="col">ID Alimento</th>
+                    <th scope ="col">Alimento</th>
+                    <th scope="col">Data de cadastro</th>
+                    <th scope="col">Usuario cadastrou</th>
+
+                </tr>
+                <tr>
+                    <td>@Model.Id</td>
+                    <td>@Model.nomeAlimento</td>
+                    <td>@Model.DataCadastro</td>
+                    <td>@Model.UsuarioNome</td>
+                </tr>
+            </table>
+        </div>
+    </div>
+</div>
+
+<style>
+    .modal-extra-large {
+        max-width: 98%;
+    }
+</style>

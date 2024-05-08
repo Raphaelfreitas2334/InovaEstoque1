@@ -1,0 +1,35 @@
+﻿@using ControleDeContatos.Models;
+@model UsuarioModel
+@{
+    ViewData["Title"] = "Confirmação de apagar o Usuario";
+}
+
+<link rel="stylesheet" href="~/css/UsuarioCSS/excluirRegistro.css"/>
+
+<div id="containerDell">
+    <div id="box-tableDell">   
+        <h1 class="text-danger">Realmente deseja excluir este registro?</h1>
+        <div id="">
+            <table>
+                <tr>
+                    <th>#</th>
+                    <th>Nome do usuario</th>
+                    <th>Função</th>
+                    <th>Email</th>
+                    <th>Status</th>
+                </tr>
+                <tr>
+                    <td>@Model.Id</td>
+                    <td>@Model.NomeUsuario</td>
+                    <td>@Model.Funcao</td>
+                    <td>@Model.Email</td>
+                    <td>@Model.Ativo</td>
+                </tr>
+            </table>
+            <div id="btns">
+                <a role="button" id="btnCancelar" asp-controller="Usuario" asp-action="Index">Cancelar</a>
+                <a role="button" id="btnExcluir" asp-controller="Usuario" asp-route-id="@Model.Id" asp-action="Apagar">Excluir</a>
+            </div>
+        </div>
+    </div>
+</div>

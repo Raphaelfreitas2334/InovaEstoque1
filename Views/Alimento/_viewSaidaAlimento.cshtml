@@ -1,0 +1,62 @@
+﻿@model AlimentoModel
+@{
+    ViewData["Title"] = "Novo alimento";
+}
+
+<link rel="stylesheet" href="~/css/SaidaAlimentos.css" />
+
+<div>
+    <form asp-controller="Alimento" asp-action="SaidaDeAlimento" method="POST" id="formAlimento">
+        <input type="hidden" asp-for="Id" />
+        <div>
+            <div id="tituloEditarAlimento">
+                <h1>Saida de alimentos</h1>
+            </div>
+            <div class="mb-3">
+                <label for="nomeAlimento" class="form-label">Nome do alimento</label>
+                <input type="text" class="form-control" id="nomeAlimento" placeholder="Macarrão" asp-for="nomeAlimento">
+                @Html.ValidationMessageFor(x => x.nomeAlimento)
+            </div>
+            <div class="mb-3">
+                <div class="box-qtdAtual">
+                    <label for="quantidadeAtual" class="form-label">Quantidade Atual</label>
+                    @Model.quantidadeAtual
+                </div>
+            </div>
+            <div class="mb-3">
+                <label for="qtdeRetirada" class="form-label">Quantidade a retirar</label>
+                <input type="number" min="0" class="form-control" id="qtdeRetirada" placeholder="0.0" asp-for="quantidadeRetirada">
+                <p id="validadorRetirada">O campo quantidade não foi preenchido</p>
+            </div>
+            <div class="form-floating mb-3">
+                <label for="obsDeSaida">Mensagen</label>
+                <textarea class="form-control" id="obsDeSaida" type="text" placeholder="Escreva uma observação..." style="height: 10rem" data-sb-validations="required" asp-for="obsDeSaida"></textarea>
+                <div class="invalid-feedback" data-sb-feedback="obsDeSaida:required">Escreva uma observação</div>
+            </div>
+            <div id="contBtns">
+                <button id="btnSalvar">Salvar</button>
+            </div>
+            <div id="btnCancelar">
+                <button asp-controller="Alimento" asp-action="Index" id="btnSalvar">Cancelar</button>
+            </div>
+        </div>
+    </form>
+</div>
+
+
+<script src="./js/scripts.js"></script>
+
+<script>
+    document.getElementById('formAlimento').addEventListener('submit', function (e) {
+        var nomeAlimento = document.getElementById('nomeAlimento').value;
+        var quantidadeRetirada = document.getElementById('qtdeRetirada').value;
+        var obsDeSaida = document.getElementById('obsDeSaida').value;
+
+        if (nomeAlimento === '' || quantidadeRetirada === '' || obsDeSaida === '') {
+            // Se algum campo estiver vazio, exibe um alerta e impede a submissão do formulário
+            alert('Por favor, preencha todos os campos.');
+            e.preventDefault();
+        }
+
+    });
+</script>

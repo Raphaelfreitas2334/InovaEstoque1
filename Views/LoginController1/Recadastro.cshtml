@@ -1,0 +1,57 @@
+﻿@model RedefinirSenhaModel
+@{
+    Layout = "_LayoutDeslogado";
+    ViewData["Title"] = "Redefinir Senha";
+}
+
+@if (TempData["MensagemErro"] != null)
+{
+    <div class="alert alert-danger" role="alert">
+        <button type="button" class="btn btn-danger btn-sm close-alert" aria-label="Close">X</button>
+        @TempData["MensagemErro"]
+    </div>
+}
+<form asp-controller="LoginController1" asp-action="EnviarLinkParaRedefinirSenha" method="post">
+    <section class="vh-100">
+        <div class="container py-5 h-100">
+            <div class="row d-flex align-items-center justify-content-center h-100">
+                <div class="col-md-8 col-lg-7 col-xl-6">
+                    <img src="https://mdbcdn.b-cdn.net/img/Photos/new-templates/bootstrap-login-form/draw2.svg"
+                         class="img-fluid" alt="Phone image">
+                </div>
+                <div class="col-md-7 col-lg-5 col-xl-5 offset-xl-1">
+                    <form>
+                        <h1 class="text-center font-weight-bolder">Redefinir Senha</h1>
+                        <!-- Login input -->
+                        <div class="mb-3">
+                            <label for="login" class="form-label">Login</label>
+                            <input type="text" asp-for="Login" class="form-control" id="login">
+                            @Html.ValidationMessageFor(X => X.Login)
+                        </div>
+
+                        <!-- Email input -->
+                        <div class="mb-3">
+                            <label for="Email" class="form-label">E-mail</label>
+                            <input type="text" asp-for="Email" class="form-control" id="Email">
+                            @Html.ValidationMessageFor(X => X.Email)
+                        </div>
+
+                        <!-- Submit button -->
+                        <button type="submit" class="btn btn-primary btn-lg btn-block">Redefinir Senha</button>
+
+                        <div class="divider d-flex align-items-center my-4">
+                            <p class="text-center fw-bold mx-3 mb-0 text-muted">OR</p>
+                        </div>
+
+                        <a class="btn btn-primary btn-lg btn-block" style="background-color: #3b5998" role="button"
+                           class="nav-link text-dark" asp-area="" asp-controller="LoginController1" asp-action="Sair">
+                            Faça Login
+                        </a>
+
+
+                    </form>
+                </div>
+            </div>
+        </div>
+    </section>
+</form>

@@ -1,0 +1,147 @@
+﻿@using ControleDeContatos.Models;
+@model FornecedorModel
+@{
+    ViewData["Title"] = "Editar Fornecedor";
+}
+
+
+<link rel="stylesheet" href="~/css/AlimentoCSS/cadastrarAlimento.css" />
+
+<div>
+    <form asp-controller="Fornecedor" asp-action="Editar" method="POST" id="formFornecedor">
+        <input type="hidden" asp-for="Id" />
+        <div>
+            <div id="tituloEditarAlimento">
+                <h1>Edição de Fornecedor</h1>
+            </div>
+            <div class="mb-3">
+                <label for="nomeFornecedor" class="form-label">Nome do Fornecedor</label>
+                <input type="text" class="form-control" id="nomeFornecedor" placeholder="Seu feudal" asp-for="nomeFornecedor">
+                @Html.ValidationMessageFor(x => x.nomeFornecedor)
+            </div>
+            <div class="mb-3">
+                <label for="cnpj" class="form-label">CNPJ</label>
+                <input type="text" id="cnpj" name="cnpj" oninput="validateCnpj()" asp-for="CNPJ" />
+                <span id="cnpjMessage"></span>
+                @Html.ValidationMessageFor(x => x.CNPJ)
+            </div>
+            <div class="mb-3">
+                <label for="telefone" class="form-label">Telefone</label>
+                <input type="text" class="form-control " id="telefone" onkeyup="validarTelefone();" placeholder="(11) 56751940" asp-for="telefone">
+                <span id="telefoneMessage"></span>
+                @Html.ValidationMessageFor(x => x.telefone)
+            </div>
+            <div class="mb-3">
+                <label for="cep" class="form-label">CEP</label>
+                <input type="text" class="form-control " id="cep" onkeyup="validarCEP();" placeholder="04472130" asp-for="CEP">
+                <span id="cepMessage"></span>
+                @Html.ValidationMessageFor(x => x.CEP)
+            </div>
+            <div class="mb-3">
+                <label for="numeroResidencia" class="form-label">Numero da residencia</label>
+                <input type="text" class="form-control " id="numeroResidencia" placeholder="26" asp-for="numeroResidencia">
+                @Html.ValidationMessageFor(x => x.numeroResidencia)
+            </div>
+            <div id="contBtns">
+                <button id="btnSalvar">Salvar</button>
+            </div>
+        </div>
+    </form>
+</div>
+
+<script>
+    document.getElementById('formFornecedor').addEventListener('submit', function (e) {
+        var nomeFornecedor = document.getElementById('nomeFornecedor').value;
+        var cnpj = document.getElementById('cnpj').value;
+        var telefone = document.getElementById('telefone').value;
+        var cep = document.getElementById('cep').value;
+
+        if (nomeFornecedor === '' || cnpj === '' || telefone === '' || cep === '') {
+            // Se algum campo estiver vazio, exibe um alerta e impede a submissão do formulário
+            alert('Por favor, preencha todos os campos.');
+            e.preventDefault();
+        } else if (cnpj.length !== 18) {
+            // Se o CNPJ não tiver exatamente 18 caracteres, exibe um alerta e impede a submissão do formulário
+            alert('Por favor, insira um CNPJ válido com 18 caracteres.');
+            e.preventDefault();
+        } else if (telefone.length !== 14) {
+            // Se o telefone não tiver exatamente 14 caracteres, exibe um alerta e impede a submissão do formulário
+            alert('Por favor, insira um telefone válido com 14 caracteres.');
+            e.preventDefault();
+        } else if (cep.length !== 9) {
+            // Se o CEP não tiver exatamente 9 caracteres, exibe um alerta e impede a submissão do formulário
+            alert('Por favor, insira um CEP válido com 9 caracteres.');
+            e.preventDefault();
+        }
+    });
+
+    function validateCnpj() {
+        let cnpj = document.getElementById('cnpj');
+        let message = document.getElementById('cnpjMessage');
+
+        cnpj.value = cnpj.value.replace(/\D/g, ''); // Remove qualquer caractere que não seja dígito
+        cnpj.value = cnpj.value.replace(/^(\d{2})(\d)/, '$1.$2'); // Insere ponto após o segundo dígito
+        cnpj.value = cnpj.value.replace(/^(\d{2})\.(\d{3})(\d)/, '$1.$2.$3'); // Insere ponto após o quinto dígito
+        cnpj.value = cnpj.value.replace(/\.(\d{3})(\d)/, '.$1/$2'); // Insere uma barra após o oitavo dígito
+        cnpj.value = cnpj.value.replace(/(\d{4})(\d)/, '$1-$2'); // Insere um hífen depois do segundo dígito
+
+        if (cnpj.value.length > 18) {
+            cnpj.value = cnpj.value.slice(0, 18);
+        }
+
+        if (cnpj.value.length === 18) {
+            message.textContent = 'CNPJ válido';
+            message.style.color = 'green';
+        } else {
+            message.textContent = 'CNPJ incompleto';
+            message.style.color = 'red';
+        }
+    }
+
+    function validarTelefone() {
+        let telefone = document.getElementById('telefone');
+        let message = document.getElementById('telefoneMessage');
+
+        // Remove caracteres não numéricos
+        telefone.value = telefone.value.replace(/\D/g, '');
+
+        // Formata para o padrão de telefone brasileiro
+        telefone.value = telefone.value.replace(/^(\d{2})(\d)/g, '($1) $2');
+        telefone.value = telefone.value.replace(/(\d)(\d{4})$/, '$1-$2');
+
+        if (telefone.value.length > 14) {
+            telefone.value = telefone.value.slice(0, 14);
+        }
+
+        if (telefone.value.length === 14) {
+            message.textContent = 'Telefone válido';
+            message.style.color = 'green';
+        } else {
+            message.textContent = 'Telefone incompleto';
+            message.style.color = 'red';
+        }
+    }
+
+    function validarCEP() {
+        let cep = document.getElementById('cep');
+        let message = document.getElementById('cepMessage');
+
+        // Remove caracteres não numéricos
+        cep.value = cep.value.replace(/\D/g, '');
+
+        // Formata para o padrão de CEP brasileiro
+        cep.value = cep.value.replace(/^(\d{5})(\d)/, '$1-$2');
+
+        if (cep.value.length > 9) {
+            cep.value = cep.value.slice(0, 9);
+        }
+
+        if (cep.value.length === 9) {
+            message.textContent = 'CEP válido';
+            message.style.color = 'green';
+        } else {
+            message.textContent = 'CEP incompleto';
+            message.style.color = 'red';
+        }
+    }
+</script>

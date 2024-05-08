@@ -1,0 +1,126 @@
+﻿@model List<UsuarioModel>
+@{
+
+    ViewData["Title"] = "Listagem de Usuários";
+}
+
+<link rel="stylesheet" href="~/css/UsuarioCSS/UsuarioCSS.css" />
+
+<div id="alertasDaPagina">
+    @if (TempData["MensagemSucesso"] != null)
+    {
+        <div id="alerta" class="alert alert-success" role="alert">
+            <button type="button" class="btn btn-outline-danger btn-sm close-alert" aria-label="Close">X</button>
+            @TempData["MensagemSucesso"]
+        </div>
+    }
+
+    @if (TempData["MensagemErro"] != null)
+    {
+        <div class="alert alert-danger" role="alert">
+            <button type="button" class="btn btn-outline-success btn-sm close-alert" aria-label="Close">X</button>
+            @TempData["MensagemErro"]
+        </div>
+    }
+</div>
+
+<header>
+   
+</header>
+
+<section>
+    <div id="container-usuario">
+        <div id="box-title">
+            <form action="" id="formPesquisa">
+                <h1>Listagem de Usuarios</h1>
+            </form>
+            <a onclick="javascrip:" class="btn btn-sm btn-Modal-Criar-Usuario" id="btnNovoAlimento">Adicionar novo Usuario</a>
+        </div>
+        <div class="table-responsive">
+        <table class="table table-Alimento" id="table-alimento">
+            <thead>
+                <tr id="theadAlimento">
+                    <th scope="col">#</th>
+                    <th scope="col">Nome</th>
+                    <th scope="col">Função</th>
+                    <th scope="col">Email</th>
+                    <th scope="col">Data de Cadastro</th>
+                    <th scope="col">Data de atualização</th>
+                    <th scope="col">Ativo</th>
+                    <th scope="col">Editar</th>
+                    <th scope="col">Apagar</th>
+                </tr>
+            </thead>
+            <tbody>
+
+                @if (Model != null && Model.Any())
+                {
+                    foreach (var Usuario in Model)
+                    {
+                        <tr>
+                            <th scope="row">@Usuario.Id</th>
+                            <td>@Usuario.NomeUsuario</td>
+                            <td>@Usuario.Funcao</td>
+                            <td>@Usuario.Email</td>
+                            <td>@Usuario.DataLogin</td>
+                            <td>@Usuario.DataAtualizacao</td>
+                            @if (@Usuario.Ativo == true)
+                            {
+                                <td><span class="badge badge-success rounded-pill d-inline">Active</span></td>
+                            }
+                            else
+                            {
+                                <td><span class="badge badge-danger rounded-pill d-inline ">Desativado</span></td>
+                            }
+
+                            <td>
+                                <a onclick="javascrip:" usuario-id="@Usuario.Id" class="btn btn-sm btn-Modal-Editar-Usuario"><img id="iconEditar" src="~/imagens/btn_editar.png"></a>
+                            </td>
+                            <td>
+                                <a onclick="javascrip:" usuario-id="@Usuario.Id" class="btn btn-sm btn-Modal-Apagar-Usuario"><img id="iconExcluir" src="~/imagens/btn_excluir.png"></a>
+                            </td>
+                        </tr>
+                    }
+                }
+                else
+                {
+                    <tr class="odd"><td valign="top" colspan="5">Nenhum usuario encontrado</td></tr>
+                }
+            </tbody>
+        </table>
+        </div>
+    </div>
+    
+    
+</section>
+
+<!--Modal para Excluir Usuario-->
+<div id="ModalApagarUsuario" class="modal" tabindex="-1">
+    <div class="modal-dialog modal-dialog-centered modal-lg">
+        <div class="modal-content">
+            <div class="modal-body">
+                <div id="ApagarUsuario"></div>
+            </div>
+        </div>
+    </div>
+</div>
+<!--Modal para Editar Usuario-->
+<div id="ModalEditarUsuario" class="modal" tabindex="-1">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+            <div class="modal-body">
+                <div id="EditarUsuario"></div>
+            </div>
+        </div>
+    </div>
+</div>
+<!--Modal para Criar Usuario-->
+<div id="ModalCriarUsuario" class="modal" tabindex="-1">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+            <div class="modal-body">
+                <div id="CriarUsuario"></div>
+            </div>
+        </div>
+    </div>
+</div>

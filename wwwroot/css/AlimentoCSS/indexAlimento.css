@@ -1,0 +1,190 @@
+﻿@media (max-width: 1080px) {
+    html {
+        font-size: 20px;
+    }
+}
+
+@media (max-width: 1150px) {
+    html {
+        font-size: 12px;
+    }
+}
+
+
+
+@media (max-width: 1062px) {
+    html {
+        font-size: 10px;
+    }
+}
+
+@media (max-width: 902px) {
+    html {
+        font-size: 10px;
+    }
+
+    #iconEditar {
+        width: 15px !important;
+        height: 15px !important;
+    }
+
+    #iconExcluir {
+        width: 15px !important;
+        height: 15px !important;
+    }
+}
+
+@media (max-width:774px) {
+    html {
+        font-size: 9px;
+    }
+
+    #iconEditar {
+        width: 13px !important;
+        height: 13px !important;
+    }
+
+    #iconExcluir {
+        width: 13px !important;
+        height: 13px !important;
+    }
+}
+
+@media (max-width: 568px) {
+    html {
+        font-size: 8px;
+    }
+
+    #iconEditar {
+        width: 15px !important;
+        height: 15px !important;
+    }
+
+    #iconExcluir {
+        width: 15px !important;
+        height: 15px !important;
+    }
+}
+
+@media (max-width: 468px) {
+    html {
+        font-size: 8px;
+    }
+
+    #iconEditar {
+        width: 15px !important;
+        height: 15px !important;
+    }
+
+    #iconExcluir {
+        width: 15px !important;
+        height: 15px !important;
+    }
+}
+nav {
+    background: #000028;
+    opacity: 1;
+}
+
+header {
+    display: flex;
+    justify-content: center;
+    margin-top: 50px;
+}
+
+#theadAlimento {
+    color: white;
+    background: #000028;
+}
+
+    #theadAlimento th {
+        border-color: white;
+    }
+
+#box-title {
+    width: 65%;
+    margin-top: 100px;
+    color: #000028;
+    font-weight: 600;
+}
+
+#formPesquisa {
+    display: flex;
+    align-items: center;
+}
+
+#box-title h1 {
+    font-size: 1.8rem;
+}
+
+#formPesquisa {
+    display: flex;
+    flex-direction: row;
+    margin-top: 20px;
+}
+
+    #formPesquisa input {
+        margin-left: 20px;
+        width: 20vw;
+        border-top: 0;
+        border-left: 0;
+        border-right: 0;
+        margin-right: 15px;
+    }
+
+section {
+    margin-top: 50px;
+    width: 100%;
+    display: flex;
+    justify-content: center;
+}
+
+#alimento-table {
+    display: flex;
+    flex-direction: column;
+    width: 65%;
+}
+
+#confirmarDelete {
+    position: absolute;
+    width: 30%;
+    top: 30%;
+    left: 30%;
+    background: #c6d4e1;
+    border-radius: 10px;
+    padding: 20px;
+    display: none;
+}
+
+#fecharDrop {
+    position: absolute;
+    top: 5px;
+    right: 20px;
+    border: none;
+    background: #c6d4e1;
+}
+
+#btnNovoAlimento {
+    margin-top: 20px;
+    background: #000028;
+    color: white;
+}
+
+#btnBuscarAli {
+    background: #000028;
+    color: white;
+}
+
+#funcoes {
+    display: flex;
+}
+
+#iconEditar {
+    width: 20px;
+    height: 20px;
+}
+
+#iconExcluir {
+    width: 20px;
+    height: 20px;
+}

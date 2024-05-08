@@ -1,0 +1,67 @@
+﻿*{
+    font-family:'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
+}
+
+
+#container-saida {
+    border: 1px solid black;
+    width: 25%;
+    padding: 20px;
+    padding-bottom: 20px;
+    display: flex;
+    justify-content: center;
+    border-radius: 5px;
+}
+
+#container-saida form{
+    width: 100%;
+}
+
+.box-qtdAtual {
+    background: #000028;
+    width: 60%;
+    color: white;
+    border-radius: 5px;
+    padding-top: 5px;
+    padding-left: 10px;
+    transition: 1s;
+}
+
+    .box-qtdAtual:hover {
+        box-shadow: 2px 4px #888888;
+        transition: 1s;
+        background: white;
+        color: black;
+        border: 1px solid black;
+    }
+
+#btnSalvar {
+    background: #000028;
+    border: none;
+    color: white;
+    width: 60%;
+    border-radius: 5px;
+    transition: 1s;
+}
+
+    #btnSalvar:hover {
+        border: 1px solid black;
+        background: white;
+        color: black;
+        transition: 1s;
+        box-shadow: 2px 4px #888888;
+    }
+
+#validadorAlimento {
+    color: red;
+    display: none
+}
+
+#validadorRetirada {
+    color: red;
+    display: none
+}
+
+#btnCancelar{
+    margin-top: 10px;
+}

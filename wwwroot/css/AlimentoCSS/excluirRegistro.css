@@ -1,0 +1,46 @@
+﻿
+#containerDell {
+    display: flex;
+    margin-top: 100px;
+    justify-content: center;
+}
+
+h1 {
+    color: black;
+}
+
+th {
+    background: #000028;
+    color: white;
+    border: solid 1px white;
+}
+
+#box-tableDell table {
+    width: 100%;
+}
+
+#btns {
+    display: flex;
+}
+
+#btnCancelar {
+    width: 100%;
+    margin-right: 5px;
+    margin-top: 20px;
+    text-align: center;
+    background: #000028;
+    padding: 5px;
+    border-radius: 5px;
+    color: white;
+}
+
+#btnExcluir {
+    width: 100%;
+    margin-left: 5px;
+    margin-top: 20px;
+    text-align: center;
+    padding: 5px;
+    border-radius: 5px;
+    color: white;
+    background: red;
+}

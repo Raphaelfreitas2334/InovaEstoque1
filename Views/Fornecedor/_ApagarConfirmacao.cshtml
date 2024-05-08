@@ -1,0 +1,62 @@
+﻿@model FornecedorModel
+@{
+    ViewData["Title"] = "Confirmação de apagar o Fornecedor";
+}
+
+
+@if (TempData["SUCESSO"] != null)
+{
+    <div id="AlertOfSucess" role="alert">
+        <button type="button" onclick="fecharMensagem()" class="btn btn-outline-danger btn-sm close-alert" aria-label="Close">X</button>
+        @TempData["SUCESSO"]
+    </div>
+}
+
+@if (TempData["ERRO"] != null)
+{
+    <div id="AlertOfSucess" role="alert">
+        <button type="button" onclick="fecharMensagem()" class="btn btn-outline-danger btn-sm close-alert" aria-label="Close">X</button>
+
+        @TempData["ERRO"]
+    </div>
+}
+
+
+<link rel="stylesheet" href="~/css/AlimentoCSS/indexAlimento.css" />
+<link rel="stylesheet" href="~/css/AlimentoCSS/excluirRegistro.css" />
+
+<div id="containerDell">
+    <div id="box-tableDell">
+        <h1 class="text-danger">Realmente deseja excluir este registro?</h1>
+        <div id="">
+            <table>
+                <tr>
+                    <th>#</th>
+                    <th>Nome do fornecedor</th>
+                    <th>CNPJ</th>
+                    <th>Telefone</th>
+                    <th>CEP</th>
+                    <th>Numero da residencia</th>
+                </tr>
+                <tr>
+                    <td>@Model.Id</td>
+                    <td>@Model.nomeFornecedor</td>
+                    <td>@Model.CNPJ</td>
+                    <td>@Model.telefone</td>
+                    <td>@Model.CEP</td>
+                    <td>@Model.numeroResidencia</td>
+                </tr>
+            </table>
+            <div id="btns">
+                <a role="button" id="btnCancelar" asp-controller="Fornecedor" asp-action="Index">Cancelar</a>
+                <a role="button" id="btnExcluir" asp-controller="Fornecedor" asp-route-id="@Model.Id" asp-action="Excluir">Excluir</a>
+            </div>
+        </div>
+    </div>
+</div>
+<script>
+    function fecharMensagem() {
+        let msg = document.getElementById("AlertOfSucess");
+        msg.style.display = 'none';
+    }
+</script>    

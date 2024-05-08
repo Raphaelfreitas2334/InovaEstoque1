@@ -1,0 +1,126 @@
+﻿@using WebApplication1.Enums;
+@model UsuarioModel
+@{
+    ViewData["Title"] = "Criar Usuario";
+}
+
+<link rel="stylesheet" href="~/css/UsuarioCSS/criar.css" />
+
+<div id="containerEditarAlimento">
+
+
+    <form asp-controller="Usuario" asp-action="Criar" method="POST" id="formUsuario">
+        <div>
+            <div id="tituloEditarAlimento">
+                <h1>Cadastro de Usuario</h1>
+            </div>
+            <form>
+                <div class="row">
+                    <div class="col-md-6 mb-3">
+                        <label for="exampleFormControlInput1" class="form-label">Nome do Usuario</label>
+                        <input type="text" class="form-control" id="nomeAlimento" placeholder="Carlos" asp-for="NomeUsuario">
+                        @Html.ValidationMessageFor(x => x.NomeUsuario)
+                    </div>
+                    <div class="col-md-6 mb-3">
+                        <label for="email">Email:</label>
+                        <input type="text" id="email" class="form-control" name="email" placeholder="email@gmail.com" onkeyup="verificarEmail();" asp-for="Email">
+                        <span id="mensagemEmail"></span>
+                        @Html.ValidationMessageFor(x => x.Email)
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-6 mb-3">
+                        <label for="exampleFormControlInput1" class="form-label">Digite o login do Usuario</label>
+                        <input type="text" class="form-control" id="Carlos Exemplo" placeholder="Carlos Exemplo" asp-for="Login">
+                        @Html.ValidationMessageFor(x => x.Login)
+                    </div>
+                    <div class="col-md-6 mb-3">
+                        <label for="nome" class="form-label">Perfil</label>
+                        <select asp-for="Funcao" class="form-control">
+                            <option value="">Selecione</option>
+                            <option value="@PerfilEnum.adimin">Adminstrador</option>
+                            <option value="@PerfilEnum.Cozinheiro">Cozinheiro</option>
+                        </select>
+                        @Html.ValidationMessageFor(x => x.Funcao)
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-6 mb-3">
+                        <label for="senha">Senha:</label>
+                        <input type="password" class="form-control" id="senha" name="senha">
+                        @Html.ValidationMessageFor(x => x.Senha)
+                    </div>
+                    <div class="col-md-6 mb-3">
+                        <label for="confirmarSenha">Confirmar Senha:</label>
+                        <input type="password" class="form-control" id="confirmarSenha" name="confirmarSenha" onkeyup="verificarSenha();" asp-for="Senha">
+                        <span id="mensagem"></span>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-6 mb-3">
+                        <label for="Ativo" class="form-label">Status</label>
+                        <select asp-for="Ativo" class="form-control">
+                            <option value="@true">Ativo</option>
+                        </select>
+                        @Html.ValidationMessageFor(x => x.Funcao)
+                    </div>
+                </div>
+                <div>
+                    <button type="submit" id="btnSalvar">Salvar</button>
+                </div>
+            </form>
+        </div>
+
+    </form>
+</div>
+
+<script>
+    document.getElementById('formUsuario').addEventListener('submit', function (e) {
+        var nomeUsuario = document.getElementById('nomeAlimento').value;
+        var email = document.getElementById('email').value;
+        var login = document.getElementById('Carlos Exemplo').value;
+        var senha = document.getElementById('senha').value;
+        var confirmarSenha = document.getElementById('confirmarSenha').value;
+
+        if (nomeUsuario === '' || email === '' || login === '' || senha === '' || confirmarSenha === '') {
+            // Se algum campo estiver vazio, exibe um alerta e impede a submissão do formulário
+            alert('Por favor, preencha todos os campos.');
+            e.preventDefault();
+        } else if (!email.includes('@@gmail.com')) {
+            // Se o email não contém '@@gmail.com', exibe um alerta e impede a submissão do formulário
+            alert('Por favor, insira um email válido que contenha "@@gmail.com".');
+            e.preventDefault();
+        } else if (senha !== confirmarSenha) {
+            // Se a senha e a confirmação de senha não são iguais, exibe um alerta e impede a submissão do formulário
+            alert('As senhas não correspondem. Por favor, verifique e tente novamente.');
+            e.preventDefault();
+        }
+    });
+
+    function verificarSenha() {
+        var senha = document.getElementById("senha").value;
+        var confirmarSenha = document.getElementById("confirmarSenha").value;
+        var mensagem = document.getElementById("mensagem");
+
+        if (senha == confirmarSenha) {
+            mensagem.style.color = "green";
+            mensagem.innerHTML = "Senhas correspondem!";
+        } else {
+            mensagem.style.color = "red";
+            mensagem.innerHTML = "Senhas não correspondem!";
+        }
+    }
+
+    function verificarEmail() {
+        var email = document.getElementById("email").value;
+        var mensagemEmail = document.getElementById("mensagemEmail");
+
+        if (email.includes("@@gmail.com")) {
+            mensagemEmail.style.color = "green";
+            mensagemEmail.innerHTML = "O email contém '@@gmail.com'!";
+        } else {
+            mensagemEmail.style.color = "red";
+            mensagemEmail.innerHTML = "O email não contém '@@gmail.com'!";
+        }
+    }
+</script>

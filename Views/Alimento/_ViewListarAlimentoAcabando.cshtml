@@ -1,0 +1,59 @@
+﻿@model List<AlimentoModel>
+@{
+    ViewData["Title"] = "Listagem de Alimentos Acabando";
+}
+
+
+<link rel="stylesheet" href="~/css/EstoqueCSS/indexEstoque.css" />
+
+<a asp-action="viewImprimirAcabando" asp-controller="Alimento" class="btn btn-primary">Gerar relatorio</a>
+
+<section>
+
+    <table class="table table-Alimento" id="table-Vencendo">
+        <thead>
+            <tr id="theadAlimento">
+                <th id="codigo">#</th>
+                <th scope="col">Descrição</th>
+                <th scope="col">Vencimento</th>
+                <th scope="col">Status</th>
+                <th scope="col">Unidade de medida</th>
+                <th scope="col">Quantidade atual</th>
+                <th scope="col">Quantidade Minima</th>
+
+            </tr>
+        </thead>
+        <tbody>
+
+            @if (Model != null && Model.Any())
+            {
+                foreach (AlimentoModel alimento in Model)
+                {
+
+                    <tr>
+                        @* if para gerenciar o status do alimento *@
+                        @if (alimento.quantidadeAtual < alimento.quantidadeMinima)
+                        {
+                            <td>@alimento.Id</td>
+                            <td>@alimento.nomeAlimento</td>
+                            <td>@alimento.dataVencimento</td>
+                            <td><span class="badge badge-danger rounded-pill d-inline ">Perigo</span></td>
+                            <td>@alimento.unidadeMedida</td>
+                            <td>@alimento.quantidadeAtual</td>
+                            <td>@alimento.quantidadeMinima</td>
+                        }
+                    </tr>
+                }
+            }
+        </tbody>
+    </table>
+
+</section>
+
+<script>
+    function fecharMensagem() {
+
+        let msg = document.getElementById("AlertOfSucess");
+        msg.style.display = 'none';
+    }
+</script>

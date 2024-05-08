@@ -1,0 +1,61 @@
+﻿@model AlimentoModel
+@{
+    ViewData["Title"] = "Confirmação de apagar o Fornecedor";
+}
+
+<link rel="stylesheet" href="~/css/AlimentoCSS/indexAlimento.css" />
+<link rel="stylesheet" href="~/css/AlimentoCSS/excluirRegistro.css"/>
+
+
+@if (TempData["SUCESSO"] != null)
+{
+    <div id="AlertOfSucess" role="alert">
+        <button type="button" onclick="fecharMensagem()" class="btn btn-outline-danger btn-sm close-alert" aria-label="Close">X</button>
+
+        @TempData["SUCESSO"]
+    </div>
+}
+
+@if (TempData["ERRO"] != null)
+{
+    <div id="AlertOfSucess" role="alert">
+        <button type="button" onclick="fecharMensagem()" class="btn btn-outline-danger btn-sm close-alert" aria-label="Close">X</button>
+
+        @TempData["ERRO"]
+    </div>
+}
+
+<div id="containerDell">
+    <div id="box-tableDell">
+        <h1 class="text-danger">Realmente deseja excluir este registro?</h1>
+        <div id="">
+            <table>
+                <tr>
+                    <th>Código do produto</th>
+                    <th>Descrição</th>
+                    <th>Data de vencimento</th>
+                    <th>Categoria alimentar</th>
+                    <th>Fornecedor</th>
+                </tr>
+                <tr>
+                    <td>@Model.Id</td>
+                    <td>@Model.nomeAlimento</td>
+                    <td>@Model.dataVencimento</td>
+                    <td>@Model.unidadeMedida</td>
+                    <td>fornecedor</td>
+                </tr>
+            </table>
+            <div id="btns">
+                <a role="button" id="btnCancelar" asp-controller="Alimento" asp-action="Index">Cancelar</a>
+                <a role="button" id="btnExcluir" asp-controller="Alimento" asp-route-id="@Model.Id" asp-action="DeletarAlimento">Excluir</a>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    function fecharMensagem() {
+        let msg = document.getElementById("AlertOfSucess");
+        msg.style.display = 'none';
+    }
+</script>    

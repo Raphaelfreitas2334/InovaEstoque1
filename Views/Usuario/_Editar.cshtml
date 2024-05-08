@@ -1,0 +1,92 @@
+﻿@using WebApplication1.Enums;
+@model UsuarioModel
+@{
+
+    ViewData["Title"] = "Editar Usuario";
+}
+
+<link rel="stylesheet" href="~/css/UsuarioCSS/criar.css" />
+
+<div id="containerEditarAlimento">
+    <form asp-controller="Usuario" asp-action="Editar" method="POST" id="formUsuario">
+        <div>
+            <div id="tituloEditarAlimento">
+                <h1>Edição de usuario</h1>
+            </div>
+            <div class="row">
+                <div class="col-md-6 mb-3">
+                    <label for="exampleFormControlInput1" class="form-label">Digite o nome do Usuario</label>
+                    <input type="text" class="form-control " id="nomeUsuario" placeholder="Carlos" asp-for="NomeUsuario">
+                    @Html.ValidationMessageFor(x => x.NomeUsuario)
+                </div>
+                <div class="col-md-6 mb-3">
+                    <label for="email">Email:</label>
+                    <input type="email" class="form-control " id="email" asp-for="Email" onkeyup="verificarEmail();" placeholder="email@gmail.com">
+                    <span id="mensagemEmail"></span>
+                    @Html.ValidationMessageFor(x => x.Email)
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-6 mb-3">
+                    <label for="exampleFormControlInput1" class="form-label">Digite o login do Usuario</label>
+                    <input type="text" class="form-control " id="login" placeholder="Carlos Exemplo" asp-for="Login">
+                    @Html.ValidationMessageFor(x => x.Login)
+                </div>
+                <div class="col-md-6 mb-3">
+                    <label for="nome" class="form-label">Perfil</label>
+                    <select asp-for="Funcao" class="form-control">
+                        <option value="">Selecione</option>
+                        <option value="@PerfilEnum.adimin">Adminstrador</option>
+                        <option value="@PerfilEnum.Cozinheiro">Cozinheiro</option>
+                    </select>
+                    @Html.ValidationMessageFor(x => x.Funcao)
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-6 mb-3">
+                    <label for="Ativo" class="form-label">Status</label>
+                    <select asp-for="Ativo" class="form-control">
+                        <option value="">Selecione</option>
+                        <option value="@true">Ativo</option>
+                        <option value="@false">Desativado</option>
+                    </select>
+                    @Html.ValidationMessageFor(x => x.Funcao)
+                </div>
+            </div>
+            <div>
+                <button type="submit" id="btnSalvar">Salvar</button>
+            </div>
+        </div>
+    </form>
+</div>
+
+<script>
+    document.getElementById('formUsuario').addEventListener('submit', function (e) {
+        var nomeUsuario = document.getElementById('nomeUsuario').value;
+        var email = document.getElementById('email').value;
+        var login = document.getElementById('login').value;
+
+        if (nomeUsuario === '' || email === '' || login === '') {
+            // Se algum campo estiver vazio, exibe um alerta e impede a submissão do formulário
+            alert('Por favor, preencha todos os campos.');
+            e.preventDefault();
+        } else if (!email.includes('@@gmail.com')) {
+            // Se o email não contém '@@gmail.com', exibe um alerta e impede a submissão do formulário
+            alert('Por favor, insira um email válido que contenha "@@gmail.com".');
+            e.preventDefault();
+        }
+    });
+
+    function verificarEmail() {
+        var email = document.getElementById("email").value;
+        var mensagemEmail = document.getElementById("mensagemEmail");
+
+        if (email.includes("@@gmail.com")) {
+            mensagemEmail.style.color = "green";
+            mensagemEmail.innerHTML = "O email contém '@@gmail.com'!";
+        } else {
+            mensagemEmail.style.color = "red";
+            mensagemEmail.innerHTML = "O email não contém '@@gmail.com'!";
+        }
+    }
+</script>

@@ -1,0 +1,82 @@
+﻿@using WebApplication1.Enums;
+@model AlterarSenhaModel
+@{
+    ViewData["Title"] = "Alterar Senha do Usuario";
+}
+
+<link rel="stylesheet" href="~/css/UsuarioCSS/UsuarioCSS.css" />
+
+@if (TempData["MensagemSucesso"] != null)
+{
+    <div class="alert alert-success" role="alert">
+        <button type="button" class="btn btn-danger btn-sm close-alert" aria-label="Close">X</button>
+        @TempData["MensagemSucesso"]
+    </div>
+}
+
+@if (TempData["MensagemErro"] != null)
+{
+    <div class="alert alert-danger" role="alert">
+        <button type="button" class="btn btn-danger btn-sm close-alert" aria-label="Close">X</button>
+        @TempData["MensagemErro"]
+    </div>
+}
+
+<form asp-controller="AlterarSenha" asp-action="Alterar" method="post">
+
+    <section class="vh-100">
+        <div class="container py-5 h-100">
+            <div class="row d-flex align-items-center justify-content-center h-100">
+                <div class="col-md-8 col-lg-7 col-xl-6">
+                    <img src="https://mdbcdn.b-cdn.net/img/Photos/new-templates/bootstrap-login-form/draw2.svg"
+                         class="img-fluid" alt="Phone image">
+                </div>
+                <div class="col-md-7 col-lg-5 col-xl-5 offset-xl-1">
+                    <form>
+                        <h1 class="text-center font-weight-bolder">Alterar Senha do Usuario</h1>
+                        <!-- senha atuaa input -->
+                        <div class="form-group">
+                            <label for="senhaAtual" class="form-label">Senha Atual</label>
+                            <input type="password" asp-for="SenhaAtual" class="form-control" placeholder="Digite a senha atual do Usuario">
+                            @Html.ValidationMessageFor(x => x.SenhaAtual)
+                        </div>
+
+                        <!-- nova senha input -->
+                        <div class="form-group">
+                            <label for="novaSenha" class="form-label">Digite a nova Senha</label>
+                            <input type="password" asp-for="NovaSenha" id="senha" class="form-control" placeholder="Digite a Nova senha do Usuario">
+                            @Html.ValidationMessageFor(x => x.NovaSenha)
+                        </div>
+
+                        <!-- confirmar senha input -->
+                        <div class="form-group">
+                            <label for="confimarSenha" class="form-label">Digite a Senha novamente</label>
+                            <input type="password" asp-for="ConfirmarSenha" id="confirmarSenha" class="form-control" onkeyup="verificarSenha();" placeholder="Digite novamente senha do Usuario">
+                            <span id="mensagem"></span>
+                            @Html.ValidationMessageFor(x => x.ConfirmarSenha)
+                        </div>
+
+                        <button type="submit" class="btn btn-primary btn-lg btn-block">Alterar</button>
+
+                    </form>
+                </div>
+            </div>
+        </div>
+    </section> 
+</form>
+
+<script>
+    function verificarSenha() {
+        var senha = document.getElementById("senha").value;
+        var confirmarSenha = document.getElementById("confirmarSenha").value;
+        var mensagem = document.getElementById("mensagem");
+
+        if (senha == confirmarSenha) {
+            mensagem.style.color = "green";
+            mensagem.innerHTML = "Senhas correspondem!";
+        } else {
+            mensagem.style.color = "red";
+            mensagem.innerHTML = "Senhas não correspondem!";
+        }
+    }
+</script>

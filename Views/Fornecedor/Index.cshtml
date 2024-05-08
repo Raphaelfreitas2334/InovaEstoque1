@@ -1,0 +1,104 @@
+﻿@using ControleDeContatos.Models;
+@model List<FornecedorModel>
+@{
+    ViewData["Title"] = "Página De Fornecedor";
+}
+<div id="alertasDaPagina">
+    @if (TempData["MensagemSucesso"] != null)
+    {
+        <div id="alerta" class="alert alert-success" role="alert">
+            <button type="button" class="btn btn-outline-danger btn-sm close-alert" aria-label="Close">X</button>
+            @TempData["MensagemSucesso"]
+        </div>
+    }
+
+    @if (TempData["MensagemErro"] != null)
+    {
+        <div class="alert alert-danger" role="alert">
+            <button type="button" class="btn btn-outline-success btn-sm close-alert" aria-label="Close">X</button>
+            @TempData["MensagemErro"]
+        </div>
+    }
+</div>
+
+
+<link rel="stylesheet" href="~/css/FornecedorCSS/FornecedorCSS.css" />
+    <section>
+        <div id="container-fornecedor">
+        <div id="box-title">
+            <form action="" id="">
+                <h1>Fornecedores</h1>
+                <a onclick="javascrip:" class="btn btn-sm btn-Modal-Criar-Fornecedor" id="btnNovoAlimento">Adicionar novo Fornecedor</a>
+            </form>
+        </div>
+        <div class="table-responsive">
+        <table class="table table-Alimento" id="table-alimento">
+            <thead>
+                <tr id="theadAlimento">
+                    <th scope="col">#</th>
+                    <th scope="col">Nome</th>
+                    <th scope="col">Cnpj</th>
+                    <th scope="col">Telefone</th>
+                    <th scope="col">numero da residencia</th>
+                    <th scope="col">CEP</th>
+                    <th scope="col">Editar</th>
+                    <th scope="col">Apagar</th>
+                </tr>
+            </thead>
+            <tbody>
+                @if (Model != null && Model.Any())
+                {
+                    foreach (FornecedorModel fornecedor in Model)
+                    {
+                        <tr>
+                            <th scope="row">@fornecedor.Id</th>
+                            <td>@fornecedor.nomeFornecedor</td>
+                            <td>@fornecedor.CNPJ</td>
+                            <td>@fornecedor.telefone</td>
+                            <td>@fornecedor.CEP</td>
+                            <td>@fornecedor.numeroResidencia</td>
+                            <td>
+                                <a onclick="javascrip:" fornecedor-id="@fornecedor.Id" class="btn btn-sm btn-Modal-Editar-Fornecedor"><img id="iconEditar" src="~/imagens/btn_editar.png"></a>
+                            </td>
+                            <td>
+                                <a onclick="javascrip:" fornecedor-id="@fornecedor.Id" class="btn btn-sm btn-Modal-Apagar-Fornecedor"><img id="iconExcluir" src="~/imagens/btn_excluir.png"></a>
+                            </td>
+                        </tr>
+                    }
+                }
+            </tbody>
+        </table>
+        </div>
+        </div>
+    </section>
+
+<!--Modal para Criar Fornecedor-->
+<div id="ModalCriarFornecedor" class="modal" tabindex="-1">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+            <div class="modal-body">
+                <div id="CriaFornecedor"></div>
+            </div>
+        </div>
+    </div>
+</div>
+<!--Modal para Editar Fornecedor-->
+<div id="ModalEditarFornecedor" class="modal" tabindex="-1">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+            <div class="modal-body">
+                <div id="EditarFornecedor"></div>
+            </div>
+        </div>
+    </div>
+</div>
+<!--Modal para Excluir Fornecedor-->
+<div id="ModalApagarFornecedor" class="modal" tabindex="-1">
+    <div class="modal-dialog modal-dialog-centered modal-lg">
+        <div class="modal-content">
+            <div class="modal-body">
+                <div id="ApagarFornecedor"></div>
+            </div>
+        </div>
+    </div>
+</div>
