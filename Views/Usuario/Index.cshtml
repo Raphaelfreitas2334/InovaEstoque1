@@ -48,7 +48,6 @@
                     <th scope="col">Data de atualização</th>
                     <th scope="col">Ativo</th>
                     <th scope="col">Editar</th>
-                    <th scope="col">Apagar</th>
                 </tr>
             </thead>
             <tbody>
@@ -76,9 +75,6 @@
                             <td>
                                 <a onclick="javascrip:" usuario-id="@Usuario.Id" class="btn btn-sm btn-Modal-Editar-Usuario"><img id="iconEditar" src="~/imagens/btn_editar.png"></a>
                             </td>
-                            <td>
-                                <a onclick="javascrip:" usuario-id="@Usuario.Id" class="btn btn-sm btn-Modal-Apagar-Usuario"><img id="iconExcluir" src="~/imagens/btn_excluir.png"></a>
-                            </td>
                         </tr>
                     }
                 }
@@ -93,17 +89,6 @@
     
     
 </section>
-
-<!--Modal para Excluir Usuario-->
-<div id="ModalApagarUsuario" class="modal" tabindex="-1">
-    <div class="modal-dialog modal-dialog-centered modal-lg">
-        <div class="modal-content">
-            <div class="modal-body">
-                <div id="ApagarUsuario"></div>
-            </div>
-        </div>
-    </div>
-</div>
 <!--Modal para Editar Usuario-->
 <div id="ModalEditarUsuario" class="modal" tabindex="-1">
     <div class="modal-dialog modal-dialog-centered">

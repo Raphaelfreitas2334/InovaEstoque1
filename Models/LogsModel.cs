@@ -18,6 +18,8 @@ namespace WebApplication1.Models
         public DateTime? DataRetira { get; set; }
         public DateTime? DataDevolve { get; set; }
         public double? QuantidadeAlimento { get; set; }
+        public string obsDeSaida { get; set; }
+        public string obsDeDevolucao { get; set; }
 
         public virtual List<AlimentoModel> Alimento { get; set; }
     }

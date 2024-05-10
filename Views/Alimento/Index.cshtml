@@ -28,10 +28,9 @@
 <section>
     <div id="container-alimento">
         <div id="box-title">
-            <h1>Estoque de Alimentos</h1>
-            <a onclick="javascrip:" class="btn btn-sm btn-Modal-Criar-Alimento" id="btnNovoAlimento">Adicionar novo Alimento</a>
-            <a onclick="javascrip:" class="btn btn-sm btn-Modal-Listar-AlimentoAcabando" id="btnNovoAlimento">Alimentos abaixo do nivel</a>
-            <a onclick="javascrip:" class="btn btn-sm btn-Modal-Listar-AlimentoVencendo" id="btnNovoAlimento">Alimentos Perto de vencer</a>
+            <div>
+                @await Component.InvokeAsync("BotaoAlimentos")
+            </div>
         </div>
         <div>
             <button onclick="window.print()">Imprimir esta página</button>
@@ -231,7 +230,7 @@
 </div>
 <!--Modal para Logs de Retirada nos alimentos-->
 <div id="ModalLogsRetiradaAlimentos" class="modal" tabindex="-1">
-    <div class="modal-dialog modal-dialog-centered ">
+    <div class="modal-dialog modal-dialog-centered modal-lg">
         <div class="modal-content">
             <div class="modal-body">
                 <div id="LogsRetiradaAlimentos"></div>

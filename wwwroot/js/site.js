@@ -11,18 +11,6 @@ $(document).ready(function () {
     getDatatable('#table-Vencendo');
 
     //modais da tela de usuario <começo>
-    $(document).on('click', '.btn-Modal-Apagar-Usuario', function () {
-        var usuarioid = $(this).attr('usuario-id');
-
-        $.ajax({
-            type: 'GET',
-            url: '/Usuario/ApagarConfirmacao/' + usuarioid,
-            success: function (result) {
-                $('#ApagarUsuario').html(result);
-                $('#ModalApagarUsuario').modal();
-            }
-        });
-    });
 
     $(document).on('click', '.btn-Modal-Editar-Usuario', function () {
         var usuarioid = $(this).attr('usuario-id');
