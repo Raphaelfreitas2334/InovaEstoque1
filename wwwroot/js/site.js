@@ -228,3 +228,24 @@ function getDatatable(id) {
 $('.close-alert').click(function () {
     $('.alert').hide('hide');
 });
+
+$(document).ready(function () {
+    // Função para carregar a view de logs de retiradas
+    function carregarViewLogDeRetirada() {
+        $.ajax({
+            url: '/Alimento/ExibirBotoesAlimento/',
+            type: 'GET',
+            success: function (result) {
+                $('#logDeRetiradaContainer').html(result);
+            },
+            error: function () {
+                $('#logDeRetiradaContainer').html('<p>Ocorreu um erro ao carregar a view.</p>');
+            }
+        });
+    }
+
+    // Verifica se a view de logs já foi carregada antes de carregar novamente
+    if ($('#logDeRetiradaContainer').is(':empty')) {
+        carregarViewLogDeRetirada();
+    }
+});
