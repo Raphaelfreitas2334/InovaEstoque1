@@ -1,0 +1,61 @@
+﻿@model AlimentoModel
+@{
+    ViewData["Title"] = "Deveolve alimento";
+}
+
+<link rel="stylesheet" href="~/css/SaidaAlimentos.css" />
+
+<div>
+    <form asp-controller="Alimento" asp-action="DevolveDeAlimento" method="POST" id="formAlimento">
+        <input type="hidden" asp-for="Id" />
+        <div>
+            <div id="tituloDevolveAlimento">
+                <h1>DEvolução de alimentos</h1>
+            </div>
+            <div class="mb-3">
+                <label for="nomeAlimento" class="form-label">Nome do alimento</label>
+                <input type="text" class="form-control" id="nomeAlimento" placeholder="Macarrão" asp-for="nomeAlimento" readonly="readonly">
+                @Html.ValidationMessageFor(x => x.nomeAlimento)
+            </div>
+            <div class="mb-3">
+                <div class="box-qtdAtual">
+                    <label for="quantidadeAtual" class="form-label">Quantidade Atual</label>
+                    @Model.quantidadeAtual
+                </div>
+            </div>
+            <div class="mb-3">
+                <label for="qtdeDevolve" class="form-label">Quantidade a Decolver</label>
+                <input type="number" min="0" class="form-control" id="qtdeDevolvida" placeholder="0.0" asp-for="quantidadeDevolvida">
+                <p id="validadorRetirada">O campo quantidade não foi preenchido</p>
+            </div>
+            <div class="form-floating mb-3">
+                <label for="obsDeDevolve">Mensagen</label>
+                <textarea class="form-control" id="obsDeDevolve" type="text" placeholder="Escreva uma observação..." style="height: 10rem" data-sb-validations="required" asp-for="obsDeDevolucao"></textarea>
+                <div class="invalid-feedback" data-sb-feedback="obsDeDevelve:required">Escreva uma observação</div>
+            </div>
+            <div id="contBtns">
+                <button id="btnSalvar">Salvar</button>
+            </div>
+            <div id="btnCancelar">
+                <button asp-controller="Alimento" asp-action="Index" id="btnSalvar">Cancelar</button>
+            </div>
+        </div>
+    </form>
+</div>
+
+
+<script src="./js/scripts.js"></script>
+
+<script>
+    document.getElementById('formAlimento').addEventListener('submit', function (e) {
+        var qtdeDevolvida = document.getElementById('qtdeDevolvida').value;
+        var obsDeDevolve = document.getElementById('obsDeDevolve').value;
+
+        if (qtdeDevolvida === '' || obsDeDevolve === '') {
+            // Se algum campo estiver vazio, exibe um alerta e impede a submissão do formulário
+            alert('Por favor, preencha todos os campos.');
+            e.preventDefault();
+        }
+
+    });
+</script>

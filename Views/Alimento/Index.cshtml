@@ -113,6 +113,7 @@
                                             <a onclick="javascrip:" alimento-id="@alimento.Id" class="btn btn-sm btn-Modal-Editar-Alimento"><img id="iconEditar" src="~/imagens/btn_editar.png"></a>
                                             <a onclick="javascrip:" alimento-id="@alimento.Id" class="btn btn-sm btn-Modal-Apagar-Alimento"><img id="iconExcluir" src="~/imagens/btn_excluir.png"></a>
                                             <a onclick="javascrip:" alimento-id="@alimento.Id" class="btn btn-sm btn-Modal-Saida-Alimento"><img id="iconExcluir" src="~/imagens/btn_Retira.png"></a>
+                                            <a onclick="javascrip:" alimento-id="@alimento.Id" class="btn btn-sm btn-Modal-Devolve-Alimento"><img id="iconEditar" src="~/imagens/btn_devolve.png"></a>
                                         </div>
                                     </div>
                                 </td>
@@ -234,6 +235,16 @@
         <div class="modal-content">
             <div class="modal-body">
                 <div id="LogsRetiradaAlimentos"></div>
+            </div>
+        </div>
+    </div>
+</div>
+<!--Modal para Retirada nos alimentos-->
+<div id="ModalDevelveAlimentos" class="modal" tabindex="-1">
+    <div class="modal-dialog modal-dialog-centered ">
+        <div class="modal-content">
+            <div class="modal-body">
+                <div id="DevolveAlimentos"></div>
             </div>
         </div>
     </div>

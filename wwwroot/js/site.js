@@ -178,6 +178,17 @@ $(document).ready(function () {
             }
         });
     });
+    $(document).on('click', '.btn-Modal-Devolve-Alimento', function () {
+        var alimentoid = $(this).attr('alimento-id');
+        $.ajax({
+            type: 'GET',
+            url: '/Alimento/viewDevolveAlimento/' + alimentoid,
+            success: function (result) {
+                $('#DevolveAlimentos').html(result);
+                $('#ModalDevelveAlimentos').modal();
+            }
+        });
+    });
 
     //modais da tela de Alimentos <Começo>
 })

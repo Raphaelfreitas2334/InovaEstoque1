@@ -21,6 +21,7 @@ namespace ControleContatos.Repositorio
         AlimentoModel buscarNomeAlimento(string nomeProduto);
 
         AlimentoModel gerarSaidaAlimento(AlimentoModel alimento);
+        AlimentoModel gerarDevolveAlimento(AlimentoModel alimento);
 
         IEnumerable<AlimentoModel> ObterTodos();
     }
