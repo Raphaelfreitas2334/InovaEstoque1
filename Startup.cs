@@ -12,6 +12,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using WebApplication1.Controllers;
 using WebApplication1.helper;
 using WebApplication1.repositorio;
 
@@ -38,7 +39,8 @@ namespace WebApplication1
             services.AddScoped<IUsuarioRepositorio, UsuarioRepositorio>();
             services.AddScoped<IFornecedorRepositorio, FornecedorRepositorio>();
             services.AddScoped<IAlimentoRepositorio, AlimentoRepositorio>();
-           // services.AddScoped<IEstoqueRepositorio, EstoqueRepositorio>();
+            services.AddScoped<ILogRepositorio, LogRepositorio>();
+            // services.AddScoped<IEstoqueRepositorio, EstoqueRepositorio>();
 
             services.AddScoped<ISessao, Sessao>();
             services.AddScoped<IEmail, Email>();

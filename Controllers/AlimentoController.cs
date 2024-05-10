@@ -3,6 +3,7 @@ using ControleDeContatos.Data;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.Query.Internal;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -21,19 +22,26 @@ namespace WebApplication1.Controllers
         private readonly IAlimentoRepositorio _alimentoRepositorio;
         private readonly IFornecedorRepositorio _fornecedorRepositorio;
         private readonly ISessao _sessao;
+        private readonly ILogRepositorio _logRepositorio;
         private readonly BancoContext _bancoContext;
 
         public AlimentoController(IAlimentoRepositorio alimento,
                                   ISessao sessao,
                                   IFornecedorRepositorio fornecedor,
-                                  BancoContext bancoContext)
+                                  BancoContext bancoContext,
+                                  ILogRepositorio logRepositorio)
         {
             _alimentoRepositorio = alimento;
             _fornecedorRepositorio = fornecedor;
             _sessao = sessao;
             _bancoContext = bancoContext;
+            _logRepositorio = logRepositorio;
         }
 
+        public IActionResult ExibirBotoesAlimento()
+        {
+            return View("_ExibirBotoesAlimento");
+        }
         public class SeuViewModel
         {
             public int CategoriaId { get; set; } = 1;
@@ -160,19 +168,19 @@ namespace WebApplication1.Controllers
                         LogsModel log = new LogsModel();
                         log.IdAlimento = alimento.Id.ToString(); // Supondo que o ID do alimento seja gerado automaticamente após o cadastro
                         log.NomeAlimeto = alimento.nomeAlimento;
+                        log.DataCadastro = DateTime.Now;
                         log.UsuarioCadastrou = usuarioLogado.NomeUsuario;
                         log.QuantidadeAlimento = alimento.quantidadeRetirada;
-                        log.DataCadastro = DateTime.Now;
-                        // Adicione outros dados ao log conforme necessário
-                        _bancoContext.Logs.Add(log);
-                        _bancoContext.SaveChanges();
+                        _logRepositorio.LogCadastro(log);
 
                         transaction.Commit(); // Confirma a transação se tudo foi bem-sucedido
+
                         TempData["SUCESSO"] = "Alimento cadastrado com sucesso!";
                         return RedirectToAction("Index");
                     }
                     else
                     {
+                        transaction.Rollback(); // Reverte a transação em caso de erro
                         TempData["ERRO"] = "Não foi possível cadastrar. Lembre-se de preencher todos os campos.";
                         return RedirectToAction("Index");
                     }
@@ -189,41 +197,61 @@ namespace WebApplication1.Controllers
         [HttpPost]
         public IActionResult SaidaDeAlimento(AlimentoModel alimento)
         {
-            try
+            using (var transaction = _bancoContext.Database.BeginTransaction())
             {
-                if (ModelState.IsValid)
+                try
                 {
-                    if (alimento.quantidadeRetirada < 1 || alimento.nomeAlimento == null)
+                    if (ModelState.IsValid)
                     {
-                        TempData["ERRO"] = "Você não pode gerar saida quantidades menores que zero!";
-                        return RedirectToAction("Index");
-                    }
-                    if (alimento.quantidadeRetirada > alimento.quantidadeAtual)
-                    {
-                        TempData["ERRO"] = "Você não pode fazer uma retirada que seja maior que a quantidade atual do alimento no estoque!";
-                        return RedirectToAction("Index");
+                        if (alimento.quantidadeRetirada < 1 || alimento.nomeAlimento == null)
+                        {
+                            TempData["ERRO"] = "Você não pode gerar saida quantidades menores que zero!";
+                            return RedirectToAction("Index");
+                        }
+                        if (alimento.quantidadeRetirada > alimento.quantidadeAtual)
+                        {
+                            TempData["ERRO"] = "Você não pode fazer uma retirada que seja maior que a quantidade atual do alimento no estoque!";
+                            return RedirectToAction("Index");
+                        }
+                        else
+                        {
+                            UsuarioModel usuarioLogago = _sessao.BuscarSessaoDoUsuario();
+                            alimento.IDusuario = usuarioLogago.Id;
+                            alimento.UsuarioNome = usuarioLogago.NomeUsuario;
+                            string obs = alimento.obsDeSaida;
+                            alimento = _alimentoRepositorio.gerarSaidaAlimento(alimento);
+
+                            
+                            // Cadastro do log
+                            LogsModel log = new LogsModel();
+                            log.IdAlimento = alimento.Id.ToString(); // Supondo que o ID do alimento seja gerado automaticamente após o cadastro
+                            log.NomeAlimeto = alimento.nomeAlimento;
+                            log.UsuarioRetirou = usuarioLogago.NomeUsuario;
+                            log.DataRetira = DateTime.Now;
+                            log.QuantidadeAlimento = alimento.quantidadeRetirada;
+                            log.obsDeSaida = obs;
+                            _logRepositorio.LogRetirada(log);
+
+                            transaction.Commit(); // Confirma a transação se tudo foi bem-sucedido
+
+                            TempData["SUCESSO"] = "Saida gerada com Sucesso!";
+                            return RedirectToAction("Index");
+                        }
                     }
                     else
                     {
-                        UsuarioModel usuarioLogago = _sessao.BuscarSessaoDoUsuario();
-                        alimento.IDusuario = usuarioLogago.Id;
-                        alimento.UsuarioNome = usuarioLogago.NomeUsuario;
-                        alimento = _alimentoRepositorio.gerarSaidaAlimento(alimento);
-                        TempData["SUCESSO"] = "Saida gerada com Sucesso!";
+                        TempData["ERRO"] = "Não foi possivel gerar a saida deste alimento! Deixe todos os campos preenchidos";
                         return RedirectToAction("Index");
                     }
                 }
-                else
+                catch (System.Exception erro)
                 {
-                    TempData["ERRO"] = "Não foi possivel gerar a saida deste alimento! Deixe todos os campos preenchidos";
+                    transaction.Rollback(); // Reverte a transação em caso de erro
+                    TempData["ERRO"] = $"Não foi possivel gerar a saida deste alimento! tetalhe do erro: {erro.Message}";
                     return RedirectToAction("Index");
                 }
             }
-            catch (System.Exception erro)
-            {
-                TempData["ERRO"] = $"Não foi possivel gerar a saida deste alimento! tetalhe do erro: {erro.Message}";
-                return RedirectToAction("Index");
-            }
+                
         }
 
         [HttpPost]

@@ -1,38 +1,51 @@
-﻿@model AlimentoModel
+﻿@model List<LogsModel>
 @{
-    ViewData["Title"] = "Confirmação de apagar o Fornecedor";
+    ViewData["Title"] = "Listagem logs de retiradas de Alimentos";
 }
 
-<link rel="stylesheet" href="~/css/AlimentoCSS/indexAlimento.css" />
-<link rel="stylesheet" href="~/css/AlimentoCSS/excluirRegistro.css" />
 
-<h1 class="text-danger text-center">Registro de alterações</h1>
+<link rel="stylesheet" href="~/css/EstoqueCSS/indexEstoque.css" />
+<a asp-action="viewImprimirVencendo" asp-controller="Alimento" class="btn btn-primary">Gerar relatorio</a>
+<section>
+    <table class="table table-Alimento" id="table-Vencendo">
+        <thead>
+            <tr class="text-bg-danger">
+                <th id="codigo">IdAlimento</th>
+                <th scope="col">Nome Alimeto</th>
+                <th scope="col">Usuario Retirou</th>
+                <th scope="col">Data Retira</th>
+                <th scope="col">Quantidade Retirada</th>
+                <th scope="col">obs De Saida</th>
+            </tr>
+        </thead>
+        <tbody>
 
-<div id="containerDell" class="modal-extra-large">
-    <div id="box-tableDell">
-        <div id="">
-            <table>
-                <tr>
-                    <th scope="col">#Alimento</th>
-                    <th scope="col">Alimento</th>
-                    <th scope="col">Data de retirada</th>
-                    <th scope="col">Usuario retirou</th>
-                    <th scope="col">OBS de retirada</th>
-                </tr>
-                <tr>
-                    <td>@Model.Id</td>
-                    <td>@Model.nomeAlimento</td>
-                    <td>@Model.DataRetira</td>
-                    <td>@Model.UsuarioRetirou</td>
-                    <td>@Model.obsDeSaida</td>
-                </tr>
-            </table>
-        </div>
-    </div>
-</div>
+            @if (Model != null && Model.Any())
+            {
+                foreach (LogsModel logs in Model)
+                {
+                    if(logs.DataRetira != null)
+                    {
+                        <tr>
+                            <td>@logs.IdAlimento</td>
+                            <td>@logs.NomeAlimeto</td>
+                            <td>@logs.UsuarioRetirou</td>
+                            <td>@logs.DataRetira</td>
+                            <td>@logs.QuantidadeAlimento</td>
+                            <td>@logs.obsDeSaida</td>
+                        </tr>
+                    }
+                }
+            }
+        </tbody>
+    </table>
 
-<style>
-    .modal-extra-large {
-        max-width: 98%;
+</section>
+
+<script>
+    function fecharMensagem() {
+
+        let msg = document.getElementById("AlertOfSucess");
+        msg.style.display = 'none';
     }
-</style>
+</script>

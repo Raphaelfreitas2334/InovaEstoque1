@@ -82,10 +82,9 @@ namespace ControleContatos.Repositorio
             alimentoDB.IDusuario = alimento.IDusuario;
             if (alimento.quantidadeRetirada > alimentoDB.quantidadeAtual) throw new System.Exception("Não pode retirar mais do que tem no estoque");
             alimentoDB.quantidadeAtual = alimentoDB.quantidadeAtual - alimento.quantidadeRetirada;
-            alimentoDB.quantidadeRetirada = alimento.quantidadeRetirada;
-            alimentoDB.DataRetira = DateTime.Now;
+
             alimentoDB.UsuarioRetirou = alimento.UsuarioNome;
-            alimentoDB.obsDeSaida = alimento.obsDeSaida;
+ 
 
             _bancoContext.Alimentos.Update(alimentoDB);
             _bancoContext.SaveChanges();
