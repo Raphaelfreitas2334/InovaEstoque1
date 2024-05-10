@@ -133,7 +133,14 @@
                                     <tr>
                                         @if (diferenca.TotalDays <= 0) // verifica se a diferença é de 10 dias ou menos
                                         {
-                                            
+                                        <td>@alimento.Id</td>
+                                        <td>@alimento.nomeAlimento</td>
+                                        <td>@alimento.dataVencimento</td>
+                                        <td>Venceu á @Math.Abs(diferenca.Days) dias</td>
+                                        <td><span class="badge badge-danger rounded-pill d-inline text-black">Venceu</span></td>
+                                        <td>@alimento.unidadeMedida</td>
+                                        <td>@alimento.quantidadeAtual</td>
+                                        <td>@alimento.quantidadeMinima</td>
                                         }
                                         else
                                         {
