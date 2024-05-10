@@ -4,14 +4,16 @@ using ControleDeContatos.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace WebApplication1.Migrations
 {
     [DbContext(typeof(BancoContext))]
-    partial class BancoContextModelSnapshot : ModelSnapshot
+    [Migration("20240510011332_Atualização2.4")]
+    partial class Atualização24
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -26,7 +28,16 @@ namespace WebApplication1.Migrations
                         .HasColumnType("int")
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
+                    b.Property<DateTime?>("DataAtualizacao")
+                        .HasColumnType("datetime2");
+
                     b.Property<DateTime?>("DataCadastro")
+                        .HasColumnType("datetime2");
+
+                    b.Property<DateTime?>("DataDevolve")
+                        .HasColumnType("datetime2");
+
+                    b.Property<DateTime?>("DataRetira")
                         .HasColumnType("datetime2");
 
                     b.Property<string>("FornecedorNome")
@@ -40,6 +51,18 @@ namespace WebApplication1.Migrations
 
                     b.Property<int?>("LogsModelId")
                         .HasColumnType("int");
+
+                    b.Property<string>("UsuarioDevolvel")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("UsuarioEditou")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("UsuarioNome")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("UsuarioRetirou")
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("dataVencimento")
                         .HasColumnType("nvarchar(max)");

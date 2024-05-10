@@ -39,7 +39,7 @@ namespace ControleContatos.Repositorio
                 //joga a data no formato Brasileiro no objeto alimeto
                 alimento.dataVencimento = dataFormatada;
 
-                
+                alimento.quantidadeRetirada = alimento.quantidadeRetirada;
                 alimento.DataCadastro = DateTime.Now;
                 _bancoContext.Alimentos.Add(alimento);
                 _bancoContext.SaveChanges();
@@ -64,8 +64,6 @@ namespace ControleContatos.Repositorio
             alimentoDB.quantidadeMinima = alimento.quantidadeMinima;
             alimentoDB.quantidadeAtual = alimento.quantidadeAtual;
             alimentoDB.IDusuario = alimento.IDusuario;
-            alimentoDB.UsuarioEditou = alimento.UsuarioNome;
-            alimentoDB.DataAtualizacao = DateTime.Now;
 
             _bancoContext.Alimentos.Update(alimentoDB);
             _bancoContext.SaveChanges();
@@ -83,14 +81,31 @@ namespace ControleContatos.Repositorio
             if (alimento.quantidadeRetirada > alimentoDB.quantidadeAtual) throw new System.Exception("Não pode retirar mais do que tem no estoque");
             alimentoDB.quantidadeAtual = alimentoDB.quantidadeAtual - alimento.quantidadeRetirada;
 
-            alimentoDB.UsuarioRetirou = alimento.UsuarioNome;
  
 
             _bancoContext.Alimentos.Update(alimentoDB);
             _bancoContext.SaveChanges();
             return alimentoDB;
         }
+        public AlimentoModel gerarDevolveAlimento(AlimentoModel alimento)
+        {
+            AlimentoModel alimentoDB = listarPorID(alimento.Id);
+            if (alimentoDB == null) throw new System.Exception("Houve um erro na atualização do alimento");
+            if (alimento.quantidadeDevolvida > alimentoDB.quantidadeMaxima) throw new System.Exception("Não pode devolver mais do que a quantidade maxima");
+            if (alimento.quantidadeDevolvida < 1) throw new System.Exception("Não pode devolver menos que 1");
+            if (alimento.quantidadeDevolvida == alimentoDB.quantidadeAtual) throw new System.Exception("Não pode devolver a mesma quantidade que a quantidade atual");
 
+            alimentoDB.IDusuario = alimento.IDusuario;
+
+            alimentoDB.quantidadeAtual = alimentoDB.quantidadeAtual + alimento.quantidadeDevolvida;
+            //alimentoDB.DataDevolve = DateTime.Now;
+            //alimentoDB.UsuarioDevolvel = alimento.UsuarioNome;
+            //alimentoDB.obsDeDevolucao = alimento.obsDeDevolucao;
+
+            _bancoContext.Alimentos.Update(alimentoDB);
+            _bancoContext.SaveChanges();
+            return alimentoDB;
+        }
         public bool excluirAlimento(int id)
         {
             AlimentoModel alimentoDB = listarPorID(id);
@@ -110,5 +125,7 @@ namespace ControleContatos.Repositorio
         {
             return _bancoContext.Alimentos.ToList();
         }
+
+       
     }
 }

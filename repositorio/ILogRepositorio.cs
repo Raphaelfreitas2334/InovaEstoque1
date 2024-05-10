@@ -13,5 +13,7 @@ namespace ControleContatos.Repositorio
 
         LogsModel LogRetirada(LogsModel logsModel);
 
+        LogsModel LogDevolucao(LogsModel logsModel);
+
     }
 }
