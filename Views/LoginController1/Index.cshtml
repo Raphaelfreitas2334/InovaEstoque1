@@ -40,15 +40,15 @@
                                     <form>
                                         <p>Por favor faça login com sua conta</p>
 
-                                        <div class="mb-3">
-                                            <label for="login" class="form-label">Login</label>
-                                            <input type="text" asp-for="Email" class="form-control" id="email">
+                                        <div class="form__group field">
+                                            <input type="text" asp-for="Email" class="form__field" placeholder="Email"  id='name' required />
+                                            <label for="name" class="form__label">Login</label>
                                             @Html.ValidationMessageFor(X => X.Email)
                                         </div>
-
-                                        <div class="mb-3">
-                                            <label for="Senha" class="form-label">Senha</label>
-                                            <input type="password" asp-for="Senha" class="form-control" id="senha">
+                                       
+                                        <div class="form__group field">
+                                            <input type="password" asp-for="Senha" class="form__field" placeholder="Senha" id='name' required />
+                                            <label for="name" class="form__label">Senha</label>
                                             @Html.ValidationMessageFor(X => X.Senha)
                                         </div>
 
@@ -87,3 +87,67 @@
         </div>
     </section>
 </form>
+
+<style>
+    .form__group {
+        position: relative;
+        padding: 15px 0 0;
+        margin-top: 10px;
+        width: 100%;
+    }
+
+    .form__field {
+        font-family: inherit;
+        width: 100%;
+        border: 0;
+        border-bottom: 2px solid #9b9b9b;
+        outline: 0;
+        font-size: 1.0rem;
+        color: #1e30f3;
+        padding: 7px 0;
+        background: transparent;
+        transition: border-color 0.2s;
+    }
+
+        .form__field::placeholder {
+            color: transparent;
+        }
+
+        .form__field:placeholder-shown ~ .form__label {
+            font-size: 1.3rem;
+            cursor: text;
+            top: 20px;
+        }
+
+    .form__label {
+        position: absolute;
+        top: 0;
+        display: block;
+        transition: 0.2s;
+        font-size: 1rem;
+        color: #1e30f3 ;
+    }
+
+    .form__field:focus {
+        padding-bottom: 6px;
+        font-weight: 700;
+        border-width: 3px;
+        border-image: linear-gradient(135deg, #1e30f3 0%, #e21e80 100%);
+        border-image-slice: 1;
+    }
+
+        .form__field:focus ~ .form__label {
+            position: absolute;
+            top: 0;
+            display: block;
+            transition: 0.2s;
+            font-size: 1rem;
+            color: #e21e80;
+            font-weight: 700;
+        }
+
+    /* reset input */
+    .form__field:required, .form__field:invalid {
+        box-shadow: none;
+    }
+</style>
