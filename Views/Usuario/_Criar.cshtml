@@ -36,12 +36,23 @@
                     </div>
                     <div class="col-md-6 mb-3">
                         <label for="nome" class="form-label">Perfil</label>
-                        <select asp-for="Funcao" class="form-control">
-                            <option value="">Selecione</option>
-                            <option value="@PerfilEnum.adimin">Adminstrador</option>
-                            <option value="@PerfilEnum.Cozinheiro">Cozinheiro</option>
-                        </select>
-                        @Html.ValidationMessageFor(x => x.Funcao)
+                        <div class="col-md-6 mb-3 dropdown-custom">
+                            <div class="dropdown">
+                                <button class="btn btn-primary dropdown-toggle" type="button" id="perfilDropdown" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                    Selecione
+                                </button>
+                                <div class="dropdown-menu" aria-labelledby="perfilDropdown">
+                                    <button class="dropdown-item" onclick="selectOption('@PerfilEnum.adimin', 'Adminstrador'); return false;">Adminstrador</button>
+                                    <button class="dropdown-item" onclick="selectOption('@PerfilEnum.Cozinheiro', 'Cozinheiro'); return false;">Cozinheiro</button>
+                                </div>
+                                <select asp-for="Funcao" class="form-control" style="display: none;">
+                                    <option value="">Selecione</option>
+                                    <option value="@PerfilEnum.adimin">Adminstrador</option>
+                                    <option value="@PerfilEnum.Cozinheiro">Cozinheiro</option>
+                                </select>
+                                @Html.ValidationMessageFor(x => x.Funcao)
+                            </div>
+                        </div>
                     </div>
                 </div>
                 <div class="row">
@@ -56,14 +67,19 @@
                         <span id="mensagem"></span>
                     </div>
                 </div>
-                <div class="row">
-                    <div class="col-md-6 mb-3">
-                        <label for="Ativo" class="form-label">Status</label>
-                        <select asp-for="Ativo" class="form-control">
-                            <option value="@true">Ativo</option>
-                        </select>
-                        @Html.ValidationMessageFor(x => x.Funcao)
-                    </div>
+                    <div class="row">
+                        <div class="col-md-6 mb-3 dropdown-custom">
+                            <div class="dropdown">
+                                <button class="btn btn-primary dropdown-toggle" type="button" id="statusDropdown" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                Status
+                                </button>
+                                <div class="dropdown-menu" aria-labelledby="statusDropdown">
+                                    <button class="dropdown-item" onclick="setStatus(true); return false;">Ativo</button>
+                                </div>
+                                <input type="hidden" id="Ativo" name="Ativo" asp-for="Ativo">
+                                @Html.ValidationMessageFor(x => x.Ativo)
+                            </div>
+                        </div>
                 </div>
                 <div>
                     <button type="submit" id="btnSalvar">Salvar</button>
@@ -73,6 +89,53 @@
 
     </form>
 </div>
+
+<style>
+    .dropdown-toggle {
+        border-radius: 20px;
+        font-weight: bold;
+        background-color: #007bff;
+        border-color: #007bff;
+    }
+
+        .dropdown-toggle:hover {
+            background-color: #0056b3;
+            border-color: #0056b3;
+        }
+
+    .dropdown-menu {
+        border-radius: 20px;
+        background-color: #f8f9fa;
+        box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+    }
+
+    .dropdown-item {
+        color: #495057;
+        border-radius: 7px;
+    }
+
+        .dropdown-item:hover {
+            background-color: #cce5ff;
+            color: #007bff;
+        }
+
+    .dropdown-custom .dropdown-toggle {
+        width: 170px; /* Defina a largura desejada aqui */
+    }
+</style>
+
+<script>
+    function selectOption(value, displayText) {
+        var selectElement = document.getElementById('Funcao');
+        selectElement.value = value;
+        document.getElementById('perfilDropdown').innerText = displayText;
+    }
+    function setStatus(value) {
+        document.getElementById('Ativo').value = value;
+        document.getElementById('statusDropdown').innerText = value ? 'Ativo' : 'Inativo';
+    }
+</script>
+
 
 <script>
     document.getElementById('formUsuario').addEventListener('submit', function (e) {
