@@ -9,6 +9,9 @@ $(document).ready(function () {
     getDatatable('#table-Fornecedor');
     getDatatable('#table-alimento');
     getDatatable('#table-Vencendo');
+    getDatatable('#table-Retirada');
+    getDatatable('#table-Devolucao');
+    getDatatable('#table-Todos');
 
     //modais da tela de usuario <começo>
 
@@ -205,22 +208,27 @@ function getDatatable(id) {
             "sInfoFiltered": "(Filtrar de _MAX_ total registros)",
             "sInfoPostFix": "",
             "sInfoThousands": ".",
-            "sLengthMenu": "Mostrar _MENU_ registros por pagina",
+            "sLengthMenu": "Mostrar _MENU_ registros por página",
             "sLoadingRecords": "Carregando...",
             "sProcessing": "Processando...",
             "sZeroRecords": "Nenhum registro encontrado",
             "sSearch": "Pesquisar",
             "oPaginate": {
-                "sNext": "Proximo",
+                "sNext": "Próximo",
                 "sPrevious": "Anterior",
                 "sFirst": "Primeiro",
-                "sLast": "Ultimo"
+                "sLast": "Último"
             },
             "oAria": {
                 "sSortAscending": ": Ordenar colunas de forma ascendente",
                 "sSortDescending": ": Ordenar colunas de forma descendente"
             }
-        }
+        },
+        "lengthMenu": [
+            [10, 25, 50, 100, -1], // Número de registros por página
+            ["10", "25", "50", "100", "Mostrar todos"] // Texto para o menu de seleção
+        ],
+        "pageLength": 10 // Quantidade de registros por página inicial
     });
 }
 

@@ -14,33 +14,39 @@
             <div id="tituloEditarAlimento">
                 <h1>Edição de Fornecedor</h1>
             </div>
-            <div class="mb-3">
-                <label for="nomeFornecedor" class="form-label">Nome do Fornecedor</label>
-                <input type="text" class="form-control" id="nomeFornecedor" placeholder="Seu feudal" asp-for="nomeFornecedor">
-                @Html.ValidationMessageFor(x => x.nomeFornecedor)
+            <div class="row mb-3">
+                <div class="col">
+                    <label for="nomeFornecedor" class="form-label">Nome do Fornecedor</label>
+                    <input type="text" class="form-control" id="nomeFornecedor" placeholder="Seu feudal" asp-for="nomeFornecedor">
+                    @Html.ValidationMessageFor(x => x.nomeFornecedor)
+                </div>
+                <div class="col">
+                    <label for="cnpj" class="form-label">CNPJ</label>
+                    <input type="text" class="form-control" id="cnpj" name="cnpj" placeholder="11.111.111/1111-11" onkeyup="validateCnpj();" asp-for="CNPJ" />
+                    <span id="cnpjMessage"></span>
+                    @Html.ValidationMessageFor(x => x.CNPJ)
+                </div>
             </div>
-            <div class="mb-3">
-                <label for="cnpj" class="form-label">CNPJ</label>
-                <input type="text" id="cnpj" name="cnpj" oninput="validateCnpj()" asp-for="CNPJ" />
-                <span id="cnpjMessage"></span>
-                @Html.ValidationMessageFor(x => x.CNPJ)
+            <div class="row mb-3">
+                <div class="col">
+                    <label for="telefone" class="form-label">Telefone</label>
+                    <input type="text" class="form-control" id="telefone" onkeyup="validarTelefone();" placeholder="(11) 56751940" asp-for="telefone">
+                    <span id="telefoneMessage"></span>
+                    @Html.ValidationMessageFor(x => x.telefone)
+                </div>
+                <div class="col">
+                    <label for="cep" class="form-label">CEP</label>
+                    <input type="text" class="form-control" id="cep" onkeyup="validarCEP();" placeholder="04472130" asp-for="CEP">
+                    <span id="cepMessage"></span>
+                    @Html.ValidationMessageFor(x => x.CEP)
+                </div>
             </div>
-            <div class="mb-3">
-                <label for="telefone" class="form-label">Telefone</label>
-                <input type="text" class="form-control " id="telefone" onkeyup="validarTelefone();" placeholder="(11) 56751940" asp-for="telefone">
-                <span id="telefoneMessage"></span>
-                @Html.ValidationMessageFor(x => x.telefone)
-            </div>
-            <div class="mb-3">
-                <label for="cep" class="form-label">CEP</label>
-                <input type="text" class="form-control " id="cep" onkeyup="validarCEP();" placeholder="04472130" asp-for="CEP">
-                <span id="cepMessage"></span>
-                @Html.ValidationMessageFor(x => x.CEP)
-            </div>
-            <div class="mb-3">
-                <label for="numeroResidencia" class="form-label">Numero da residencia</label>
-                <input type="text" class="form-control " id="numeroResidencia" placeholder="26" asp-for="numeroResidencia">
-                @Html.ValidationMessageFor(x => x.numeroResidencia)
+            <div class="row-half mb-3">
+                <div class="col-half">
+                    <label for="numeroResidencia" class="form-label">Numero da residencia</label>
+                    <input type="text" class="form-control" id="numeroResidencia" placeholder="26" asp-for="numeroResidencia">
+                    @Html.ValidationMessageFor(x => x.numeroResidencia)
+                </div>
             </div>
             <div id="contBtns">
                 <button id="btnSalvar">Salvar</button>
@@ -48,6 +54,12 @@
         </div>
     </form>
 </div>
+
+<style>
+    .col-half {
+        width: 47%; /* Metade do tamanho da largura */
+    }
+</style>
 
 <script>
     document.getElementById('formFornecedor').addEventListener('submit', function (e) {
