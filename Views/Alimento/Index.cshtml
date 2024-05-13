@@ -36,9 +36,9 @@
             <button onclick="window.print()">Imprimir esta página</button>
         </div>
         <div class="table-responsive">
-            <table class="table table-Alimento" id="table-alimento">
-                <thead>
-                    <tr class="text-bg-danger">
+            <table class="table table-bordered table-striped table-hover" id="table-alimento">
+                <thead class="thead-custom">
+                    <tr>
                         <th scope="col">Descrição</th>
                         <th scope="col">Fornecedor</th>
                         <th scope="col">Vencimento</th>
@@ -46,14 +46,12 @@
                         <th scope="col">Status</th>
                         <th scope="col">Unidade de medida</th>
                         <th scope="col">Qtd atual</th>
-                        <th scope="col">Qtd Maxima</th>
-                        <th scope="col">Qtd Minima</th>
-                        <th scope="col" id="invisivel">Quem cadastrou</th>
-                        <th scope="col" id="invisivel">config</th>
+                        <th scope="col">Qtd Máxima</th>
+                        <th scope="col">Qtd Mínima</th>
+                        <th scope="col" id="invisivel">Config</th>
                     </tr>
                 </thead>
                 <tbody>
-
                     @if (Model != null && Model.Any())
                     {
                         foreach (AlimentoModel alimento in Model)
@@ -64,19 +62,18 @@
                                 <td>@alimento.FornecedorNome</td>
                                 <td>@alimento.dataVencimento</td>
                                 <td>@alimento.DataCadastro</td>
-
                                 @* if para gerenciar o status do alimento *@
-                                @if (alimento.quantidadeAtual < alimento.quantidadeMinima)
-                                {
-                                    <td><span class="badge badge-danger rounded-pill d-inline ">Perigo</span></td>
-                                }
-                                else
-                                {
-                                    <td><span class="badge badge-success rounded-pill d-inline ">Confortavel</span></td>
-                                }
-
+                                <td>
+                                    @if (alimento.quantidadeAtual < alimento.quantidadeMinima)
+                                    {
+                                        <span class="badge badge-danger rounded-pill">Perigo</span>
+                                    }
+                                    else
+                                    {
+                                        <span class="badge badge-success rounded-pill">Confortável</span>
+                                    }
+                                </td>
                                 <td>@alimento.unidadeMedida</td>
-
                                 @* if para verificar se a tabela esta nula *@
                                 @if (alimento.quantidadeAtual == null)
                                 {
@@ -91,29 +88,15 @@
                                     <td>@alimento.quantidadeMinima</td>
                                 }
                                 <td id="invisivel">
-
                                     <div class="dropdown">
-                                        <button class="btn btn-primary dropdown-toggle" type="button" id="@uniqueId" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                            Logs
-                                        </button>
-                                        <div class="dropdown-menu" aria-labelledby="@uniqueId">
-                                            <button onclick="javascrip:" alimento-id="@alimento.Id" class="btn btn-sm btn-Modal-LogCadastro-Alimento">Log Cadastro</button>
-                                            <button onclick="javascrip:" alimento-id="@alimento.Id" class="btn btn-sm btn-Modal-LogRetirada-Alimento">Log Retirada</button>
-                                            <button onclick="javascrip:" alimento-id="@alimento.Id" class="btn btn-sm btn-Modal-LogDevolucao-Alimento">Log Devolução</button>
-                                        </div>
-                                    </div>
-
-                                </td>
-                                <td id="invisivel">
-                                    <div class="dropdown">
-                                        <button class="btn btn-primary dropdown-toggle" type="button" id="@uniqueId" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                        <button class="btn btn-primary dropdown-toggle dropdown-custom-toggle" type="button" id="@uniqueId" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                                             Configurações
                                         </button>
-                                        <div class="dropdown-menu" aria-labelledby="@uniqueId">
-                                            <a onclick="javascrip:" alimento-id="@alimento.Id" class="btn btn-sm btn-Modal-Editar-Alimento"><img id="iconEditar" src="~/imagens/btn_editar.png"></a>
-                                            <a onclick="javascrip:" alimento-id="@alimento.Id" class="btn btn-sm btn-Modal-Apagar-Alimento"><img id="iconExcluir" src="~/imagens/btn_excluir.png"></a>
-                                            <a onclick="javascrip:" alimento-id="@alimento.Id" class="btn btn-sm btn-Modal-Saida-Alimento"><img id="iconExcluir" src="~/imagens/btn_Retira.png"></a>
-                                            <a onclick="javascrip:" alimento-id="@alimento.Id" class="btn btn-sm btn-Modal-Devolve-Alimento"><img id="iconEditar" src="~/imagens/btn_devolve.png"></a>
+                                        <div class="dropdown-menu dropdown-menu-right dropdown-custom-menu" aria-labelledby="@uniqueId">
+                                            <button class="dropdown-item" onclick="javascrip:" alimento-id="@alimento.Id"><img src="~/imagens/btn_editar.png" alt="Editar" class="dropdown-icon" id="iconEditar"> Editar</button>
+                                            <button class="dropdown-item" onclick="javascrip:" alimento-id="@alimento.Id"><img src="~/imagens/btn_excluir.png" alt="Excluir" class="dropdown-icon" id="iconExcluir"> Excluir</button>
+                                            <button class="dropdown-item" onclick="javascrip:" alimento-id="@alimento.Id"><img src="~/imagens/btn_Retira.png" alt="Retirar" class="dropdown-icon" id="iconRetira"> Retirar</button>
+                                            <button class="dropdown-item" onclick="javascrip:" alimento-id="@alimento.Id"><img src="~/imagens/btn_devolve.png" alt="Devolver" class="dropdown-icon" id="iconDevolve"> Devolver</button>
                                         </div>
                                     </div>
                                 </td>
@@ -123,9 +106,51 @@
                 </tbody>
             </table>
         </div>
-       
     </div>
 </section>
+
+
+
+<style>
+    /* Estilos para o botão dropdown */
+    .dropdown-custom-toggle {
+        border-radius: 20px;
+        font-weight: bold;
+        background-color: #007bff;
+        border-color: #007bff;
+        width: 170px; /* ajuste conforme necessário */
+    }
+
+        .dropdown-custom-toggle:hover {
+            background-color: #0056b3;
+            border-color: #0056b3;
+        }
+
+    /* Estilos para o menu dropdown */
+    .dropdown-custom-menu {
+        border-radius: 20px;
+        background-color: #f8f9fa;
+        box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+    }
+
+    /* Estilos para os itens do menu dropdown */
+    .dropdown-item {
+        color: #495057;
+        border-radius: 7px;
+    }
+
+        .dropdown-item:hover {
+            background-color: #cce5ff;
+            color: #007bff;
+        }
+    
+    .thead-custom {
+        background-color: #000028;
+        color: white;
+    }
+
+
+</style>
 
 <style>
     @@media print {
@@ -148,6 +173,10 @@
             display: none;
         }
 
+        .thead-custom {
+            background-color: #000028;
+            color: black;
+        }
     }
 </style>
 

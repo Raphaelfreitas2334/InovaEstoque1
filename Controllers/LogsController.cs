@@ -20,11 +20,18 @@ namespace WebApplication1.Controllers
             _logRepositorio = logRepositorio;
         }
 
+        public IActionResult Index()
+        {
+            List<LogsModel> logsModels = _logRepositorio.BuscarLogs();
+            return View(logsModels);
+        }
+
         public IActionResult viewLogDeRetidada()
         {
             List<LogsModel> logsModels = _logRepositorio.BuscarLogs();
             return PartialView("_viewLogDeRetidada", logsModels);
         }
+
     }
-   
+
 }
