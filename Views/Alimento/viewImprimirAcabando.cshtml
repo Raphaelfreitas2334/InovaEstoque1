@@ -7,9 +7,21 @@
 <br />
 <h1 class="text-center">@ViewData["Title"]</h1>
 <br />
-<button onclick="window.print()">Imprimir esta página</button>
 
 <div id="conteudo">
+    <div id="invisivel">
+        <!-- Botão de impressão e barra de progresso -->
+        <div class="custom-print-container">
+            <button class="custom-print-button" onclick="showLoading()">Imprimir esta página</button>
+            <!-- Barra de progresso (inicialmente oculta) -->
+            <div id="loading-container" style="display: none;">
+                <div class="progress">
+                    <div id="loading-bar" class="progress-bar progress-bar-striped progress-bar-animated" role="progressbar" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100" style="width: 0%"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <br />
     <section id="container-usuario">
 
         <table class="table table-Alimento" id="table-Vencendo">
@@ -53,6 +65,59 @@
     </section>
 </div>
 
+<script>
+    // Função para mostrar a barra de carregamento e imprimir a página após 3 segundos
+    function showLoading() {
+        // Mostra a barra de carregamento
+        document.getElementById('loading-container').style.display = 'block';
+
+        // Animação suave para mostrar a barra de carregamento
+        document.getElementById('loading-bar').style.transition = 'width 3s ease-in-out'; // Definindo a duração da animação
+
+        setTimeout(function () {
+            document.getElementById('loading-bar').style.width = '100%';
+        }, 100);
+
+        // Define a ação de impressão após um tempo suficiente
+        setTimeout(function () {
+            window.print();
+            // Esconde a barra de carregamento após a impressão
+            document.getElementById('loading-container').style.display = 'none';
+            // Reseta a largura da barra de carregamento para 0%
+            document.getElementById('loading-bar').style.width = '0%';
+        }, 3000);
+    }
+</script>
+
+<style>
+    .custom-print-button {
+        padding: 5px 10px;
+        background-color: #007bff; /* Cor do botão */
+        color: white;
+        border: none;
+        border-radius: 5px;
+        cursor: pointer;
+        position: relative;
+        overflow: hidden;
+    }
+
+        .custom-print-button:hover {
+            background-color: #0056b3; /* Cor do botão ao passar o mouse */
+        }
+
+    .loading-bar {
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        height: 2px; /* Altura da barra de carregamento */
+        width: 0%; /* Inicialmente sem largura */
+        background-color: #28a745; /* Cor da barra de carregamento */
+        transition: width 3s;
+    }
+
+</style>
+
 <style>
     @@media print {
         body {
@@ -64,6 +129,9 @@
         }
 
         button {
+            display: none;
+        }
+        #invisivel{
             display: none;
         }
     }

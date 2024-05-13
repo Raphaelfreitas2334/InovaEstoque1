@@ -7,7 +7,6 @@
 <br />
 <h1 class="text-center">@ViewData["Title"]</h1>
 <br />
-<button onclick="window.print()">Imprimir esta página</button>
 
 <!DOCTYPE html>
 <html>
@@ -37,22 +36,37 @@
     </script>
 </head>
 <body>
-    <div class="dropdown">
-        <button id="DropdownMenu" class="btn btn-primary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-            Tipo de pesquisa
-        </button>
-        <div id="DropdownMenu" class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-            <button id="btn1">Já vencidos</button>
-            <button id="btn2">Para vencer</button>
-            <button id="btn3">Listar tudo</button>
+    <div class="container">
+        <div id="invisivel">
+            <!-- Botão de impressão e barra de progresso -->
+            <div class="custom-print-container">
+                <button class="custom-print-button" onclick="showLoading()">Imprimir esta página</button>
+                <!-- Barra de progresso (inicialmente oculta) -->
+                <div id="loading-container" style="display: none;">
+                    <div class="progress">
+                        <div id="loading-bar" class="progress-bar progress-bar-striped progress-bar-animated" role="progressbar" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100" style="width: 0%"></div>
+                    </div>
+                </div>
+            </div>
         </div>
-    </div>
+        <br />
+        <div class="dropdown" id="invisivel">
+            <button id="DropdownButton" class="btn btn-primary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                Tipo de pesquisa
+            </button>
+            <div id="DropdownMenu" class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                <button id="btn1">Já vencidos</button>
+                <button id="btn2">Para vencer</button>
+                <button id="btn3">Listar tudo</button>
+            </div>
+        </div>
 
-        <div id="div2" style="display: none;"> @* Div dos que estão para vencer *@
+        <div id="div2" style="display: none;">
+            <!-- Div dos que estão para vencer -->
             <div id="conteudo">
                 <section>
-                    <table class="table table-Alimento" id="table-Vencendo">
-                        <thead>
+                    <table class="table table-striped table-hover table table-Alimento" id="table-Vencendo">
+                        <thead class="thead-dark">
                             <tr class="text-bg-success">
                                 <th id="codigo">#</th>
                                 <th scope="col">Descrição</th>
@@ -62,11 +76,9 @@
                                 <th scope="col">Unidade de medida</th>
                                 <th scope="col">Quantidade atual</th>
                                 <th scope="col">Quantidade Minima</th>
-
                             </tr>
                         </thead>
                         <tbody>
-
                             @if (Model != null && Model.Any())
                             {
                                 foreach (AlimentoModel alimento in Model)
@@ -76,37 +88,33 @@
 
                                     TimeSpan diferenca = data1 - data2; // obtém a diferença entre as datas
 
-                                    <tr>
-                                        @if (Math.Abs(diferenca.TotalDays) >= 1) // verifica se a diferença é de 10 dias ou menos
-                                        {
-                                            @if (Math.Abs(diferenca.TotalDays) <= 10)
-                                            {
-                                                <td>@alimento.Id</td>
-                                                <td>@alimento.nomeAlimento</td>
-                                                <td>@alimento.dataVencimento</td>
-                                                <td>Falta @Math.Abs(diferenca.Days) dias</td>
-                                                <td><span class="badge badge-warning rounded-pill d-inline text-black">vencendo</span></td>
-                                                <td>@alimento.unidadeMedida</td>
-                                                <td>@alimento.quantidadeAtual</td>
-                                                <td>@alimento.quantidadeMinima</td>
-                                            }
-                                        }
-
-                                    </tr>
+                                    if (Math.Abs(diferenca.TotalDays) >= 1 && Math.Abs(diferenca.TotalDays) <= 10)
+                                    {
+                                        <tr>
+                                            <td>@alimento.Id</td>
+                                            <td>@alimento.nomeAlimento</td>
+                                            <td>@alimento.dataVencimento</td>
+                                            <td>Falta @Math.Abs(diferenca.Days) dias</td>
+                                            <td><span class="badge badge-warning rounded-pill d-inline text-black">vencendo</span></td>
+                                            <td>@alimento.unidadeMedida</td>
+                                            <td>@alimento.quantidadeAtual</td>
+                                            <td>@alimento.quantidadeMinima</td>
+                                        </tr>
+                                    }
                                 }
                             }
                         </tbody>
                     </table>
-
                 </section>
-
             </div>
         </div>
-        <div id="div1" style="display: none;"> @* Div dos que estão Vencidos *@
+
+        <div id="div1" style="display: none;">
+            <!-- Div dos que estão Vencidos -->
             <div id="conteudo">
                 <section>
-                    <table class="table table-Alimento" id="table-Vencendo">
-                        <thead>
+                    <table class="table table-striped table-hover table table-Alimento" id="table-Fornecedor">
+                        <thead class="thead-dark">
                             <tr class="text-bg-success">
                                 <th id="codigo">#</th>
                                 <th scope="col">Descrição</th>
@@ -116,11 +124,9 @@
                                 <th scope="col">Unidade de medida</th>
                                 <th scope="col">Quantidade atual</th>
                                 <th scope="col">Quantidade Minima</th>
-
                             </tr>
                         </thead>
                         <tbody>
-
                             @if (Model != null && Model.Any())
                             {
                                 foreach (AlimentoModel alimento in Model)
@@ -130,13 +136,9 @@
 
                                     TimeSpan diferenca = data1 - data2; // obtém a diferença entre as datas
 
-                                    <tr>
-                                        @if (diferenca.TotalDays <= 0) // verifica se a diferença é de 10 dias ou menos
-                                        {
-                                            
-                                        }
-                                        else
-                                        {
+                                    if (diferenca.TotalDays <= 0)
+                                    {
+                                        <tr>
                                             <td>@alimento.Id</td>
                                             <td>@alimento.nomeAlimento</td>
                                             <td>@alimento.dataVencimento</td>
@@ -145,23 +147,22 @@
                                             <td>@alimento.unidadeMedida</td>
                                             <td>@alimento.quantidadeAtual</td>
                                             <td>@alimento.quantidadeMinima</td>
-                                        }
-
-                                    </tr>
+                                        </tr>
+                                    }
                                 }
                             }
                         </tbody>
                     </table>
-
                 </section>
-
             </div>
         </div>
-        <div id="div3"> @* Div de todos vencendo e vencidos *@
+
+        <div id="div3">
+            <!-- Div de todos vencendo e vencidos -->
             <div id="conteudo">
                 <section>
-                    <table class="table table-Alimento" id="table-Vencendo">
-                        <thead>
+                    <table class="table table-striped table-hover table table-Alimento" id="table-alimento">
+                        <thead class="thead-dark">
                             <tr class="text-bg-danger">
                                 <th id="codigo">#</th>
                                 <th scope="col">Descrição</th>
@@ -171,11 +172,9 @@
                                 <th scope="col">Unidade de medida</th>
                                 <th scope="col">Quantidade atual</th>
                                 <th scope="col">Quantidade Minima</th>
-
                             </tr>
                         </thead>
                         <tbody>
-
                             @if (Model != null && Model.Any())
                             {
                                 foreach (AlimentoModel alimento in Model)
@@ -196,11 +195,9 @@
                                             <td>@alimento.unidadeMedida</td>
                                             <td>@alimento.quantidadeAtual</td>
                                             <td>@alimento.quantidadeMinima</td>
-
                                         }
                                         else
                                         {
-
                                             <td>@alimento.Id</td>
                                             <td>@alimento.nomeAlimento</td>
                                             <td>@alimento.dataVencimento</td>
@@ -209,18 +206,16 @@
                                             <td>@alimento.unidadeMedida</td>
                                             <td>@alimento.quantidadeAtual</td>
                                             <td>@alimento.quantidadeMinima</td>
-
                                         }
-
                                     </tr>
                                 }
                             }
                         </tbody>
                     </table>
-
                 </section>
             </div>
         </div>
+    </div>
   
 </body>
 </html>
@@ -242,5 +237,62 @@
         #DropdownMenu {
             display: none;
         }
+
+        #invisivel{
+            display: none;
+        }
     }
+</style>
+
+<script>
+    // Função para mostrar a barra de carregamento e imprimir a página após 3 segundos
+    function showLoading() {
+        // Mostra a barra de carregamento
+        document.getElementById('loading-container').style.display = 'block';
+
+        // Animação suave para mostrar a barra de carregamento
+        document.getElementById('loading-bar').style.transition = 'width 3s ease-in-out'; // Definindo a duração da animação
+
+        setTimeout(function () {
+            document.getElementById('loading-bar').style.width = '100%';
+        }, 100);
+
+        // Define a ação de impressão após um tempo suficiente
+        setTimeout(function () {
+            window.print();
+            // Esconde a barra de carregamento após a impressão
+            document.getElementById('loading-container').style.display = 'none';
+            // Reseta a largura da barra de carregamento para 0%
+            document.getElementById('loading-bar').style.width = '0%';
+        }, 3000);
+    }
+</script>
+
+<style>
+    .custom-print-button {
+        padding: 5px 10px;
+        background-color: #007bff; /* Cor do botão */
+        color: white;
+        border: none;
+        border-radius: 5px;
+        cursor: pointer;
+        position: relative;
+        overflow: hidden;
+    }
+
+        .custom-print-button:hover {
+            background-color: #0056b3; /* Cor do botão ao passar o mouse */
+        }
+
+    .loading-bar {
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        height: 2px; /* Altura da barra de carregamento */
+        width: 0%; /* Inicialmente sem largura */
+        background-color: #28a745; /* Cor da barra de carregamento */
+        transition: width 3s;
+    }
+
 </style>
