@@ -3,6 +3,7 @@ using ControleDeContatos.Data;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.Metadata.Internal;
 using Microsoft.EntityFrameworkCore.Query.Internal;
 using System;
 using System.Collections.Generic;
@@ -345,6 +346,7 @@ namespace WebApplication1.Controllers
                     }
                     else
                     {
+                        transaction.Rollback(); // Reverte a transação em caso de erro
                         TempData["ERRO"] = "Não foi possivel editar este alimento! Deixe todos os campos preenchidos";
                         return RedirectToAction("Index");
                     }
@@ -357,26 +359,50 @@ namespace WebApplication1.Controllers
             }
         }
 
-        public IActionResult DeletarAlimento(int id)
+        public IActionResult DeletarAlimento(int id, string nome, double qtd)
         {
-            try
+            using (var transaction = _bancoContext.Database.BeginTransaction())
             {
-                bool alimentoRetur = _alimentoRepositorio.excluirAlimento(id);
-                if (alimentoRetur)
+                try
                 {
-                    TempData["SUCESSO"] = "Alimento Excluido com sucesso!";
+                    int idexclucao = id;
+                    string NomeAli = nome;
+                    double qtdAli = qtd;
+                    bool alimentoRetur = _alimentoRepositorio.excluirAlimento(id);
+
+                    UsuarioModel usuarioLogago = _sessao.BuscarSessaoDoUsuario();
+                    int IDusuario = usuarioLogago.Id;
+
+                    // Cadastro do log
+                    LogsModel log = new LogsModel();
+                    log.IdAlimento = idexclucao.ToString(); // Supondo que o ID do alimento seja gerado automaticamente após o cadastro
+                    log.NomeAlimeto = NomeAli;
+                    log.UsuarioRemovel = usuarioLogago.NomeUsuario;
+                    log.QuantidadeAlimento = qtdAli;
+                    log.DataRemovel = DateTime.Now;
+                    _logRepositorio.LogRetirada(log);
+
+                    transaction.Commit(); // Confirma a transação se tudo foi bem-sucedido
+
+                    if (alimentoRetur)
+                    {
+                        TempData["SUCESSO"] = "Alimento Excluido com sucesso!";
+                    }
+                    else
+                    {
+                        transaction.Rollback(); // Reverte a transação em caso de erro
+                        TempData["ERRO"] = "Não foi possivel Excluir este alimento! Deixe todos os campos preenchidos";
+                    }
+                    return RedirectToAction("Index");
                 }
-                else
+                catch (System.Exception erro)
                 {
-                    TempData["ERRO"] = "Não foi possivel Excluir este alimento! Deixe todos os campos preenchidos";
+                    transaction.Rollback(); // Reverte a transação em caso de erro
+                    TempData["ERRO"] = $"Não foi possivel Excluir este alimento! Detalhe do erro: {erro.Message}";
+                    return RedirectToAction("Index");
                 }
-                return RedirectToAction("Index");
             }
-            catch (System.Exception erro)
-            {
-                TempData["ERRO"] = $"Não foi possivel Excluir este alimento! Detalhe do erro: {erro.Message}";
-                return RedirectToAction("Index");
-            }   
+
         }
     }
 }

@@ -12,6 +12,8 @@ $(document).ready(function () {
     getDatatable('#table-Retirada');
     getDatatable('#table-Devolucao');
     getDatatable('#table-Todos');
+    getDatatable('#table-pravencer');
+    getDatatable('#table-Exclucao');
 
     //modais da tela de usuario <começo>
 
