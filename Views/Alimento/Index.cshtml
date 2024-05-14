@@ -102,11 +102,7 @@
                                             Configurações
                                         </button>
                                         <div class="dropdown-menu dropdown-menu-right dropdown-custom-menu" aria-labelledby="@uniqueId">
-                                            <a class="dropdown-item btn btn-sm btn-Modal-Editar-Alimento"  onclick="javascrip:" alimento-id="@alimento.Id"><img id="iconEditar"  alt="Editar"   src="~/imagens/btn_editar.png">Editar</a>
-                                            <a class="dropdown-item btn btn-sm btn-Modal-Apagar-Alimento"  onclick="javascrip:" alimento-id="@alimento.Id"><img id="iconExcluir" alt="Excluir"  src="~/imagens/btn_excluir.png">Excluir</a>
-                                            <a class="dropdown-item btn btn-sm btn-Modal-Saida-Alimento"   onclick="javascrip:" alimento-id="@alimento.Id"><img id="iconExcluir" alt="Retirar"  src="~/imagens/btn_Retira.png">Retirar</a>
-                                            <a class="dropdown-item btn btn-sm btn-Modal-Devolve-Alimento" onclick="javascrip:" alimento-id="@alimento.Id"><img id="iconEditar"  alt="Devolver" src="~/imagens/btn_devolve.png">Devolver</a>
-                                       
+                                            @await Component.InvokeAsync("FiltroDropdownAlimentos")
                                         </div>
                                     </div>
                                 </td>

@@ -32,7 +32,8 @@
             <table>
                 <tr>
                     <th>Código do produto</th>
-                    <th>Descrição</th>
+                    <th>Descrição</th>      
+                    <th>Qtd atual</th>      
                     <th>Data de vencimento</th>
                     <th>Categoria alimentar</th>
                     <th>Fornecedor</th>
@@ -40,6 +41,7 @@
                 <tr>
                     <td>@Model.Id</td>
                     <td>@Model.nomeAlimento</td>
+                    <td>@Model.quantidadeAtual</td>
                     <td>@Model.dataVencimento</td>
                     <td>@Model.unidadeMedida</td>
                     <td>fornecedor</td>
@@ -47,7 +49,7 @@
             </table>
             <div id="btns">
                 <a role="button" id="btnCancelar" asp-controller="Alimento" asp-action="Index">Cancelar</a>
-                <a role="button" id="btnExcluir" asp-controller="Alimento" asp-route-id="@Model.Id" asp-action="DeletarAlimento">Excluir</a>
+                <a role="button" id="btnExcluir" asp-controller="Alimento" asp-route-id="@Model.Id" asp-route-nome="@Model.nomeAlimento" asp-route-qtd="@Model.quantidadeAtual" asp-action="DeletarAlimento">Excluir</a>
             </div>
         </div>
     </div>

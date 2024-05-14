@@ -41,6 +41,13 @@ namespace ControleContatos.Repositorio
             return logsModel; // Retorna o objeto log após a Devolução bem-sucedida
         }
 
+        public LogsModel LogExclucao(LogsModel logsModel)
+        {
+            _bancoContext.Logs.Add(logsModel);
+            _bancoContext.SaveChanges();
+            return logsModel; // Retorna o objeto log após a Exclução bem-sucedida
+        }
+
         public LogsModel LogRetirada(LogsModel logsModel)
         {
             _bancoContext.Logs.Add(logsModel);

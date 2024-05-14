@@ -1,0 +1,20 @@
+﻿@model List<AlimentoModel>
+@{
+    ViewData["Title"] = "Listagem logs de retiradas de Alimentos";
+}
+
+
+
+<link rel="stylesheet" href="~/css/EstoqueCSS/indexEstoque.css" />
+
+ @if (Model != null && Model.Any())
+{
+    <!-- Exibe os botões apenas uma vez -->
+    <a class="dropdown-item btn btn-sm btn-Modal-Saida-Alimento" onclick="javascrip:" alimento-id="@Model.FirstOrDefault().Id">
+        <img id="iconExcluir" alt="Retirar" src="~/imagens/btn_Retira.png">Retirar
+    </a>
+    <a class="dropdown-item btn btn-sm btn-Modal-Devolve-Alimento" onclick="javascrip:" alimento-id="@Model.FirstOrDefault().Id">
+        <img id="iconEditar" alt="Devolver" src="~/imagens/btn_devolve.png">Devolver
+    </a>
+
+}

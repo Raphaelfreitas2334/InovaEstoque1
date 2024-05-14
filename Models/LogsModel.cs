@@ -13,10 +13,12 @@ namespace WebApplication1.Models
         public string? UsuarioEditou { get; set; }
         public string? UsuarioRetirou { get; set; }
         public string? UsuarioDevolvel { get; set; }
+        public string? UsuarioRemovel { get; set; }
         public DateTime? DataCadastro { get; set; }
         public DateTime? DataAtualizacao { get; set; }
         public DateTime? DataRetira { get; set; }
         public DateTime? DataDevolve { get; set; }
+        public DateTime? DataRemovel { get; set; }
         public double? QuantidadeAlimento { get; set; }
         public string obsDeSaida { get; set; }
         public string obsDeDevolucao { get; set; }
