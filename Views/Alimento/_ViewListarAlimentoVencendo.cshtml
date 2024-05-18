@@ -32,18 +32,7 @@
                     TimeSpan diferenca = data1 - data2; // obtém a diferença entre as datas
 
                     <tr>
-                        @if (Math.Abs(diferenca.TotalDays) >= 1 && Math.Abs(diferenca.TotalDays) <= 10) // verifica se a diferença é de 10 dias ou menos
-                        {
-                            <td>@alimento.Id</td>
-                            <td>@alimento.nomeAlimento</td>
-                            <td>@alimento.dataVencimento</td>
-                            <td>Falta @Math.Abs(diferenca.Days) dias</td>
-                            <td><span class="badge badge-warning rounded-pill d-inline text-black">Vencendo</span></td>
-                            <td>@alimento.unidadeMedida</td>
-                            <td>@alimento.quantidadeAtual</td>
-                            <td>@alimento.quantidadeMinima</td>
-                        }
-                        else
+                        @if ((diferenca.TotalDays) >= 1 && (diferenca.TotalDays) <= 10) // verifica se a diferença é de 10 dias ou menos
                         {
                             <td>@alimento.Id</td>
                             <td>@alimento.nomeAlimento</td>
@@ -53,6 +42,18 @@
                             <td>@alimento.unidadeMedida</td>
                             <td>@alimento.quantidadeAtual</td>
                             <td>@alimento.quantidadeMinima</td>
+                        }
+                        else
+                        {
+                            <td>@alimento.Id</td>
+                            <td>@alimento.nomeAlimento</td>
+                            <td>@alimento.dataVencimento</td>
+                            <td>Falta @Math.Abs(diferenca.Days) dias</td>
+                            <td><span class="badge badge-warning rounded-pill d-inline text-black">Vencendo</span></td>
+                            <td>@alimento.unidadeMedida</td>
+                            <td>@alimento.quantidadeAtual</td>
+                            <td>@alimento.quantidadeMinima</td>
+
                         }
                     </tr>
                 }
