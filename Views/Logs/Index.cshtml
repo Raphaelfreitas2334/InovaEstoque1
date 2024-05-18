@@ -20,6 +20,7 @@
                 $("#div3").hide();
                 $("#div4").hide();
                 $("#div5").hide();
+                $("#div6").hide();
             });
 
             $("#btn2").click(function () {
@@ -28,6 +29,7 @@
                 $("#div3").hide();
                 $("#div4").hide();
                 $("#div5").hide();
+                $("#div6").hide();
             });
 
             $("#btn3").click(function () {
@@ -36,6 +38,15 @@
                 $("#div2").hide();
                 $("#div4").hide();
                 $("#div5").hide();
+                $("#div6").hide();
+            });
+            $("#btn4").click(function () {
+                $("#div4").show();
+                $("#div1").hide();
+                $("#div2").hide();
+                $("#div3").hide();
+                $("#div5").hide();
+                $("#div6").hide();
             });
             $("#btn5").click(function () {
                 $("#div5").show();
@@ -43,6 +54,15 @@
                 $("#div1").hide();
                 $("#div2").hide();
                 $("#div3").hide();
+                $("#div6").hide();
+            });
+            $("#btn6").click(function () {
+                $("#div6").show();
+                $("#div1").hide();
+                $("#div2").hide();
+                $("#div3").hide();
+                $("#div4").hide();
+                $("#div5").hide();
             });
         });
     </script>
@@ -70,6 +90,7 @@
             Tipo de pesquisa
         </button>
         <div class="dropdown-menu" aria-labelledby="DropdownMenu" id="DropdownMenu">
+            <button id="btn6" class="dropdown-item">Logs de Cadastro</button>
             <button id="btn1" class="dropdown-item">Logs de Devolução</button>
             <button id="btn2" class="dropdown-item">Logs de Retirada</button>
             <button id="btn4" class="dropdown-item">Logs de Edição</button>
@@ -292,6 +313,45 @@
                                             <td>@log.UsuarioRemovel</td>
                                             <td>@log.DataRemovel</td>
                                             <td>@log.QuantidadeAlimento</td>
+                                        </tr>
+                                    }
+                                }
+                            }
+                        </tbody>
+                    </table>
+                </div>
+            </section>
+        </div>
+    </div>
+
+    <div id="div6" style="display: none;">
+        <div id="conteudo">
+            <h1 class="text-center">Logs de Cadastro</h1>
+            <section>
+                <div class="table-responsive">
+                    <table class="table table-striped table-hover table-Cadastro" id="table-Cadastro">
+                        <thead class="thead-dark">
+                            <tr>
+                                <th scope="col">#</th>
+                                <th scope="col">ID Alimento</th>
+                                <th scope="col">Nome Alimento</th>
+                                <th scope="col">Usuário Cadastrou</th>
+                                <th scope="col">Data Cadastro</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @if (Model != null && Model.Any())
+                            {
+                                foreach (LogsModel log in Model)
+                                {
+                                    if (log.UsuarioCadastrou != null)
+                                    {
+                                        <tr>
+                                            <td>@log.Id</td>
+                                            <td>@log.IdAlimento</td>
+                                            <td>@log.NomeAlimeto</td>
+                                            <td>@log.UsuarioCadastrou</td>
+                                            <td>@log.DataCadastro</td>
                                         </tr>
                                     }
                                 }
