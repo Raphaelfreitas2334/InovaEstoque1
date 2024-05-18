@@ -10,8 +10,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace WebApplication1.Migrations
 {
     [DbContext(typeof(BancoContext))]
-    [Migration("20240510011332_Atualização2.4")]
-    partial class Atualização24
+    [Migration("20240518023558_Atualizacao3.8")]
+    partial class Atualizacao38
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -28,41 +28,17 @@ namespace WebApplication1.Migrations
                         .HasColumnType("int")
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
-                    b.Property<DateTime?>("DataAtualizacao")
-                        .HasColumnType("datetime2");
-
                     b.Property<DateTime?>("DataCadastro")
-                        .HasColumnType("datetime2");
-
-                    b.Property<DateTime?>("DataDevolve")
-                        .HasColumnType("datetime2");
-
-                    b.Property<DateTime?>("DataRetira")
                         .HasColumnType("datetime2");
 
                     b.Property<string>("FornecedorNome")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<int?>("Fornecedorid")
-                        .HasColumnType("int");
-
                     b.Property<int?>("IDusuario")
                         .HasColumnType("int");
 
-                    b.Property<int?>("LogsModelId")
+                    b.Property<int>("NumeroFornecedor")
                         .HasColumnType("int");
-
-                    b.Property<string>("UsuarioDevolvel")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("UsuarioEditou")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("UsuarioNome")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("UsuarioRetirou")
-                        .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("dataVencimento")
                         .HasColumnType("nvarchar(max)");
@@ -98,10 +74,6 @@ namespace WebApplication1.Migrations
                         .HasColumnType("int");
 
                     b.HasKey("Id");
-
-                    b.HasIndex("Fornecedorid");
-
-                    b.HasIndex("LogsModelId");
 
                     b.HasIndex("usuarioId");
 
@@ -140,12 +112,64 @@ namespace WebApplication1.Migrations
                     b.ToTable("Fornecedor");
                 });
 
+            modelBuilder.Entity("WebApplication1.Models.FornecimentosModel", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<string>("CEP")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("CNPJ")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("DataVencimento")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<int>("IdAlimento")
+                        .HasColumnType("int");
+
+                    b.Property<int>("IdFornecedor")
+                        .HasColumnType("int");
+
+                    b.Property<string>("NomeAlimento")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("NomeFornecedor")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("NumeroResidencia")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<double?>("QuantidadeFornecida")
+                        .HasColumnType("float");
+
+                    b.Property<string>("Telefone")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("UnidadeMedida")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("IdAlimento");
+
+                    b.HasIndex("IdFornecedor");
+
+                    b.ToTable("Fornecimentos");
+                });
+
             modelBuilder.Entity("WebApplication1.Models.LogsModel", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int")
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<int?>("AlimentoId")
+                        .HasColumnType("int");
 
                     b.Property<DateTime?>("DataAtualizacao")
                         .HasColumnType("datetime2");
@@ -156,11 +180,14 @@ namespace WebApplication1.Migrations
                     b.Property<DateTime?>("DataDevolve")
                         .HasColumnType("datetime2");
 
+                    b.Property<DateTime?>("DataRemovel")
+                        .HasColumnType("datetime2");
+
                     b.Property<DateTime?>("DataRetira")
                         .HasColumnType("datetime2");
 
-                    b.Property<string>("IdAlimento")
-                        .HasColumnType("nvarchar(max)");
+                    b.Property<int?>("IdAlimento")
+                        .HasColumnType("int");
 
                     b.Property<string>("NomeAlimeto")
                         .HasColumnType("nvarchar(max)");
@@ -177,6 +204,9 @@ namespace WebApplication1.Migrations
                     b.Property<string>("UsuarioEditou")
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<string>("UsuarioRemovel")
+                        .HasColumnType("nvarchar(max)");
+
                     b.Property<string>("UsuarioRetirou")
                         .HasColumnType("nvarchar(max)");
 
@@ -187,6 +217,8 @@ namespace WebApplication1.Migrations
                         .HasColumnType("nvarchar(max)");
 
                     b.HasKey("Id");
+
+                    b.HasIndex("AlimentoId");
 
                     b.ToTable("Logs");
                 });
@@ -232,31 +264,51 @@ namespace WebApplication1.Migrations
 
             modelBuilder.Entity("WebApplication1.Models.AlimentoModel", b =>
                 {
-                    b.HasOne("WebApplication1.Models.FornecedorModel", "Fornecedor")
-                        .WithMany("alimento")
-                        .HasForeignKey("Fornecedorid");
-
-                    b.HasOne("WebApplication1.Models.LogsModel", null)
-                        .WithMany("Alimento")
-                        .HasForeignKey("LogsModelId");
-
                     b.HasOne("WebApplication1.Models.UsuarioModel", "usuario")
                         .WithMany("Alimento")
                         .HasForeignKey("usuarioId");
 
-                    b.Navigation("Fornecedor");
-
                     b.Navigation("usuario");
                 });
 
-            modelBuilder.Entity("WebApplication1.Models.FornecedorModel", b =>
+            modelBuilder.Entity("WebApplication1.Models.FornecimentosModel", b =>
                 {
-                    b.Navigation("alimento");
+                    b.HasOne("WebApplication1.Models.AlimentoModel", "Alimento")
+                        .WithMany("fornecimento")
+                        .HasForeignKey("IdAlimento")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("WebApplication1.Models.FornecedorModel", "Fornecedor")
+                        .WithMany("fornecimento")
+                        .HasForeignKey("IdFornecedor")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Alimento");
+
+                    b.Navigation("Fornecedor");
                 });
 
             modelBuilder.Entity("WebApplication1.Models.LogsModel", b =>
                 {
+                    b.HasOne("WebApplication1.Models.AlimentoModel", "Alimento")
+                        .WithMany("logs")
+                        .HasForeignKey("AlimentoId");
+
                     b.Navigation("Alimento");
+                });
+
+            modelBuilder.Entity("WebApplication1.Models.AlimentoModel", b =>
+                {
+                    b.Navigation("fornecimento");
+
+                    b.Navigation("logs");
+                });
+
+            modelBuilder.Entity("WebApplication1.Models.FornecedorModel", b =>
+                {
+                    b.Navigation("fornecimento");
                 });
 
             modelBuilder.Entity("WebApplication1.Models.UsuarioModel", b =>

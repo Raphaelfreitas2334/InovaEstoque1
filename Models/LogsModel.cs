@@ -8,7 +8,6 @@ namespace WebApplication1.Models
     {
         public int Id { get; set; }
         public string? UsuarioCadastrou { get; set; } 
-        public string? IdAlimento { get; set; } 
         public string? NomeAlimeto { get; set; } 
         public string? UsuarioEditou { get; set; }
         public string? UsuarioRetirou { get; set; }
@@ -23,6 +22,10 @@ namespace WebApplication1.Models
         public string obsDeSaida { get; set; }
         public string obsDeDevolucao { get; set; }
 
-        public virtual List<AlimentoModel> Alimento { get; set; }
+        public int? IdAlimento { get; set; }
+        public AlimentoModel Alimento { get; set; }
+
+
+
     }
 }

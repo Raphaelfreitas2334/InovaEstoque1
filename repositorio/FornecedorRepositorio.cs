@@ -54,6 +54,20 @@ namespace WebApplication1.repositorio
             _Context.Fornecedor.Update(fornecedorDB);
             _Context.SaveChanges();
 
+            // Agora, atualize cada Fornecimento relacionado
+            var fornecimentos = _Context.Fornecimentos.Where(f => f.IdFornecedor == fornecedor.Id).ToList();
+
+            foreach (var fornecimento in fornecimentos)
+            {
+                fornecimento.NomeFornecedor = fornecedor.nomeFornecedor; // Atualize as propriedades necessárias
+                fornecimento.CNPJ = fornecedor.CNPJ; 
+                fornecimento.Telefone = fornecedor.telefone; 
+                fornecimento.CEP = fornecedor.CEP; 
+                fornecimento.NumeroResidencia = fornecedor.numeroResidencia; 
+            }
+
+            _Context.SaveChanges(); // Salve as alterações no banco de dados
+
             return fornecedorDB;
         }
 
@@ -72,6 +86,13 @@ namespace WebApplication1.repositorio
         public IEnumerable<FornecedorModel> ObterTodos()
         {
             return _Context.Fornecedor.ToList();
+        }
+
+        public FornecedorModel ObterPorI(int id)
+        {
+            var fornecedor = _Context.Fornecedor.FirstOrDefault(f => f.Id == id);
+
+            return fornecedor; // Retorna o fornecedor encontrado ou null se não for encontrado
         }
     }
 }

@@ -7,6 +7,7 @@ namespace WebApplication1.Models
 {
     public class AlimentoModel
     {
+        [Key] 
         public int Id { get; set; }
         public string nomeAlimento { get; set; }
         public string dataVencimento { get; set; }
@@ -18,16 +19,18 @@ namespace WebApplication1.Models
         public double? quantidadeDevolvida { get; set; } 
         public string obsDeSaida { get; set; }
         public string obsDeDevolucao { get; set; }
-        public int? usuarioId { get; set; }
-        public int? IDusuario { get; set; }
+        public int FornecedorId { get; set; }
 
+        public string FornecedorNome { get; set; } //quem cadastrou
         public DateTime? DataCadastro { get; set; }
-   
+
+        [ForeignKey("Ususario")]
+        public int? IDusuario { get; set; }
         public UsuarioModel usuario { get; set; }
 
-        public int? Fornecedorid { get; set; }
-        public string FornecedorNome { get; set; } //quem cadastrou
+        public virtual List<LogsModel> logs { get; set; }
 
-        public FornecedorModel Fornecedor { get; set; }
+        public virtual List<FornecimentosModel> fornecimento { get; set; }
+
     }
 }

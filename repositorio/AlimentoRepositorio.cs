@@ -1,4 +1,5 @@
 ﻿using ControleDeContatos.Data;
+using Microsoft.CodeAnalysis.CSharp.Syntax;
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
@@ -38,6 +39,7 @@ namespace ControleContatos.Repositorio
                 string dataFormatada = dataConvertida.ToString("dd-MM-yyyy");
                 //joga a data no formato Brasileiro no objeto alimeto
                 alimento.dataVencimento = dataFormatada;
+                alimento.FornecedorNome = alimento.FornecedorId.ToString();
 
                 alimento.quantidadeRetirada = alimento.quantidadeRetirada;
                 alimento.DataCadastro = DateTime.Now;

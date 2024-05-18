@@ -1,6 +1,7 @@
 ﻿using ControleContatos.Repositorio;
 using ControleDeContatos.Data;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Diagnostics;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Internal;
@@ -24,19 +25,22 @@ namespace WebApplication1.Controllers
         private readonly IFornecedorRepositorio _fornecedorRepositorio;
         private readonly ISessao _sessao;
         private readonly ILogRepositorio _logRepositorio;
+        private readonly IFornecimentosRepositorio _fornecimentosRepositorio;
         private readonly BancoContext _bancoContext;
 
         public AlimentoController(IAlimentoRepositorio alimento,
                                   ISessao sessao,
                                   IFornecedorRepositorio fornecedor,
                                   BancoContext bancoContext,
-                                  ILogRepositorio logRepositorio)
+                                  ILogRepositorio logRepositorio,
+                                  IFornecimentosRepositorio fornecimentosRepositorio)
         {
             _alimentoRepositorio = alimento;
             _fornecedorRepositorio = fornecedor;
             _sessao = sessao;
             _bancoContext = bancoContext;
             _logRepositorio = logRepositorio;
+            _fornecimentosRepositorio = fornecimentosRepositorio;
         }
 
         public IActionResult ExibirBotoesAlimento()
@@ -79,7 +83,20 @@ namespace WebApplication1.Controllers
         }
         public IActionResult viewCadastrarAlimento()
         {
-            ViewBag.Alimentos = new SelectList(_fornecedorRepositorio.ObterTodos(), "nomeFornecedor", "nomeFornecedor");
+            var fornecedores = _fornecedorRepositorio.ObterTodos();
+
+            if (fornecedores == null)
+            {
+                throw new InvalidOperationException("O método ObterTodos retornou null.");
+            }
+
+            var fornecedorSelectList = fornecedores.Select(f => new SelectListItem
+            {
+                Value = f.Id.ToString(),
+                Text = f.nomeFornecedor
+            }).ToList();
+
+            ViewBag.Alimentos = fornecedorSelectList;
             return PartialView("_viewCadastrarAlimento");
         }
         public IActionResult viewEditarAlimento(int id)
@@ -168,26 +185,67 @@ namespace WebApplication1.Controllers
                         alimento.IDusuario = usuarioLogado.Id;
                         alimento = _alimentoRepositorio.AdicionarAlimento(alimento);
 
-                        // Cadastro do log
-                        LogsModel log = new LogsModel();
-                        log.IdAlimento = alimento.Id.ToString(); // Supondo que o ID do alimento seja gerado automaticamente após o cadastro
-                        log.NomeAlimeto = alimento.nomeAlimento;
-                        log.DataCadastro = DateTime.Now;
-                        log.UsuarioCadastrou = usuarioLogado.NomeUsuario;
-                        log.QuantidadeAlimento = alimento.quantidadeRetirada;
-                        _logRepositorio.LogCadastro(log);
+                        // Verificar se o alimento foi adicionado com sucesso
+                        if (alimento.Id == 0)
+                        {
+                            throw new InvalidOperationException("Erro ao adicionar o alimento.");
+                        }
 
-                        transaction.Commit(); // Confirma a transação se tudo foi bem-sucedido
+                        // Buscar informações do fornecedor
+                        FornecedorModel fornecedor = _fornecedorRepositorio.ObterPorI(alimento.FornecedorId);
 
-                        TempData["SUCESSO"] = "Alimento cadastrado com sucesso!";
-                        return RedirectToAction("Index");
+                        // Verificar se o fornecedor foi encontrado
+                        if (fornecedor != null)
+                        {
+                            // Criar objeto fornecimentos e atribuir informações do fornecedor
+                            FornecimentosModel fornecimentos = new FornecimentosModel
+                            {
+                                IdFornecedor = fornecedor.Id,
+                                NomeFornecedor = fornecedor.nomeFornecedor,
+                                CNPJ = fornecedor.CNPJ,
+                                Telefone = fornecedor.telefone,
+                                CEP = fornecedor.CEP,
+                                NumeroResidencia = fornecedor.numeroResidencia,
+                                IdAlimento = alimento.Id, // Certifique-se de que o ID do alimento está sendo usado corretamente
+                                NomeAlimento = alimento.nomeAlimento,
+                                DataVencimento = alimento.dataVencimento,
+                                UnidadeMedida = alimento.unidadeMedida,
+                                QuantidadeFornecida = alimento.quantidadeAtual
+                            };
+
+                            _fornecimentosRepositorio.Adicionar(fornecimentos);
+
+                            // Cadastro do log
+                            LogsModel log = new LogsModel();
+                            log.IdAlimento = alimento.Id; // Supondo que o ID do alimento seja gerado automaticamente após o cadastro
+                            log.NomeAlimeto = alimento.nomeAlimento;
+                            log.DataCadastro = DateTime.Now;
+                            log.UsuarioCadastrou = usuarioLogado.NomeUsuario;
+                            log.QuantidadeAlimento = alimento.quantidadeRetirada;
+                            _logRepositorio.LogCadastro(log);
+
+                            transaction.Commit(); // Confirma a transação se tudo foi bem-sucedido
+
+                            TempData["SUCESSO"] = "Alimento cadastrado com sucesso!";
+                            return RedirectToAction("Index");
+                        }
+                        else
+                        {
+                            // Recarregar a lista de fornecedores se o modelo for inválido
+                            var fornecedores = _fornecedorRepositorio.ObterTodos();
+                            var fornecedorSelectList = fornecedores.Select(f => new SelectListItem
+                            {
+                                Value = f.Id.ToString(),
+                                Text = f.nomeFornecedor
+                            }).ToList();
+                            ViewBag.Alimentos = fornecedorSelectList;
+                            transaction.Rollback(); // Reverte a transação em caso de erro
+                            TempData["ERRO"] = "Não foi possível cadastrar. Lembre-se de preencher todos os campos.";
+                            return RedirectToAction("Index");
+                        }
+                      
                     }
-                    else
-                    {
-                        transaction.Rollback(); // Reverte a transação em caso de erro
-                        TempData["ERRO"] = "Não foi possível cadastrar. Lembre-se de preencher todos os campos.";
-                        return RedirectToAction("Index");
-                    }
+                    return RedirectToAction("Index");
                 }
                 catch (System.Exception erro)
                 {
@@ -227,7 +285,7 @@ namespace WebApplication1.Controllers
                             
                             // Cadastro do log
                             LogsModel log = new LogsModel();
-                            log.IdAlimento = alimento.Id.ToString(); // Supondo que o ID do alimento seja gerado automaticamente após o cadastro
+                            log.IdAlimento = alimento.Id; // Supondo que o ID do alimento seja gerado automaticamente após o cadastro
                             log.NomeAlimeto = alimento.nomeAlimento;
                             log.UsuarioRetirou = usuarioLogago.NomeUsuario;
                             log.DataRetira = DateTime.Now;
@@ -274,7 +332,7 @@ namespace WebApplication1.Controllers
 
                         // Cadastro do log
                         LogsModel log = new LogsModel();
-                        log.IdAlimento = alimento.Id.ToString(); // Supondo que o ID do alimento seja gerado automaticamente após o cadastro
+                        log.IdAlimento = alimento.Id; // Supondo que o ID do alimento seja gerado automaticamente após o cadastro
                         log.NomeAlimeto = alimento.nomeAlimento;
                         log.UsuarioDevolvel = usuarioLogago.NomeUsuario;
                         log.DataDevolve = DateTime.Now;
@@ -329,9 +387,21 @@ namespace WebApplication1.Controllers
                             double? qtdDevolve = alimento.quantidadeAtual;
                             alimento = _alimentoRepositorio.editarAlimento(alimento);
 
+                            //editando o fornecimento pois não é possivel faze em cascata como o delete
+                            FornecimentosModel fornecimentos = new FornecimentosModel
+                            {
+                                IdAlimento = alimento.Id,
+                                NomeAlimento = alimento.nomeAlimento,
+                                DataVencimento = alimento.dataVencimento,
+                                UnidadeMedida = alimento.unidadeMedida,
+                                QuantidadeFornecida = alimento.quantidadeAtual
+                            };
+
+                            _fornecimentosRepositorio.Atualizar(fornecimentos);
+
                             // Cadastro do log
                             LogsModel log = new LogsModel();
-                            log.IdAlimento = alimento.Id.ToString(); // Supondo que o ID do alimento seja gerado automaticamente após o cadastro
+                            log.IdAlimento = alimento.Id; // Supondo que o ID do alimento seja gerado automaticamente após o cadastro
                             log.NomeAlimeto = alimento.nomeAlimento;
                             log.UsuarioEditou = usuarioLogago.NomeUsuario;
                             log.DataAtualizacao = DateTime.Now;
@@ -375,7 +445,7 @@ namespace WebApplication1.Controllers
 
                     // Cadastro do log
                     LogsModel log = new LogsModel();
-                    log.IdAlimento = idexclucao.ToString(); // Supondo que o ID do alimento seja gerado automaticamente após o cadastro
+                    log.IdAlimento =   idexclucao; // Supondo que o ID do alimento seja gerado automaticamente após o cadastro
                     log.NomeAlimeto = NomeAli;
                     log.UsuarioRemovel = usuarioLogago.NomeUsuario;
                     log.QuantidadeAlimento = qtdAli;

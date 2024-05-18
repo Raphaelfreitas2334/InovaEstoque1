@@ -57,10 +57,13 @@
                     @Html.ValidationMessageFor(x => x.unidadeMedida)
                 </div>
                 <div class="col">
-                    <label for="FornecedorNome" class="form-label">Fornecedor</label>
-                    <select asp-for="FornecedorNome" asp-items="ViewBag.Alimentos" class="form-control" id="FornecedorNome">
-                        <option value="">Selecione um Fornecedor</option>
-                    </select>
+                    <div class="form-group">
+                        <label for="FornecedorId">Fornecedor</label>
+                        <select asp-for="FornecedorId" asp-items="ViewBag.Alimentos" class="form-control" id="FornecedorId" onchange="updateFornecedorNome()">
+                            <option value="">Selecione um Fornecedor</option>
+                        </select>
+                    </div>
+                    <input type="hidden" asp-for="FornecedorNome" id="FornecedorNome" />
                 </div>
             </div>
             <div class="row mb-3">
@@ -89,6 +92,18 @@
     </form>
 </div>
 
+@section Scripts {
+    <script>
+        function updateFornecedorNome() {
+            var selectedOption = document.getElementById("FornecedorId").selectedOptions[0];
+            document.getElementById("FornecedorNome").value = selectedOption.text;
+        }
+    </script>
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+}
+
 <style>
     /* Estilo para ajustar apenas a largura da coluna */
     .col-half {
@@ -102,12 +117,12 @@
         var nomeAlimento = document.getElementById('nomeAlimento').value;
         var vencimento = document.getElementById('vencimento').value;
         var unidadeMedida = document.getElementById('unidadeMedida').value;
-        var FornecedorNome = document.getElementById('FornecedorNome').value;
+        //var FornecedorNome = document.getElementById('FornecedorNome').value;
         var quantidadeMaxima = document.getElementById('quantidadeMaxima').value;
         var quantidadeMinima = document.getElementById('quantidadeMinima').value;
         var quantidadeAtual = document.getElementById('quantidadeAtual').value;
 
-        if (nomeAlimento === '' || vencimento === '' || unidadeMedida === '' || FornecedorNome === '' || quantidadeMaxima === '' || quantidadeMinima === '' || quantidadeAtual === '') {
+        if (nomeAlimento === '' || vencimento === '' || unidadeMedida === '' || quantidadeMaxima === '' || quantidadeMinima === '' || quantidadeAtual === '') {
             // Se algum campo estiver vazio, exibe um alerta e impede a submissão do formulário
             alert('Por favor, preencha todos os campos.');
             e.preventDefault();
