@@ -35,40 +35,46 @@
             <div id="tituloEditarAlimento">
                 <h1>Edição de alimentos</h1>
             </div>
-            <div class="mb-3">
-                <label for="exampleFormControlInput1" class="form-label">Nome do alimento</label>
-                <input type="text" class="form-control" id="nomeAlimento" placeholder="Macarrão" asp-for="nomeAlimento">
-                @Html.ValidationMessageFor(x => x.nomeAlimento)
+            <div class="row mb-3">
+                <div class="col">
+                    <label for="nomeAlimento" class="form-label">Nome do alimento</label>
+                    <input type="text" class="form-control" id="nomeAlimento" placeholder="Macarrão" asp-for="nomeAlimento">
+                    @Html.ValidationMessageFor(x => x.nomeAlimento)
+                </div>
+                <div class="col">
+                    <label for="vencimento" class="form-label">Data vencimento</label>
+                    <input type="datetime" class="form-control" id="vencimento" placeholder="25/05/24" asp-for="dataVencimento">
+                    @Html.ValidationMessageFor(x => x.dataVencimento)
+                </div>
             </div>
-            <div class="mb-3">
-                <label for="exampleFormControlInput1" class="form-label">Data vencimento</label>
-                <input type="datetime" class="form-control " id="vencimento" placeholder="25/05/24" asp-for="dataVencimento">
-                @Html.ValidationMessageFor(x => x.dataVencimento)
+            <div class="row mb-3">
+                <div class="col">
+                    <label for="unidadeMedida" class="form-label">Unidade de medida</label>
+                    <select asp-for="unidadeMedida" class="form-control">
+                        <option value="Kg">Kg</option>
+                        <option value="LT">LITROS</option>
+                        <option value="PC">PACOTE</option>
+                        <option value="UN">UNIDADE</option>
+                    </select>
+                    @Html.ValidationMessageFor(x => x.unidadeMedida)
+                </div>
+                <div class="col">
+                    <label for="quantidadeMaxima" class="form-label">Quantidade máxima</label>
+                    <input type="text" class="form-control" id="quantidadeMaxima" placeholder="0.0" asp-for="quantidadeMaxima">
+                    @Html.ValidationMessageFor(x => x.quantidadeMaxima)
+                </div>
             </div>
-            <div class="mb-3">
-                <label for="exampleFormControlInput1" class="form-label">Unidade de medida</label>
-                <select asp-for="unidadeMedida" class="form-control">
-                    <option value="Kg">Kg</option>
-                    <option value="LT">LITROS</option>
-                    <option value="PC">PACOTE</option>
-                    <option value="UN">UNIDADE</option>
-                </select>
-                @Html.ValidationMessageFor(x => x.unidadeMedida)
-            </div>
-            <div class="mb-3">
-                <label for="exampleFormControlInput1" class="form-label">Quantidade maxima</label>
-                <input type="text" class="form-control " id="quantidadeMaxima" placeholder="0.0" asp-for="quantidadeMaxima">
-                @Html.ValidationMessageFor(x => x.quantidadeMaxima)
-            </div>
-            <div class="mb-3">
-                <label for="exampleFormControlInput1" class="form-label">Quantidade Minima</label>
-                <input type="text" class="form-control " id="quantidadeMinima" placeholder="0.0" asp-for="quantidadeMinima">
-                @Html.ValidationMessageFor(x => x.quantidadeMinima)
-            </div>
-            <div class="mb-3">
-                <label for="exampleFormControlInput1" class="form-label">Quantidade atual</label>
-                <input type="text" class="form-control " id="quantidadeAtual" placeholder="0.0" asp-for="quantidadeAtual">
-                @Html.ValidationMessageFor(x => x.quantidadeAtual)
+            <div class="row mb-3">
+                <div class="col">
+                    <label for="quantidadeMinima" class="form-label">Quantidade mínima</label>
+                    <input type="text" class="form-control" id="quantidadeMinima" placeholder="0.0" asp-for="quantidadeMinima">
+                    @Html.ValidationMessageFor(x => x.quantidadeMinima)
+                </div>
+                <div class="col">
+                    <label for="quantidadeAtual" class="form-label">Quantidade atual</label>
+                    <input type="text" class="form-control" id="quantidadeAtual" placeholder="0.0" asp-for="quantidadeAtual">
+                    @Html.ValidationMessageFor(x => x.quantidadeAtual)
+                </div>
             </div>
             <div id="contBtns">
                 <button id="btnSalvar">Salvar</button>

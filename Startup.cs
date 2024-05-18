@@ -40,6 +40,7 @@ namespace WebApplication1
             services.AddScoped<IFornecedorRepositorio, FornecedorRepositorio>();
             services.AddScoped<IAlimentoRepositorio, AlimentoRepositorio>();
             services.AddScoped<ILogRepositorio, LogRepositorio>();
+            services.AddScoped<IFornecimentosRepositorio, FornecimentosRepositorio>();
             // services.AddScoped<IEstoqueRepositorio, EstoqueRepositorio>();
 
             services.AddScoped<ISessao, Sessao>();

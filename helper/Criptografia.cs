@@ -1,4 +1,4 @@
-﻿using System.Security.Cryptography;
+﻿using Org.BouncyCastle.Crypto.Digests;
 using System.Text;
 
 namespace WebApplication1.helper
@@ -7,16 +7,18 @@ namespace WebApplication1.helper
     {
         public static string GerarHash(this string valor)
         {
-            var hash = SHA1.Create();
-            var enconding = new ASCIIEncoding();
-            //aqui esta pegando os  bytes dos números da senha
-            var array = enconding.GetBytes(valor);
+            var hash = new Sha3Digest(256); // SHA-3 com 256 bits de tamanho de saída
+            var encoding = new ASCIIEncoding();
+            var array = encoding.GetBytes(valor);
 
-            array = hash.ComputeHash(array);
+            hash.BlockUpdate(array, 0, array.Length);
+
+            var hashBytes = new byte[hash.GetDigestSize()];
+            hash.DoFinal(hashBytes, 0);
 
             var strHexa = new StringBuilder();
 
-            foreach (var item in array)
+            foreach (var item in hashBytes)
             {
                 strHexa.Append(item.ToString("x2"));
             }

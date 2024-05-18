@@ -11,7 +11,6 @@ namespace WebApplication1.Data.Map
         {
             builder.HasKey(x => x.Id);
             builder.HasOne(x => x.usuario);
-            builder.HasOne(x => x.Fornecedor);
         }
     }
 }

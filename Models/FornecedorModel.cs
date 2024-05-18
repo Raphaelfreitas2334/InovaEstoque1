@@ -23,7 +23,7 @@ namespace WebApplication1.Models
         [Required(ErrorMessage = "Digite o numero do endereço do Fornecedor")]
         public string numeroResidencia { get; set; }
 
-        public virtual List<AlimentoModel> alimento { get; set; }
+        public virtual List<FornecimentosModel> fornecimento { get; set; }
         
     }
 }

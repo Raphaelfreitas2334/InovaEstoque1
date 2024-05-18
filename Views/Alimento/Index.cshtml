@@ -101,8 +101,11 @@
                                         <button class="btn btn-primary dropdown-toggle dropdown-custom-toggle" type="button" id="@uniqueId" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                                             Configurações
                                         </button>
-                                        <div class="dropdown-menu dropdown-menu-right dropdown-custom-menu" aria-labelledby="@uniqueId">
-                                            @await Component.InvokeAsync("FiltroDropdownAlimentos")
+                                        <div class="dropdown-menu" aria-labelledby="@uniqueId">
+                                            <a onclick="javascrip:" alimento-id="@alimento.Id" class="btn btn-sm btn-Modal-Editar-Alimento"><img id="iconEditar" src="~/imagens/btn_editar.png"></a>
+                                            <a onclick="javascrip:" alimento-id="@alimento.Id" class="btn btn-sm btn-Modal-Apagar-Alimento"><img id="iconExcluir" src="~/imagens/btn_excluir.png"></a>
+                                            <a onclick="javascrip:" alimento-id="@alimento.Id" class="btn btn-sm btn-Modal-Saida-Alimento"><img id="iconExcluir" src="~/imagens/btn_Retira.png"></a>
+                                            <a onclick="javascrip:" alimento-id="@alimento.Id" class="btn btn-sm btn-Modal-Devolve-Alimento"><img id="iconEditar" src="~/imagens/btn_devolve.png"></a>
                                         </div>
                                     </div>
                                 </td>

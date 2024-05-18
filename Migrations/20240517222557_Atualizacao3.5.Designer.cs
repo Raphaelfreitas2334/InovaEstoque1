@@ -4,14 +4,16 @@ using ControleDeContatos.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace WebApplication1.Migrations
 {
     [DbContext(typeof(BancoContext))]
-    partial class BancoContextModelSnapshot : ModelSnapshot
+    [Migration("20240517222557_Atualizacao3.5")]
+    partial class Atualizacao35
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -29,13 +31,13 @@ namespace WebApplication1.Migrations
                     b.Property<DateTime?>("DataCadastro")
                         .HasColumnType("datetime2");
 
+                    b.Property<int>("FornecedorId")
+                        .HasColumnType("int");
+
                     b.Property<string>("FornecedorNome")
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<int?>("IDusuario")
-                        .HasColumnType("int");
-
-                    b.Property<int>("NumeroFornecedor")
                         .HasColumnType("int");
 
                     b.Property<string>("dataVencimento")
@@ -123,17 +125,11 @@ namespace WebApplication1.Migrations
                     b.Property<string>("CNPJ")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<string>("DataVencimento")
-                        .HasColumnType("nvarchar(max)");
-
                     b.Property<int>("IdAlimento")
                         .HasColumnType("int");
 
                     b.Property<int>("IdFornecedor")
                         .HasColumnType("int");
-
-                    b.Property<string>("NomeAlimento")
-                        .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("NomeFornecedor")
                         .HasColumnType("nvarchar(max)");
@@ -147,7 +143,13 @@ namespace WebApplication1.Migrations
                     b.Property<string>("Telefone")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<string>("UnidadeMedida")
+                    b.Property<string>("dataVencimento")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("nomeAlimento")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("unidadeMedida")
                         .HasColumnType("nvarchar(max)");
 
                     b.HasKey("Id");

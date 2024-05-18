@@ -73,16 +73,16 @@
             alert('Por favor, preencha todos os campos.');
             e.preventDefault();
         } else if (cnpj.length !== 18) {
-            // Se o CNPJ não tiver exatamente 18 caracteres, exibe um alerta e impede a submissão do formulário
-            alert('Por favor, insira um CNPJ válido com 18 caracteres.');
+            // Se o CNPJ não tiver exatamente 14 caracteres, exibe um alerta e impede a submissão do formulário
+            alert('Por favor, insira um CNPJ válido com 14 caracteres.');
             e.preventDefault();
         } else if (telefone.length !== 14) {
-            // Se o telefone não tiver exatamente 14 caracteres, exibe um alerta e impede a submissão do formulário
-            alert('Por favor, insira um telefone válido com 14 caracteres.');
+            // Se o telefone não tiver exatamente 11 caracteres, exibe um alerta e impede a submissão do formulário
+            alert('Por favor, insira um telefone válido com 11 caracteres.');
             e.preventDefault();
         } else if (cep.length !== 9) {
-            // Se o CEP não tiver exatamente 9 caracteres, exibe um alerta e impede a submissão do formulário
-            alert('Por favor, insira um CEP válido com 9 caracteres.');
+            // Se o CEP não tiver exatamente 8 caracteres, exibe um alerta e impede a submissão do formulário
+            alert('Por favor, insira um CEP válido com 8 caracteres.');
             e.preventDefault();
         }
     });

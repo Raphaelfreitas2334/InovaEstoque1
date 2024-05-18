@@ -46,6 +46,12 @@ namespace WebApplication1.Models
             Senha = Senha.GerarHash();
         }
 
+        public void SetEmailHash()
+        {
+            //isso e um metodo de extenção que esta ligado a criptografia pelo "this"
+            Email = Email.GerarHash();
+        }
+
         public void SetNovaSenha(string novaSenha)
         {
             //isso e um metodo de extenção que esta ligado a criptografia pelo "this"
