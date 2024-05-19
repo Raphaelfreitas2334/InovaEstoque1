@@ -1,4 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore;
+using Org.BouncyCastle.Utilities;
 using WebApplication1.Data.Map;
 using WebApplication1.Models;
 
@@ -36,6 +37,12 @@ namespace ControleDeContatos.Data
             .WithMany(a => a.fornecimento)
             .HasForeignKey(f => f.IdAlimento)
             .OnDelete(DeleteBehavior.Cascade);
+
+            modelBuilder.Entity<LogsModel>()
+            .HasOne(l => l.Alimento)
+            .WithMany(a => a.logs)
+            .HasForeignKey(l => l.IdAlimento)
+            .OnDelete(DeleteBehavior.SetNull);
 
             base.OnModelCreating(modelBuilder);
         }

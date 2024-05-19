@@ -20,16 +20,16 @@ namespace WebApplication1.Models
         public string obsDeSaida { get; set; }
         public string obsDeDevolucao { get; set; }
         public int FornecedorId { get; set; }
-
         public string FornecedorNome { get; set; } //quem cadastrou
         public DateTime? DataCadastro { get; set; }
 
-        [ForeignKey("Ususario")]
-        public int? IDusuario { get; set; }
-        public UsuarioModel usuario { get; set; }
 
+
+        //referencia para a tabela de junção de Logs
         public virtual List<LogsModel> logs { get; set; }
 
+
+        //referencia para a tabela de junção de Fornecimento
         public virtual List<FornecimentosModel> fornecimento { get; set; }
 
     }

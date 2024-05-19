@@ -10,7 +10,6 @@ namespace WebApplication1.Data.Map
         public void Configure(EntityTypeBuilder<AlimentoModel> builder)
         {
             builder.HasKey(x => x.Id);
-            builder.HasOne(x => x.usuario);
         }
     }
 }
