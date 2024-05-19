@@ -27,7 +27,8 @@ namespace WebApplication1.Models
 
         public Boolean Ativo { get; set; }
 
-        public virtual List<AlimentoModel> Alimento { get; set; }
+        //refetencia para a tebela de junção Logs
+        public virtual List<LogsModel> logs { get; set; }
 
         public bool SenhaValida(String senha)
         {

@@ -10,8 +10,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace WebApplication1.Migrations
 {
     [DbContext(typeof(BancoContext))]
-    [Migration("20240518021056_Atualizacao3.6")]
-    partial class Atualizacao36
+    [Migration("20240519002603_Atualizacao3.10")]
+    partial class Atualizacao310
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -74,8 +74,6 @@ namespace WebApplication1.Migrations
                         .HasColumnType("int");
 
                     b.HasKey("Id");
-
-                    b.HasIndex("FornecedorId");
 
                     b.HasIndex("usuarioId");
 
@@ -170,9 +168,6 @@ namespace WebApplication1.Migrations
                         .HasColumnType("int")
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
-                    b.Property<int?>("AlimentoId")
-                        .HasColumnType("int");
-
                     b.Property<DateTime?>("DataAtualizacao")
                         .HasColumnType("datetime2");
 
@@ -191,6 +186,9 @@ namespace WebApplication1.Migrations
                     b.Property<int?>("IdAlimento")
                         .HasColumnType("int");
 
+                    b.Property<int?>("IdUsuario")
+                        .HasColumnType("int");
+
                     b.Property<string>("NomeAlimeto")
                         .HasColumnType("nvarchar(max)");
 
@@ -206,6 +204,9 @@ namespace WebApplication1.Migrations
                     b.Property<string>("UsuarioEditou")
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<int?>("UsuarioId")
+                        .HasColumnType("int");
+
                     b.Property<string>("UsuarioRemovel")
                         .HasColumnType("nvarchar(max)");
 
@@ -220,7 +221,9 @@ namespace WebApplication1.Migrations
 
                     b.HasKey("Id");
 
-                    b.HasIndex("AlimentoId");
+                    b.HasIndex("IdAlimento");
+
+                    b.HasIndex("UsuarioId");
 
                     b.ToTable("Logs");
                 });
@@ -266,17 +269,9 @@ namespace WebApplication1.Migrations
 
             modelBuilder.Entity("WebApplication1.Models.AlimentoModel", b =>
                 {
-                    b.HasOne("WebApplication1.Models.FornecedorModel", "fornecedor")
-                        .WithMany()
-                        .HasForeignKey("FornecedorId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
                     b.HasOne("WebApplication1.Models.UsuarioModel", "usuario")
-                        .WithMany("Alimento")
+                        .WithMany()
                         .HasForeignKey("usuarioId");
-
-                    b.Navigation("fornecedor");
 
                     b.Navigation("usuario");
                 });
@@ -304,9 +299,15 @@ namespace WebApplication1.Migrations
                 {
                     b.HasOne("WebApplication1.Models.AlimentoModel", "Alimento")
                         .WithMany("logs")
-                        .HasForeignKey("AlimentoId");
+                        .HasForeignKey("IdAlimento");
+
+                    b.HasOne("WebApplication1.Models.UsuarioModel", "Usuario")
+                        .WithMany("logs")
+                        .HasForeignKey("UsuarioId");
 
                     b.Navigation("Alimento");
+
+                    b.Navigation("Usuario");
                 });
 
             modelBuilder.Entity("WebApplication1.Models.AlimentoModel", b =>
@@ -323,7 +324,7 @@ namespace WebApplication1.Migrations
 
             modelBuilder.Entity("WebApplication1.Models.UsuarioModel", b =>
                 {
-                    b.Navigation("Alimento");
+                    b.Navigation("logs");
                 });
 #pragma warning restore 612, 618
         }

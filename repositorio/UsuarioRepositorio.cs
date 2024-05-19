@@ -61,11 +61,39 @@ namespace WebApplication1.repositorio
             usuarioDB.DataAtualizacao = DateTime.Now;
             usuarioDB.Ativo = usuario.Ativo;
 
-            //mandadno os dados para o banco
-            _Context.Usuario.Update(usuarioDB);
+             //mandadno os dados para o banco
+                _Context.Usuario.Update(usuarioDB);
             _Context.SaveChanges();
 
-            return usuario;
+            // Agora, atualize cada Fornecimento relacionado
+            var Logs = _Context.Logs.Where(f => f.IdUsuario == usuario.Id).ToList();
+
+            foreach (var log in Logs)
+            {
+                if(log.UsuarioCadastrou != null)
+                {
+                    log.UsuarioCadastrou = usuario.NomeUsuario;
+                }
+                if(log.UsuarioDevolvel != null)
+                {
+                    log.UsuarioDevolvel = usuario.NomeUsuario;
+                }
+                if(log.UsuarioEditou != null)
+                {
+                    log.UsuarioEditou = usuario.NomeUsuario;
+                }
+                if(log.UsuarioRetirou != null)
+                {
+                    log.UsuarioRetirou = usuario.NomeUsuario;
+                }
+                if(log.UsuarioRemovel != null)
+                {
+                    log.UsuarioRemovel = usuario.NomeUsuario;
+                }
+            }
+
+            _Context.SaveChanges();
+            return usuarioDB;
         }
 
         public UsuarioModel AlterarSenha(AlterarSenhaModel alterarSenhaModel)

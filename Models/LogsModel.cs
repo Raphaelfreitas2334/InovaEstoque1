@@ -1,11 +1,13 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace WebApplication1.Models
 {
     public class LogsModel
     {
+        [Key]
         public int Id { get; set; }
         public string? UsuarioCadastrou { get; set; } 
         public string? NomeAlimeto { get; set; } 
@@ -22,10 +24,13 @@ namespace WebApplication1.Models
         public string obsDeSaida { get; set; }
         public string obsDeDevolucao { get; set; }
 
+        [ForeignKey("Alimento")]
         public int? IdAlimento { get; set; }
         public AlimentoModel Alimento { get; set; }
 
-
+        [ForeignKey("Ususario")]
+        public int? IdUsuario { get; set; }
+        public UsuarioModel Usuario { get; set; }
 
     }
 }

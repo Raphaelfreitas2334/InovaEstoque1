@@ -10,6 +10,7 @@ namespace WebApplication1.Data.Map
         {
             builder.HasKey(e => e.Id);
             builder.HasOne(e => e.Alimento);
+            builder.HasOne(e => e.Usuario);
         }
     }
 }

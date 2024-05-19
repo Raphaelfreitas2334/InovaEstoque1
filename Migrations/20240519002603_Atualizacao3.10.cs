@@ -3,7 +3,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace WebApplication1.Migrations
 {
-    public partial class CriandoBanco : Migration
+    public partial class Atualizacao310 : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -63,8 +63,8 @@ namespace WebApplication1.Migrations
                     FornecedorId = table.Column<int>(type: "int", nullable: false),
                     FornecedorNome = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     DataCadastro = table.Column<DateTime>(type: "datetime2", nullable: true),
-                    usuarioId = table.Column<int>(type: "int", nullable: true),
-                    IDusuario = table.Column<int>(type: "int", nullable: true)
+                    IDusuario = table.Column<int>(type: "int", nullable: true),
+                    usuarioId = table.Column<int>(type: "int", nullable: true)
                 },
                 constraints: table =>
                 {
@@ -90,9 +90,9 @@ namespace WebApplication1.Migrations
                     CEP = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     NumeroResidencia = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     IdAlimento = table.Column<int>(type: "int", nullable: false),
-                    nomeAlimento = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    dataVencimento = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    unidadeMedida = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    NomeAlimento = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    DataVencimento = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    UnidadeMedida = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     QuantidadeFornecida = table.Column<double>(type: "float", nullable: true)
                 },
                 constraints: table =>
@@ -133,15 +133,22 @@ namespace WebApplication1.Migrations
                     obsDeSaida = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     obsDeDevolucao = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     IdAlimento = table.Column<int>(type: "int", nullable: true),
-                    AlimentoId = table.Column<int>(type: "int", nullable: true)
+                    IdUsuario = table.Column<int>(type: "int", nullable: true),
+                    UsuarioId = table.Column<int>(type: "int", nullable: true)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_Logs", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_Logs_Alimentos_AlimentoId",
-                        column: x => x.AlimentoId,
+                        name: "FK_Logs_Alimentos_IdAlimento",
+                        column: x => x.IdAlimento,
                         principalTable: "Alimentos",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Restrict);
+                    table.ForeignKey(
+                        name: "FK_Logs_Usuario_UsuarioId",
+                        column: x => x.UsuarioId,
+                        principalTable: "Usuario",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Restrict);
                 });
@@ -162,9 +169,14 @@ namespace WebApplication1.Migrations
                 column: "IdFornecedor");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Logs_AlimentoId",
+                name: "IX_Logs_IdAlimento",
                 table: "Logs",
-                column: "AlimentoId");
+                column: "IdAlimento");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Logs_UsuarioId",
+                table: "Logs",
+                column: "UsuarioId");
         }
 
         protected override void Down(MigrationBuilder migrationBuilder)

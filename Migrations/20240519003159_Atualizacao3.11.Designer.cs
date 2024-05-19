@@ -10,8 +10,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace WebApplication1.Migrations
 {
     [DbContext(typeof(BancoContext))]
-    [Migration("20240518023558_Atualizacao3.8")]
-    partial class Atualizacao38
+    [Migration("20240519003159_Atualizacao3.11")]
+    partial class Atualizacao311
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -31,14 +31,11 @@ namespace WebApplication1.Migrations
                     b.Property<DateTime?>("DataCadastro")
                         .HasColumnType("datetime2");
 
+                    b.Property<int>("FornecedorId")
+                        .HasColumnType("int");
+
                     b.Property<string>("FornecedorNome")
                         .HasColumnType("nvarchar(max)");
-
-                    b.Property<int?>("IDusuario")
-                        .HasColumnType("int");
-
-                    b.Property<int>("NumeroFornecedor")
-                        .HasColumnType("int");
 
                     b.Property<string>("dataVencimento")
                         .HasColumnType("nvarchar(max)");
@@ -70,12 +67,7 @@ namespace WebApplication1.Migrations
                     b.Property<string>("unidadeMedida")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<int?>("usuarioId")
-                        .HasColumnType("int");
-
                     b.HasKey("Id");
-
-                    b.HasIndex("usuarioId");
 
                     b.ToTable("Alimentos");
                 });
@@ -168,9 +160,6 @@ namespace WebApplication1.Migrations
                         .HasColumnType("int")
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
-                    b.Property<int?>("AlimentoId")
-                        .HasColumnType("int");
-
                     b.Property<DateTime?>("DataAtualizacao")
                         .HasColumnType("datetime2");
 
@@ -189,6 +178,9 @@ namespace WebApplication1.Migrations
                     b.Property<int?>("IdAlimento")
                         .HasColumnType("int");
 
+                    b.Property<int?>("IdUsuario")
+                        .HasColumnType("int");
+
                     b.Property<string>("NomeAlimeto")
                         .HasColumnType("nvarchar(max)");
 
@@ -204,6 +196,9 @@ namespace WebApplication1.Migrations
                     b.Property<string>("UsuarioEditou")
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<int?>("UsuarioId")
+                        .HasColumnType("int");
+
                     b.Property<string>("UsuarioRemovel")
                         .HasColumnType("nvarchar(max)");
 
@@ -218,7 +213,9 @@ namespace WebApplication1.Migrations
 
                     b.HasKey("Id");
 
-                    b.HasIndex("AlimentoId");
+                    b.HasIndex("IdAlimento");
+
+                    b.HasIndex("UsuarioId");
 
                     b.ToTable("Logs");
                 });
@@ -262,15 +259,6 @@ namespace WebApplication1.Migrations
                     b.ToTable("Usuario");
                 });
 
-            modelBuilder.Entity("WebApplication1.Models.AlimentoModel", b =>
-                {
-                    b.HasOne("WebApplication1.Models.UsuarioModel", "usuario")
-                        .WithMany("Alimento")
-                        .HasForeignKey("usuarioId");
-
-                    b.Navigation("usuario");
-                });
-
             modelBuilder.Entity("WebApplication1.Models.FornecimentosModel", b =>
                 {
                     b.HasOne("WebApplication1.Models.AlimentoModel", "Alimento")
@@ -294,9 +282,15 @@ namespace WebApplication1.Migrations
                 {
                     b.HasOne("WebApplication1.Models.AlimentoModel", "Alimento")
                         .WithMany("logs")
-                        .HasForeignKey("AlimentoId");
+                        .HasForeignKey("IdAlimento");
+
+                    b.HasOne("WebApplication1.Models.UsuarioModel", "Usuario")
+                        .WithMany("logs")
+                        .HasForeignKey("UsuarioId");
 
                     b.Navigation("Alimento");
+
+                    b.Navigation("Usuario");
                 });
 
             modelBuilder.Entity("WebApplication1.Models.AlimentoModel", b =>
@@ -313,7 +307,7 @@ namespace WebApplication1.Migrations
 
             modelBuilder.Entity("WebApplication1.Models.UsuarioModel", b =>
                 {
-                    b.Navigation("Alimento");
+                    b.Navigation("logs");
                 });
 #pragma warning restore 612, 618
         }

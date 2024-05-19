@@ -39,12 +39,21 @@ namespace ControleContatos.Repositorio
                 string dataFormatada = dataConvertida.ToString("dd-MM-yyyy");
                 //joga a data no formato Brasileiro no objeto alimeto
                 alimento.dataVencimento = dataFormatada;
-                alimento.FornecedorNome = alimento.FornecedorId.ToString();
-
                 alimento.quantidadeRetirada = alimento.quantidadeRetirada;
                 alimento.DataCadastro = DateTime.Now;
+
                 _bancoContext.Alimentos.Add(alimento);
                 _bancoContext.SaveChanges();
+
+                var fornecedor = _bancoContext.Fornecedor.Where(f => f.Id == alimento.FornecedorId).ToList();
+
+                foreach(var item in fornecedor)
+                {
+                    alimento.FornecedorNome = item.nomeFornecedor;
+                }
+
+                _bancoContext.SaveChanges();
+
                 return alimento;
         }
 
@@ -65,7 +74,7 @@ namespace ControleContatos.Repositorio
             alimentoDB.quantidadeMaxima = alimento.quantidadeMaxima;
             alimentoDB.quantidadeMinima = alimento.quantidadeMinima;
             alimentoDB.quantidadeAtual = alimento.quantidadeAtual;
-            alimentoDB.IDusuario = alimento.IDusuario;
+           
 
             _bancoContext.Alimentos.Update(alimentoDB);
             _bancoContext.SaveChanges();
@@ -79,7 +88,7 @@ namespace ControleContatos.Repositorio
             AlimentoModel alimentoDB = listarPorID(alimento.Id);
             if (alimentoDB == null) throw new System.Exception("Houve um erro ao gerar a saida do alimento");
             
-            alimentoDB.IDusuario = alimento.IDusuario;
+          
             if (alimento.quantidadeRetirada > alimentoDB.quantidadeAtual) throw new System.Exception("Não pode retirar mais do que tem no estoque");
             alimentoDB.quantidadeAtual = alimentoDB.quantidadeAtual - alimento.quantidadeRetirada;
 
@@ -97,7 +106,7 @@ namespace ControleContatos.Repositorio
             if (alimento.quantidadeDevolvida < 1) throw new System.Exception("Não pode devolver menos que 1");
             if (alimento.quantidadeDevolvida == alimentoDB.quantidadeAtual) throw new System.Exception("Não pode devolver a mesma quantidade que a quantidade atual");
 
-            alimentoDB.IDusuario = alimento.IDusuario;
+            
 
             alimentoDB.quantidadeAtual = alimentoDB.quantidadeAtual + alimento.quantidadeDevolvida;
             //alimentoDB.DataDevolve = DateTime.Now;
@@ -112,7 +121,12 @@ namespace ControleContatos.Repositorio
         {
             AlimentoModel alimentoDB = listarPorID(id);
             if (alimentoDB == null) throw new System.Exception("Houve um erro na atualização do alimento");
-            
+
+            var logs = _bancoContext.Logs.Where(l => l.IdAlimento == id);
+            foreach (var log in logs)
+            {
+                log.IdAlimento = null;
+            }
             _bancoContext.Alimentos.Remove(alimentoDB);
             _bancoContext.SaveChanges();
             return true;
