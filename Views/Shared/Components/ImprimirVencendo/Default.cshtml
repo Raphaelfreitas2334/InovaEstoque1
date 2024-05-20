@@ -5,5 +5,5 @@
 
 @if (Model.Funcao == WebApplication1.Enums.PerfilEnum.adimin)
 {
-    @await Component.InvokeAsync("FiltroAdmin")
+    <a asp-action="viewImprimirVencendo" asp-controller="Alimento" class="btn btn-primary">Gerar relatorio</a>
 }
