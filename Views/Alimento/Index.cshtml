@@ -1,10 +1,11 @@
 ﻿@model List<AlimentoModel>
 @{
+    Layout = "_LayoutMenuDentro";
     ViewData["Title"] = "Listagem de Alimentos";
 }
 
 
-<link rel="stylesheet" href="~/css/EstoqueCSS/indexEstoque.css" />
+<link rel="stylesheet" href="~/css/AlimentoCSS/indexAlimento.css" />
 
 
 <div id="alertasDaPagina">
@@ -30,18 +31,6 @@
         <div id="box-title">
             <div>
                 @await Component.InvokeAsync("BotaoAlimentos")
-            </div>
-        </div>
-        <div id="invisivel">
-            <!-- Botão de impressão e barra de progresso -->
-            <div class="custom-print-container">
-                <button class="custom-print-button" onclick="showLoading()">Imprimir esta página</button>
-                <!-- Barra de progresso (inicialmente oculta) -->
-                <div id="loading-container" style="display: none;">
-                    <div class="progress">
-                        <div id="loading-bar" class="progress-bar progress-bar-striped progress-bar-animated" role="progressbar" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100" style="width: 0%"></div>
-                    </div>
-                </div>
             </div>
         </div>
         <div class="table-responsive">
@@ -102,10 +91,18 @@
                                             Configurações
                                         </button>
                                         <div class="dropdown-menu" aria-labelledby="@uniqueId">
-                                            <a onclick="javascrip:" alimento-id="@alimento.Id" class="btn btn-sm btn-Modal-Editar-Alimento"><img id="iconEditar" src="~/imagens/btn_editar.png"></a>
-                                            <a onclick="javascrip:" alimento-id="@alimento.Id" class="btn btn-sm btn-Modal-Apagar-Alimento"><img id="iconExcluir" src="~/imagens/btn_excluir.png"></a>
-                                            <a onclick="javascrip:" alimento-id="@alimento.Id" class="btn btn-sm btn-Modal-Saida-Alimento"><img id="iconExcluir" src="~/imagens/btn_Retira.png"></a>
-                                            <a onclick="javascrip:" alimento-id="@alimento.Id" class="btn btn-sm btn-Modal-Devolve-Alimento"><img id="iconEditar" src="~/imagens/btn_devolve.png"></a>
+                                            <a class="dropdown-item btn btn-sm btn-Modal-Editar-Alimento" onclick="javascript:" alimento-id="@alimento.Id">
+                                                <img id="iconEditar" alt="Editar" src="~/imagens/btn_editar.png">Editar
+                                            </a>
+                                            <a class="dropdown-item btn btn-sm btn-Modal-Apagar-Alimento" onclick="javascript:" alimento-id="@alimento.Id">
+                                                <img id="iconExcluir" alt="Excluir" src="~/imagens/btn_excluir.png">Excluir
+                                            </a>
+                                            <a class="dropdown-item btn btn-sm btn-Modal-Saida-Alimento" onclick="javascript:void(0);" alimento-id="@alimento.Id">
+                                                <img id="iconExcluir" alt="Retirar" src="~/imagens/btn_Retira.png">Retirar
+                                            </a>
+                                            <a class="dropdown-item btn btn-sm btn-Modal-Devolve-Alimento" onclick="javascript:void(0);" alimento-id="@alimento.Id">
+                                                <img id="iconEditar" alt="Devolver" src="~/imagens/btn_devolve.png">Devolver
+                                            </a>
                                         </div>
                                     </div>
                                 </td>

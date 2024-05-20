@@ -6,7 +6,8 @@
 
 <link rel="stylesheet" href="~/css/AlimentoCSS/indexAlimento.css" />
 
-<a asp-action="viewImprimirVencendo" asp-controller="Alimento" class="btn btn-primary">Gerar relatorio</a>
+@await Component.InvokeAsync("ImprimirVencendo")
+
 <section>
     <table class="table table-striped table-hover table-Vencendo" id="table-Vencendo">
         <thead class="thead-custom">

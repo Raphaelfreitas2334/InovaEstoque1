@@ -6,7 +6,7 @@
 
 <link rel="stylesheet" href="~/css/EstoqueCSS/indexEstoque.css" />
 
-<a asp-action="viewImprimirAcabando" asp-controller="Alimento" class="btn btn-primary">Gerar relatorio</a>
+@await Component.InvokeAsync("ImprimirAcabando")
 
 <section>
 

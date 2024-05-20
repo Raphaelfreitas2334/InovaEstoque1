@@ -5,11 +5,19 @@
 
 <h1>Lista de Alimentos</h1>
 
-<link rel="stylesheet" href="~/css/EstoqueCSS/indexEstoque.css" />
 @if (Model.Funcao == WebApplication1.Enums.PerfilEnum.adimin)
 {
     <a onclick="javascrip:" class="btn btn-sm btn-Modal-Criar-Alimento" id="btnNovoAlimento">Adicionar novo Alimento</a>
     <a class="btn btn-sm btn-Modal-Criar-Alimento" id="btnNovoAlimento" asp-area="" asp-controller="Logs" asp-action="Index">logs</a>
+    <a class="btn btn-sm custom-print-button" id="btnNovoAlimento" onclick="showLoading()">Imprimir esta página</a>
+    <!-- Barra de progresso (inicialmente oculta) -->
+    <div id="loading-container" style="display: none;">
+         <div class="progress">
+            <div id="loading-bar" class="progress-bar progress-bar-striped progress-bar-animated" role="progressbar" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100" style="width: 0%"></div>
+         </div>
+    </div>
+     
+   
 }
 <a onclick="javascrip:" class="btn btn-sm btn-Modal-Listar-AlimentoAcabando" id="btnNovoAlimento">Alimentos abaixo do nivel</a>
 <a onclick="javascrip:" class="btn btn-sm btn-Modal-Listar-AlimentoVencendo" id="btnNovoAlimento">Alimentos Perto de vencer</a>
