@@ -3,18 +3,31 @@
     ViewData["Title"] = "Listagem logs de retiradas de Alimentos";
 }
 
-
-
 <link rel="stylesheet" href="~/css/EstoqueCSS/indexEstoque.css" />
-
- @if (Model != null && Model.Any())
+@{
+    //trazendo a lista de alimentos processados
+    HashSet<int> alimentosProcessadosCozinheiro = (HashSet<int>)ViewData["alimentosProcessadosCozinheiro"];
+}
+@if (Model != null && Model.Any())
 {
-    <!-- Exibe os botões apenas uma vez -->
-    <a class="dropdown-item btn btn-sm btn-Modal-Saida-Alimento" onclick="javascrip:" alimento-id="@Model.FirstOrDefault().Id">
-        <img id="iconExcluir" alt="Retirar" src="~/imagens/btn_Retira.png">Retirar
-    </a>
-    <a class="dropdown-item btn btn-sm btn-Modal-Devolve-Alimento" onclick="javascrip:" alimento-id="@Model.FirstOrDefault().Id">
-        <img id="iconEditar" alt="Devolver" src="~/imagens/btn_devolve.png">Devolver
-    </a>
+    bool status = true;
 
+    foreach (AlimentoModel alimento in Model)
+    {
+        // Verifica se o alimento já foi processado e se o status dele e true
+        if (!alimentosProcessadosCozinheiro.Contains(alimento.Id) && status == true)
+        {
+            // Execute as ações desejadas para o alimento
+            <!-- Exibe os botões apenas uma vez -->
+            <a class="dropdown-item btn btn-sm btn-Modal-Saida-Alimento" onclick="javascrip:" alimento-id="@alimento.Id">
+                <img id="iconExcluir" alt="Retirar" src="~/imagens/btn_Retira.png">Retirar
+            </a>
+                        <a class="dropdown-item btn btn-sm btn-Modal-Devolve-Alimento" onclick="javascrip:" alimento-id="@alimento.Id">
+                <img id="iconEditar" alt="Devolver" src="~/imagens/btn_devolve.png">Devolver
+            </a>
+            // Adicione o ID do alimento ao conjunto de alimentos processados e muda o status para false 
+            alimentosProcessadosCozinheiro.Add(alimento.Id);
+            status = false;
+        }
+    }
 }

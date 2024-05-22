@@ -4,6 +4,7 @@
 <link rel="stylesheet" href="~/css/EstoqueCSS/indexEstoque.css" />
 
 @if (Model.Funcao == WebApplication1.Enums.PerfilEnum.adimin)
-{
-    @await Component.InvokeAsync("FiltroAdmin")
+{   
+    @await Component.InvokeAsync("FiltroAdmin", new { AlimentosProcessados = ViewData["AlimentosProcessados"] })
 }
+    @await Component.InvokeAsync("FiltroCozinheiro", new { alimentosProcessadosCozinheiro = ViewData["alimentosProcessadosCozinheiro"] })
