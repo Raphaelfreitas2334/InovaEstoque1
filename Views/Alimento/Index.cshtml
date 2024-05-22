@@ -49,6 +49,12 @@
                         <th scope="col" id="invisivel">Config</th>
                     </tr>
                 </thead>
+                @{
+                    HashSet<int> alimentosProcessados = new HashSet<int>();
+                    ViewData["AlimentosProcessados"] = alimentosProcessados;
+                    HashSet<int> alimentosProcessadosCozinheiro = new HashSet<int>();
+                    ViewData["alimentosProcessadosCozinheiro"] = alimentosProcessadosCozinheiro;
+                 }
                 <tbody>
                     @if (Model != null && Model.Any())
                     {
@@ -91,18 +97,7 @@
                                             Configurações
                                         </button>
                                         <div class="dropdown-menu" aria-labelledby="@uniqueId">
-                                            <a class="dropdown-item btn btn-sm btn-Modal-Editar-Alimento" onclick="javascript:" alimento-id="@alimento.Id">
-                                                <img id="iconEditar" alt="Editar" src="~/imagens/btn_editar.png">Editar
-                                            </a>
-                                            <a class="dropdown-item btn btn-sm btn-Modal-Apagar-Alimento" onclick="javascript:" alimento-id="@alimento.Id">
-                                                <img id="iconExcluir" alt="Excluir" src="~/imagens/btn_excluir.png">Excluir
-                                            </a>
-                                            <a class="dropdown-item btn btn-sm btn-Modal-Saida-Alimento" onclick="javascript:void(0);" alimento-id="@alimento.Id">
-                                                <img id="iconExcluir" alt="Retirar" src="~/imagens/btn_Retira.png">Retirar
-                                            </a>
-                                            <a class="dropdown-item btn btn-sm btn-Modal-Devolve-Alimento" onclick="javascript:void(0);" alimento-id="@alimento.Id">
-                                                <img id="iconEditar" alt="Devolver" src="~/imagens/btn_devolve.png">Devolver
-                                            </a>
+                                            @await Component.InvokeAsync("FiltroDropdownAlimentos")
                                         </div>
                                     </div>
                                 </td>
