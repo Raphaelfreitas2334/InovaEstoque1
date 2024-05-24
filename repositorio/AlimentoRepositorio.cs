@@ -104,7 +104,6 @@ namespace ControleContatos.Repositorio
             if (alimentoDB == null) throw new System.Exception("Houve um erro na atualização do alimento");
             if (alimento.quantidadeDevolvida > alimentoDB.quantidadeMaxima) throw new System.Exception("Não pode devolver mais do que a quantidade maxima");
             if (alimento.quantidadeDevolvida < 1) throw new System.Exception("Não pode devolver menos que 1");
-            if (alimento.quantidadeDevolvida == alimentoDB.quantidadeAtual) throw new System.Exception("Não pode devolver a mesma quantidade que a quantidade atual");
 
             
 

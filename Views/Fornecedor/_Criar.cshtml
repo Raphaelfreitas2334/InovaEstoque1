@@ -85,28 +85,66 @@
         }
     });
 
-    function validateCnpj() {
-        let cnpj = document.getElementById('cnpj');
-        let message = document.getElementById('cnpjMessage');
+    function validateCnpj(cnpj) {
+    // Remove caracteres não numéricos
+    cnpj = cnpj.replace(/\D/g, '');
 
-        cnpj.value = cnpj.value.replace(/\D/g, ''); // Remove qualquer caractere que não seja dígito
-        cnpj.value = cnpj.value.replace(/^(\d{2})(\d)/, '$1.$2'); // Insere ponto após o segundo dígito
-        cnpj.value = cnpj.value.replace(/^(\d{2})\.(\d{3})(\d)/, '$1.$2.$3'); // Insere ponto após o quinto dígito
-        cnpj.value = cnpj.value.replace(/\.(\d{3})(\d)/, '.$1/$2'); // Insere uma barra após o oitavo dígito
-        cnpj.value = cnpj.value.replace(/(\d{4})(\d)/, '$1-$2'); // Insere um hífen depois do segundo dígito
-
-        if (cnpj.value.length > 18) {
-            cnpj.value = cnpj.value.slice(0, 18);
-        }
-
-        if (cnpj.value.length === 18) {
-            message.textContent = 'CNPJ válido';
-            message.style.color = 'green';
-        } else {
-            message.textContent = 'CNPJ incompleto';
-            message.style.color = 'red';
-        }
+    // Verifica se o CNPJ tem 14 dígitos
+    if (cnpj.length !== 14) {
+        return false;
     }
+
+    // Calcula o primeiro dígito verificador
+    let sum = 0;
+    for (let i = 0; i < 12; i++) {
+        sum += parseInt(cnpj[i]) * (i < 4 ? 5 - i : 13 - i);
+    }
+    let digit1 = (sum % 11) < 2 ? 0 : 11 - (sum % 11);
+
+    // Verifica o primeiro dígito verificador
+    if (parseInt(cnpj[12]) !== digit1) {
+        return false;
+    }
+
+    // Calcula o segundo dígito verificador
+    sum = 0;
+    for (let i = 0; i < 13; i++) {
+        sum += parseInt(cnpj[i]) * (i < 5 ? 6 - i : 14 - i);
+    }
+    let digit2 = (sum % 11) < 2 ? 0 : 11 - (sum % 11);
+
+    // Verifica o segundo dígito verificador
+    if (parseInt(cnpj[13]) !== digit2) {
+        return false;
+    }
+
+    return true;
+}
+
+// Função para formatar o CNPJ
+function formatCnpj(cnpj) {
+    cnpj = cnpj.replace(/\D/g, ''); // Remove caracteres não numéricos
+    cnpj = cnpj.replace(/^(\d{2})(\d)/, '$1.$2'); // Insere ponto após o segundo dígito
+    cnpj = cnpj.replace(/^(\d{2})\.(\d{3})(\d)/, '$1.$2.$3'); // Insere ponto após o quinto dígito
+    cnpj = cnpj.replace(/\.(\d{3})(\d)/, '.$1/$2'); // Insere uma barra após o oitavo dígito
+    cnpj = cnpj.replace(/(\d{4})(\d)/, '$1-$2'); // Insere um hífen depois do segundo dígito
+
+    return cnpj;
+}
+
+// Exemplo de uso:
+const cnpjToValidate = '11.444.777/0001-61'; // Insira o CNPJ que deseja validar
+const isValid = validateCnpj(cnpjToValidate);
+const formattedCnpj = formatCnpj(cnpjToValidate);
+
+// Exibe a mensagem de acordo com a validação
+if (isValid) {
+    message.textContent = `CNPJ válido: ${formattedCnpj}`;
+    message.style.color = 'green';
+} else {
+    message.textContent = 'CNPJ inválido';
+    message.style.color = 'red';
+}
 
     function validarTelefone() {
         let telefone = document.getElementById('telefone');
