@@ -11,7 +11,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
     <meta name="description" content="" />
     <meta name="author" content="" />
-    <title>Personal - Start Bootstrap Theme</title>
+    <title>Inicio</title>
     <!-- Favicon-->
     <link rel="icon" type="image/x-icon" href="~/imagens/favicon.ico" />
     <!-- Custom Google font-->
@@ -28,7 +28,7 @@
         <!-- Navigation-->            
         <nav class="navbar navbar-expand-lg navbar-light bg-dark py-3 navbar-custom fixed-top">
             <div class="container px-5">
-                <h4><a><span class="fw-bolder text-white">InovaEstoque</span></a></h4>
+                <h4><a><span class="fw-bolder text-white"><img src="~/imagens/logo_InovaEstoque.png" style="width: 100px; height: auto;" /></span></a></h4>
                 <button class="navbar-toggler bg-white" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation"><span class="navbar-toggler-icon"></span></button>
                 <div class="collapse navbar-collapse" id="navbarSupportedContent">
                     <ul class="navbar-nav ms-auto mb-2 mb-lg-0 small fw-bolder">
@@ -61,47 +61,57 @@
                             <div class="carousel-inner">
                                 <div class="carousel-item active">
                                     <br />
-                                <img src="~/imagens/carrosel1.png" style="height: 530px;" class="d-block w-100" alt="...">
+                                    <div class="carousel-image-container">
+                                        <img src="~/imagens/carrosel1.png" style="height: 530px;" class="d-block w-100" alt="...">
+                                        <img src="~/imagens/logo_InovaEstoque_branca.png" class="middle-image" alt="Middle Image">
+                                    </div>
                                     <div class="carousel-caption d-none d-md-block">
-                                        <div class="badge  text-white mb-4">
-                                            <div >
+                                        <div class="badge text-white mb-4">
+                                            <div>
                                                 <h5>ESTOQUE</h5>
                                                 <p>
-                                                    Informatize seu estoque de forma mais eficiente com o InovaEstoque,nosso sistema que controla a entrada <br /> 
+                                                    Informatize seu estoque de forma mais eficiente com o InovaEstoque, nosso sistema que controla a entrada <br />
                                                     e saída de alimentos, gerencia a data de validade dos produtos e mantém um controle eficaz dos fornecedores.
                                                 </p>
                                             </div>
                                         </div>
                                     </div>
                                 </div>
-                                <div class="carousel-item">
+                        <div class="carousel-item">
+                            <div class="carousel-image-container">
                                 <img src="~/imagens/carrosel2.png" style="height: 551px;" class="d-block w-100" alt="logo">
-                                    <div class="carousel-caption d-none d-md-block">
-                                        <div class="badge  text-white mb-4">
-                                            <div>
-                                                <h5>INFORMATIZAÇÂO</h5>
-                                                <p>
-                                                    Em um mundo cada vez mais digital, a gestão eficiente do estoque é crucial para o sucesso de qualquer negócio,<br />
-                                                    especialmente aqueles que lidam com alimentos. É aqui que o InovaEstoque entra.
-                                                </p>
-                                            </div>
-                                        </div>
+                                <img src="~/imagens/logo_InovaEstoque_branca.png" class="middle-image" alt="Middle Image">
+                            </div>
+                            <div class="carousel-caption d-none d-md-block">
+                                <div class="badge text-white mb-4">
+                                    <div>
+                                        <h5>INFORMATIZAÇÂO</h5>
+                                        <p>
+                                            Em um mundo cada vez mais digital, a gestão eficiente do estoque é crucial para o sucesso de qualquer negócio,<br />
+                                            especialmente aqueles que lidam com alimentos. É aqui que o InovaEstoque entra.
+                                        </p>
                                     </div>
                                 </div>
-                                <div class="carousel-item">
+                            </div>
+                        </div>
+
+                        <div class="carousel-item">
+                            <div class="carousel-image-container">
                                 <img src="~/imagens/carrosel3.png" style="height: 551px;" class="d-block w-100" alt="...">
-                                    <div class="carousel-caption d-none d-md-block">
-                                        <div class="badge  text-white mb-4">
-                                            <div>
-                                                <h5>CONTROLE</h5>
-                                                <p>
-                                                    O InovaEstoque é um sistema revolucionário que transforma a maneira como você gerencia seu estoque de alimentos.<br />
-                                                    Ele monitora de perto cada item do seu estoque, desde o momento em que é recebido até o momento em que é retirado.
-                                                </p>
-                                            </div>
-                                        </div>
+                                <img src="~/imagens/logo_InovaEstoque_branca.png" class="middle-image" alt="Middle Image">
+                            </div>
+                            <div class="carousel-caption d-none d-md-block">
+                                <div class="badge text-white mb-4">
+                                    <div>
+                                        <h5>CONTROLE</h5>
+                                        <p>
+                                            O InovaEstoque é um sistema revolucionário que transforma a maneira como você gerencia seu estoque de alimentos.<br />
+                                            Ele monitora de perto cada item do seu estoque, desde o momento em que é recebido até o momento em que é retirado.
+                                        </p>
                                     </div>
                                 </div>
+                            </div>
+                        </div>
                             </div>
                             <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleCaptions" data-bs-slide="prev">
                                 <span class="carousel-control-prev-icon" aria-hidden="true"></span>
@@ -299,3 +309,19 @@
     <script src="~/js/scripts_Inicio.js"></script>
 </body>
 </html>
+
+<style>
+    .carousel-image-container {
+        position: relative;
+    }
+
+        .carousel-image-container img.middle-image {
+            position: absolute;
+            top: 38%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            /* Ajuste o tamanho da imagem conforme necessário */
+            width: 400px;
+            height: auto;
+        }
+</style>

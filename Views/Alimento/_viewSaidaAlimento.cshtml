@@ -3,7 +3,7 @@
     ViewData["Title"] = "Novo alimento";
 }
 
-<link rel="stylesheet" href="~/css/AlimentoCSS/cadastrarAlimento.css" />
+<link rel="stylesheet" href="~/css/SaidaAlimentos.css" />
 
 <div>
     <form asp-controller="Alimento" asp-action="SaidaDeAlimento" method="POST" id="formAlimento">
@@ -14,7 +14,7 @@
             </div>
             <div class="mb-3">
                 <label for="nomeAlimento" class="form-label">Nome do alimento</label>
-                <input type="text" class="form-control" id="nomeAlimento" placeholder="Macarrão" asp-for="nomeAlimento">
+                <input type="text" class="form-control" id="nomeAlimento" placeholder="Macarrão" asp-for="nomeAlimento" readonly="readonly">
                 @Html.ValidationMessageFor(x => x.nomeAlimento)
             </div>
             <div class="mb-3">
@@ -33,11 +33,8 @@
                 <textarea class="form-control" id="obsDeSaida" type="text" placeholder="Escreva uma observação..." style="height: 10rem" data-sb-validations="required" asp-for="obsDeSaida"></textarea>
                 <div class="invalid-feedback" data-sb-feedback="obsDeSaida:required">Escreva uma observação</div>
             </div>
-            <div id="contBtns">
-                <button id="btnSalvar">Salvar</button>
-            </div>
             <div id="btnCancelar">
-                <button asp-controller="Alimento" asp-action="Index" id="btnSalvar">Cancelar</button>
+                <button id="btnSalvar">Salvar</button>
             </div>
         </div>
     </form>
@@ -48,11 +45,10 @@
 
 <script>
     document.getElementById('formAlimento').addEventListener('submit', function (e) {
-        var nomeAlimento = document.getElementById('nomeAlimento').value;
         var quantidadeRetirada = document.getElementById('qtdeRetirada').value;
         var obsDeSaida = document.getElementById('obsDeSaida').value;
 
-        if (nomeAlimento === '' || quantidadeRetirada === '' || obsDeSaida === '') {
+        if (quantidadeRetirada === '' || obsDeSaida === '') {
             // Se algum campo estiver vazio, exibe um alerta e impede a submissão do formulário
             alert('Por favor, preencha todos os campos.');
             e.preventDefault();
