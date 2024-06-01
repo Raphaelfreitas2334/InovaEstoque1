@@ -171,7 +171,7 @@ namespace WebApplication1.Controllers
                         }
                         if (alimento.quantidadeAtual < alimento.quantidadeMinima)
                         {
-                            TempData["ERRO"] = "Você não pode cadastrar uma quantidades menor que a quantidade minina!";
+                            TempData["ERRO"] = "Você não pode cadastrar uma quantidades menor que a quantidade minima!";
                             return RedirectToAction("Index");
                         }
                         if (alimento.quantidadeAtual > alimento.quantidadeMaxima)
