@@ -28,7 +28,7 @@
         <!-- Navigation-->            
         <nav class="navbar navbar-expand-lg navbar-light bg-dark py-3 navbar-custom fixed-top">
             <div class="container px-5">
-                <h4><a><span class="fw-bolder text-white"><img src="~/imagens/logo_InovaEstoque.png" style="width: 100px; height: auto;" /></span></a></h4>
+                <h4><a><span class="fw-bolder text-white"><img src="~/imagens/logo_InovaEstoque_branca.png" style="width: 100px; height: auto;" /></span></a></h4>
                 <button class="navbar-toggler bg-white" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation"><span class="navbar-toggler-icon"></span></button>
                 <div class="collapse navbar-collapse" id="navbarSupportedContent">
                     <ul class="navbar-nav ms-auto mb-2 mb-lg-0 small fw-bolder">
@@ -62,7 +62,7 @@
                                 <div class="carousel-item active">
                                     <br />
                                     <div class="carousel-image-container">
-                                        <img src="~/imagens/carrosel1.png" style="height: 530px;" class="d-block w-100" alt="...">
+                                        <img src="~/imagens/fundo.png" style="height: 530px;" class="d-block w-100" alt="...">
                                         <img src="~/imagens/logo_InovaEstoque_branca.png" class="middle-image" alt="Middle Image">
                                     </div>
                                     <div class="carousel-caption d-none d-md-block">
@@ -79,7 +79,7 @@
                                 </div>
                         <div class="carousel-item">
                             <div class="carousel-image-container">
-                                <img src="~/imagens/carrosel2.png" style="height: 551px;" class="d-block w-100" alt="logo">
+                                <img src="~/imagens/fundo.png" style="height: 551px;" class="d-block w-100" alt="logo">
                                 <img src="~/imagens/logo_InovaEstoque_branca.png" class="middle-image" alt="Middle Image">
                             </div>
                             <div class="carousel-caption d-none d-md-block">
@@ -97,7 +97,7 @@
 
                         <div class="carousel-item">
                             <div class="carousel-image-container">
-                                <img src="~/imagens/carrosel3.png" style="height: 551px;" class="d-block w-100" alt="...">
+                                <img src="~/imagens/fundo.png" style="height: 551px;" class="d-block w-100" alt="...">
                                 <img src="~/imagens/logo_InovaEstoque_branca.png" class="middle-image" alt="Middle Image">
                             </div>
                             <div class="carousel-caption d-none d-md-block">
@@ -122,8 +122,6 @@
                                 <span class="visually-hidden">Next</span>
                             </button>
                         </div>
-
-                        <br />
 
                         <div class="text-center">
                             <div class="fs-3 fw-light text-muted"><h1>como posso ajudar o seu negócio</h1></div>
@@ -284,7 +282,7 @@
                             <div class="d-flex justify-content-center fs-2 gap-4">
                                 <a class="text-gradient" href="#!"><i class="bi bi-twitter"></i></a>
                                 <a class="text-gradient" href="#!"><i class="bi bi-linkedin"></i></a>
-                                <a class="text-gradient" href="#!"><i class="bi bi-github"></i></a>
+                                <a class="text-gradient" href="https://github.com/Raphaelfreitas2334/InovaEstoque1.git"><i class="bi bi-github"></i></a>
                             </div>
                         </div>
                     </div>
@@ -296,7 +294,7 @@
     <footer class="bg-white py-4 mt-auto">
         <div class="container px-5">
             <div class="row align-items-center justify-content-between flex-column flex-sm-row">
-                <div class="col-auto"><div class="small m-0">Copyright &copy; Your Website 2023</div></div>
+                <div class="col-auto"><div class="small m-0">Copyright &copy; Inova Estoque 2024</div></div>
                 <div class="col-auto">
                     <a class="small" asp-area="" asp-controller="LoginController1" asp-action="contact">Contact</a>
                 </div>
@@ -321,7 +319,16 @@
             left: 50%;
             transform: translate(-50%, -50%);
             /* Ajuste o tamanho da imagem conforme necessário */
-            width: 400px;
+            max-width: 400px; /* Torna a imagem responsiva */
+            width: 100%; /* Faz a imagem diminuir com a tela */
             height: auto;
+            min-width: 50px; /* Define o tamanho mínimo da imagem */
         }
+    #menor{
+        text-align: center;
+        max-width: 100px; /* Torna a imagem responsiva */
+        width: 100%; /* Faz a imagem diminuir com a tela */
+        height: auto;
+        min-width: 50px; /* Define o tamanho mínimo da imagem */
+    }
 </style>
