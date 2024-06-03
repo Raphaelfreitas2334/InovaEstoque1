@@ -9,8 +9,13 @@ namespace WebApplication1.Data.Map
         public void Configure(EntityTypeBuilder<FornecimentosModel> builder)
         {
             builder.HasKey(x => x.Id);
-            builder.HasOne(x => x.Fornecedor);
-            builder.HasOne(x => x.Alimento);
+            builder.HasOne(x => x.Fornecedor)
+                   .WithMany()
+                   .HasForeignKey(x => x.IdFornecedor);
+            builder.HasOne(x => x.Alimento)
+                   .WithMany()
+                   .HasForeignKey(x => x.IdAlimento);
         }
+
     }
 }
