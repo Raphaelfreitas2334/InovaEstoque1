@@ -7,7 +7,7 @@ using WebApplication1.repositorio;
 
 namespace WebApplication1.Controllers
 {
-    [PaginaParaUsuarioLogado]
+    [PaginaRestritaSomenteAdmim]
     public class FornecedorController : Controller
     {
         private readonly IFornecedorRepositorio _fornecedorRepositorio;

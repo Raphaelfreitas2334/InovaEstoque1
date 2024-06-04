@@ -243,7 +243,8 @@
                                 <th scope="col">Nome Alimento</th>
                                 <th scope="col">Usuário Editou</th>
                                 <th scope="col">Data Edição</th>
-                                <th scope="col">Quantidade</th>
+                                <th scope="col">Quantidade anterior</th>
+                                <th scope="col">Quantidade atualizada</th>
                             </tr>
                         </thead>
                         <tbody>
@@ -259,6 +260,7 @@
                                             <td>@log.NomeAlimeto</td>
                                             <td>@log.UsuarioEditou</td>
                                             <td>@log.DataAtualizacao</td>
+                                            <td>@log.QuantidadeAnterior</td>
                                             <td>@log.QuantidadeAlimento</td>
                                         </tr>
                                     }
@@ -325,6 +327,7 @@
                                 <th scope="col">Nome Alimento</th>
                                 <th scope="col">Usuário Cadastrou</th>
                                 <th scope="col">Data Cadastro</th>
+                                <th scope="col">Quantidade cadastrada</th>
                             </tr>
                         </thead>
                         <tbody>
@@ -340,6 +343,7 @@
                                             <td>@log.NomeAlimeto</td>
                                             <td>@log.UsuarioCadastrou</td>
                                             <td>@log.DataCadastro</td>
+                                            <td>@log.QuantidadeAlimento</td>
                                         </tr>
                                     }
                                 }
