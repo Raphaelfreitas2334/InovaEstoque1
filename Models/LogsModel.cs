@@ -21,6 +21,7 @@ namespace WebApplication1.Models
         public DateTime? DataDevolve { get; set; }
         public DateTime? DataRemovel { get; set; }
         public double? QuantidadeAlimento { get; set; }
+        public double? QuantidadeAnterior { get; set; }
         public string obsDeSaida { get; set; }
         public string obsDeDevolucao { get; set; }
 

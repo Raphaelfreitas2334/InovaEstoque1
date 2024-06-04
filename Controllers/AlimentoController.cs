@@ -181,8 +181,8 @@ namespace WebApplication1.Controllers
                         }
 
                         // Cadastro do alimento
-                        UsuarioModel usuarioLogado = _sessao.BuscarSessaoDoUsuario();
-                        
+                        UsuarioModel usuarioLogado = _sessao.BuscarSessaoDoUsuario(); 
+
                         alimento = _alimentoRepositorio.AdicionarAlimento(alimento);
 
                         // Verificar se o alimento foi adicionado com sucesso
@@ -221,7 +221,7 @@ namespace WebApplication1.Controllers
                             log.NomeAlimeto = alimento.nomeAlimento;
                             log.DataCadastro = DateTime.Now;
                             log.UsuarioCadastrou = usuarioLogado.NomeUsuario;
-                            log.QuantidadeAlimento = alimento.quantidadeRetirada;
+                            log.QuantidadeAlimento = alimento.quantidadeAtual;
                             log.IdUsuario = usuarioLogado.Id;
                             _logRepositorio.LogCadastro(log);
 
@@ -281,6 +281,7 @@ namespace WebApplication1.Controllers
                             UsuarioModel usuarioLogago = _sessao.BuscarSessaoDoUsuario();
                             
                             string obs = alimento.obsDeSaida;
+                            double? qtd = alimento.quantidadeRetirada;
                             alimento = _alimentoRepositorio.gerarSaidaAlimento(alimento);
 
                             
@@ -290,7 +291,7 @@ namespace WebApplication1.Controllers
                             log.NomeAlimeto = alimento.nomeAlimento;
                             log.UsuarioRetirou = usuarioLogago.NomeUsuario;
                             log.DataRetira = DateTime.Now;
-                            log.QuantidadeAlimento = alimento.quantidadeRetirada;
+                            log.QuantidadeAlimento = qtd;
                             log.obsDeSaida = obs;
                             _logRepositorio.LogRetirada(log);
 
@@ -384,7 +385,14 @@ namespace WebApplication1.Controllers
                         else
                         {
                             UsuarioModel usuarioLogago = _sessao.BuscarSessaoDoUsuario();
-                           
+                            int id = alimento.Id;
+                            double? anterior = null;
+
+                            var logs = _bancoContext.Alimentos.Where(l => l.Id == id);
+                            foreach (var loge in logs)
+                            {
+                                anterior = loge.quantidadeAtual;
+                            }
                             double? qtdDevolve = alimento.quantidadeAtual;
                             alimento = _alimentoRepositorio.editarAlimento(alimento);
 
@@ -407,6 +415,7 @@ namespace WebApplication1.Controllers
                             log.UsuarioEditou = usuarioLogago.NomeUsuario;
                             log.DataAtualizacao = DateTime.Now;
                             log.QuantidadeAlimento = qtdDevolve;
+                            log.QuantidadeAnterior = anterior;
                             _logRepositorio.LogRetirada(log);
 
                             transaction.Commit(); // Confirma a transação se tudo foi bem-sucedido
