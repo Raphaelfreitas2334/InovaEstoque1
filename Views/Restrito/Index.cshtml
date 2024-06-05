@@ -3,26 +3,41 @@
     ViewData["Title"] = "Página Restrita";
 }
 <!DOCTYPE html>
-<html lang="pt-br">
+<html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Acesso Negado</title>
-    <!-- Importe o Bootstrap via CDN -->
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css">
+    <style>
+        .container {
+            position: center;
+            width: 100%;
+        }
+
+           
+
+        .alert {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            background-color: rgba(255, 0, 0, 0.7); /* cor de fundo semitransparente */
+            color: black; /* cor do texto */
+            padding: 20px;
+            border-radius: 5px;
+        }
+    </style>
 </head>
 <body>
     <div class="container mt-5">
+        
         <div class="alert alert-danger">
             <h4 class="alert-heading">Acesso Negado!</h4>
             <p>Desculpe, mas você não possui permissão para acessar esta funcionalidade. <a asp-controller="home" asp-action="Index">clik aqui para voltar</a>.</p>
-            <!-- Adicione as imagens -->
-            <img src="caminho/para/sua/imagem/faixa-policia.png" alt="Faixa de Polícia - Do Not Cross" style="max-width: 100%;">
-            <img src="caminho/para/sua/imagem/policial.png" alt="Policial Apitando" style="max-width: 100%;">
         </div>
     </div>
 </body>
 </html>
+
 
        
 
