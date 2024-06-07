@@ -21,7 +21,7 @@
                 </div>
                 <div class="col">
                     <label for="cnpj" class="form-label">CNPJ</label>
-                    <input type="text" class="form-control" id="cnpj" name="cnpj" onkeyup="VerificacaoCnpj();" placeholder="04.252.011/0001-10" asp-for="CNPJ" />
+                    <input type="text" class="form-control" id="cnpj" name="cnpj" onkeyup="VerificacaoCnpj();" placeholder="99.999.999/9999-99" asp-for="CNPJ" />
                     <span id="cnpjMessage"></span>
                     @Html.ValidationMessageFor(x => x.CNPJ)
                 </div>
@@ -29,13 +29,13 @@
             <div class="row mb-3">
                 <div class="col">
                     <label for="telefone" class="form-label">Telefone</label>
-                    <input type="text" class="form-control" id="telefone" onkeyup="validarTelefone();" placeholder="(11) 56751940" asp-for="telefone">
+                    <input type="text" class="form-control" id="telefone" onkeyup="validarTelefone();" placeholder="(99) 99999-999" asp-for="telefone">
                     <span id="telefoneMessage"></span>
                     @Html.ValidationMessageFor(x => x.telefone)
                 </div>
                 <div class="col">
                     <label for="cep" class="form-label">CEP</label>
-                    <input type="text" class="form-control" id="cep" onkeyup="validarCEP();" placeholder="04472-130" asp-for="CEP">
+                    <input type="text" class="form-control" id="cep" onkeyup="validarCEP();" placeholder="99999-999" asp-for="CEP">
                     <span id="cepMessage"></span>
                     @Html.ValidationMessageFor(x => x.CEP)
                 </div>
@@ -43,7 +43,7 @@
             <div class="row-half mb-3">
                 <div class="col-half">
                     <label for="numeroResidencia" class="form-label">Numero da residencia</label>
-                    <input type="text" class="form-control" id="numeroResidencia" placeholder="26" asp-for="numeroResidencia">
+                    <input type="text" class="form-control" id="numeroResidencia" placeholder="999" asp-for="numeroResidencia">
                     @Html.ValidationMessageFor(x => x.numeroResidencia)
                 </div>
             </div>
