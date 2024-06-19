@@ -31,6 +31,7 @@ namespace WebApplication1.Controllers
             List<LogsModel> logsModels = _logRepositorio.BuscarLogs();
             return PartialView("_viewLogDeRetidada", logsModels);
         }
+
     }
 
 }
