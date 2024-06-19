@@ -119,7 +119,7 @@ namespace WebApplication1.Controllers
                         string novaSenha = usuario.GerarNovaSenha();
                         string mensagem = $"Sua nova senha é: {novaSenha}";
 
-                        bool emailEnviado = _email.Enviar(usuario.Email, "Sistema de Contatos - Nova Senha", mensagem);
+                        bool emailEnviado = _email.Enviar(usuario.Email, "Sistema Inova Estoque - Nova Senha", mensagem);
 
                         if (emailEnviado)
                         {
