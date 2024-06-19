@@ -15,6 +15,7 @@ $(document).ready(function () {
     getDatatable('#table-pravencer');
     getDatatable('#table-Exclucao');
     getDatatable('#table-Cadastro');
+    getDatatable('#table-index_vencendo');
 
     //modais da tela de usuario <começo>
 

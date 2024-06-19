@@ -49,7 +49,7 @@ namespace WebApplication1.helper
                     return true;
                 }
             }
-            catch (System.Exception ex)
+            catch (System.Exception)
             {
 
                 return false;

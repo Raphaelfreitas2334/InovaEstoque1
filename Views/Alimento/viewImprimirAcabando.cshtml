@@ -24,7 +24,7 @@
     <br />
     <section id="container-usuario">
 
-        <table class="table table-Alimento" id="table-Vencendo">
+        <table class="table table-Alimento" id="table-index_vencendo">
             <thead>
                 <tr class="text-bg-success">
                     <th id="codigo">#</th>
@@ -42,12 +42,11 @@
                 @if (Model != null && Model.Any())
                 {
                     foreach (AlimentoModel alimento in Model)
-                    {
-
-                        <tr>
+                    {                                               
                             @* if para gerenciar o status do alimento *@
                             @if (alimento.quantidadeAtual < alimento.quantidadeMinima)
                             {
+                            <tr>
                                 <td>@alimento.Id</td>
                                 <td>@alimento.nomeAlimento</td>
                                 <td>@alimento.dataVencimento</td>
@@ -55,8 +54,8 @@
                                 <td>@alimento.unidadeMedida</td>
                                 <td>@alimento.quantidadeAtual</td>
                                 <td>@alimento.quantidadeMinima</td>
-                            }
-                        </tr>
+                            </tr>
+                            }                        
                     }
                 }
             </tbody>

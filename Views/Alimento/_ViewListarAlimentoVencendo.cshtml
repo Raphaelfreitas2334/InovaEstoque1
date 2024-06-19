@@ -27,7 +27,7 @@
             {
                 foreach (AlimentoModel alimento in Model)
                 {
-                    DateTime data1 = DateTime.Now; // primeira data
+                    DateTime data1 = DateTime.Today; // primeira data
                     DateTime data2 = DateTime.Parse(alimento.dataVencimento); // segunda data
 
                     TimeSpan diferenca = data1 - data2; // obtém a diferença entre as datas
@@ -39,6 +39,17 @@
                             <td>@alimento.nomeAlimento</td>
                             <td>@alimento.dataVencimento</td>
                             <td>Há @Math.Abs(diferenca.Days) dias</td>
+                            <td><span class="badge badge-danger rounded-pill d-inline text-black">Venceu</span></td>
+                            <td>@alimento.unidadeMedida</td>
+                            <td>@alimento.quantidadeAtual</td>
+                            <td>@alimento.quantidadeMinima</td>
+                        }
+                        else if (diferenca.TotalDays >= 0) // verifica se vence hoje
+                        {
+                            <td>@alimento.Id</td>
+                            <td>@alimento.nomeAlimento</td>
+                            <td>@alimento.dataVencimento</td>
+                            <td>Vence hoje</td>
                             <td><span class="badge badge-danger rounded-pill d-inline text-black">Venceu</span></td>
                             <td>@alimento.unidadeMedida</td>
                             <td>@alimento.quantidadeAtual</td>

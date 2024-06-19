@@ -62,7 +62,7 @@
         </div>
 
         <div id="div2" style="display: none;">
-            <!-- Div dos que estão para vencer -->
+            <!-- Divs dos que estão para vencer -->
             <div id="conteudo">
                 <section>
                     <table class="table table-striped table-hover table table-Alimento" id="table-Vencendo">
@@ -83,28 +83,56 @@
                             {
                                 foreach (AlimentoModel alimento in Model)
                                 {
-                                    DateTime data1 = DateTime.Now; // primeira data
+                                    DateTime data1 = DateTime.Today; // primeira data
                                     DateTime data2 = DateTime.Parse(alimento.dataVencimento); // segunda data
+                                    Boolean pausa = true;
 
                                     TimeSpan diferenca = data1 - data2; // obtém a diferença entre as datas
-
-                                    if ((diferenca.TotalDays) >= 1 && (diferenca.TotalDays) <= 10)
-                                    {
-                                        
-                                    }
-                                    else
-                                    {
+                                    
+                                        @if (diferenca.TotalDays <= 0 && diferenca.TotalDays >= -10) // verifica se está para vencer nos próximos 10 dias
+                                        {
+                                            if (diferenca.Days == 0) // verifica se vence hoje
+                                            {
+                                            pausa = false;//variavel para controlar os alimentos que vencem no dia atual
+                                            <tr>
+                                                <td>@alimento.Id</td>
+                                                <td>@alimento.nomeAlimento</td>
+                                                <td>@alimento.dataVencimento</td>
+                                                <td>Vence hoje</td>
+                                                <td><span class="badge badge-danger rounded-pill d-inline text-black">Venceu</span></td>
+                                                <td>@alimento.unidadeMedida</td>
+                                                <td>@alimento.quantidadeAtual</td>
+                                                <td>@alimento.quantidadeMinima</td>
+                                            </tr>
+                                            }
+                                            if(pausa == true)
+                                            {
+                                            <tr>
+                                                <td>@alimento.Id</td>
+                                                <td>@alimento.nomeAlimento</td>
+                                                <td>@alimento.dataVencimento</td>
+                                                <td>Faltam @Math.Abs(diferenca.Days) dias</td>
+                                                <td><span class="badge badge-warning rounded-pill d-inline text-black">vencendo</span></td>
+                                                <td>@alimento.unidadeMedida</td>
+                                                <td>@alimento.quantidadeAtual</td>
+                                                <td>@alimento.quantidadeMinima</td>
+                                            </tr>                                                
+                                            }                                            
+                                        }
+                                        else if (diferenca.TotalDays == 0) // verifica se vence hoje
+                                        {
                                         <tr>
                                             <td>@alimento.Id</td>
                                             <td>@alimento.nomeAlimento</td>
                                             <td>@alimento.dataVencimento</td>
-                                            <td>Falta @Math.Abs(diferenca.Days) dias</td>
-                                            <td><span class="badge badge-warning rounded-pill d-inline text-black">vencendo</span></td>
+                                            <td>Vence hoje</td>
+                                            <td><span class="badge badge-danger rounded-pill d-inline text-black">Venceu</span></td>
                                             <td>@alimento.unidadeMedida</td>
                                             <td>@alimento.quantidadeAtual</td>
                                             <td>@alimento.quantidadeMinima</td>
-                                        </tr>
-                                    }
+                                        </tr>                                            
+                                        }
+                                    
                                 }
                             }
                         </tbody>
@@ -135,22 +163,37 @@
                             {
                                 foreach (AlimentoModel alimento in Model)
                                 {
-                                    DateTime data1 = DateTime.Now; // primeira data
+                                    DateTime data1 = DateTime.Today; // primeira data
                                     DateTime data2 = DateTime.Parse(alimento.dataVencimento); // segunda data
 
                                     TimeSpan diferenca = data1 - data2; // obtém a diferença entre as datas
 
-
-                                            <td>@alimento.Id</td>
-                                            <td>@alimento.nomeAlimento</td>
-                                            <td>@alimento.dataVencimento</td>
-                                            <td>Venceu á @Math.Abs(diferenca.Days) dias</td>
-                                            <td><span class="badge badge-danger rounded-pill d-inline text-black">Venceu</span></td>
-                                            <td>@alimento.unidadeMedida</td>
-                                            <td>@alimento.quantidadeAtual</td>
-                                            <td>@alimento.quantidadeMinima</td>
-                                        </tr>
-                                    }
+                                  @if (diferenca.TotalDays >= 1) // verifica se já venceu
+                                  {
+                                  <tr>
+                                      <td>@alimento.Id</td>
+                                      <td>@alimento.nomeAlimento</td>
+                                      <td>@alimento.dataVencimento</td>
+                                      <td>Venceu á @Math.Abs(diferenca.Days) dias</td>
+                                      <td><span class="badge badge-danger rounded-pill d-inline text-black">Venceu</span></td>
+                                      <td>@alimento.unidadeMedida</td>
+                                      <td>@alimento.quantidadeAtual</td>
+                                      <td>@alimento.quantidadeMinima</td>
+                                  </tr>                                      
+                                  }
+                                  else if (diferenca.TotalDays >= 0) // verifica se vence hoje
+                                  {
+                                  <tr>
+                                      <td>@alimento.Id</td>
+                                      <td>@alimento.nomeAlimento</td>
+                                      <td>@alimento.dataVencimento</td>
+                                      <td>Vence hoje</td>
+                                      <td><span class="badge badge-danger rounded-pill d-inline text-black">Venceu</span></td>
+                                      <td>@alimento.unidadeMedida</td>
+                                      <td>@alimento.quantidadeAtual</td>
+                                      <td>@alimento.quantidadeMinima</td>
+                                  </tr>
+                                  }    
                                 }
                             }
                         </tbody>
@@ -181,14 +224,15 @@
                             {
                                 foreach (AlimentoModel alimento in Model)
                                 {
-                                    DateTime data1 = DateTime.Now; // primeira data
+                                    DateTime data1 = DateTime.Today; // primeira data
                                     DateTime data2 = DateTime.Parse(alimento.dataVencimento); // segunda data
 
                                     TimeSpan diferenca = data1 - data2; // obtém a diferença entre as datas
 
-                                    <tr>
-                                        @if ((diferenca.TotalDays) >= 1 && (diferenca.TotalDays) <= 10) // verifica se a diferença é de 10 dias ou menos
+                                    
+                                        @if (diferenca.TotalDays >= 1) // verifica se já venceu
                                         {
+                                        <tr>
                                             <td>@alimento.Id</td>
                                             <td>@alimento.nomeAlimento</td>
                                             <td>@alimento.dataVencimento</td>
@@ -197,19 +241,34 @@
                                             <td>@alimento.unidadeMedida</td>
                                             <td>@alimento.quantidadeAtual</td>
                                             <td>@alimento.quantidadeMinima</td>
+                                        </tr>
                                         }
-                                        else
+                                        else if (diferenca.TotalDays >= 0) // verifica se vence hoje
                                         {
+                                        <tr>
                                             <td>@alimento.Id</td>
                                             <td>@alimento.nomeAlimento</td>
                                             <td>@alimento.dataVencimento</td>
-                                            <td>Falta @Math.Abs(diferenca.Days) dias</td>
+                                            <td>Vence hoje</td>
+                                            <td><span class="badge badge-danger rounded-pill d-inline text-black">Venceu</span></td>
+                                            <td>@alimento.unidadeMedida</td>
+                                            <td>@alimento.quantidadeAtual</td>
+                                            <td>@alimento.quantidadeMinima</td>
+                                        </tr>
+                                        }
+                                        else if (diferenca.TotalDays <= 0 && diferenca.TotalDays >= -10) // verifica se está para vencer nos próximos 10 dias
+                                        {
+                                        <tr>
+                                            <td>@alimento.Id</td>
+                                            <td>@alimento.nomeAlimento</td>
+                                            <td>@alimento.dataVencimento</td>
+                                            <td>Faltam @Math.Abs(diferenca.Days) dias</td>
                                             <td><span class="badge badge-warning rounded-pill d-inline text-black">vencendo</span></td>
                                             <td>@alimento.unidadeMedida</td>
                                             <td>@alimento.quantidadeAtual</td>
                                             <td>@alimento.quantidadeMinima</td>
-                                        }
-                                    </tr>
+                                        </tr>
+                                        }                                    
                                 }
                             }
                         </tbody>
