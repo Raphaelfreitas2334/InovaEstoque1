@@ -14,6 +14,11 @@ namespace WebApplication1.repositorio
             _Context = bancoContext;
         }
 
+        public FornecedorModel BuscarPorCnpj(string cnpj)
+        {
+            return _Context.Fornecedor.FirstOrDefault(X => X.CNPJ == cnpj);
+        }
+
         public FornecedorModel ListaPorID(int id)
         {
             return _Context.Fornecedor.FirstOrDefault(x => x.Id == id);

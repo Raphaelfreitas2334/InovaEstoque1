@@ -48,10 +48,19 @@ namespace WebApplication1.Controllers
             {
                 if (!ModelState.IsValid)
                 {
-                    fornecedor = _fornecedorRepositorio.Adicionar(fornecedor);
+                    FornecedorModel fornecedor1 = _fornecedorRepositorio.BuscarPorCnpj(fornecedor.CNPJ);
+                    if (fornecedor1 == null)
+                    {
+                        fornecedor = _fornecedorRepositorio.Adicionar(fornecedor);
 
-                    TempData["MensagemSucesso"] = "Fornecedor cadastrado com sucesso";
-                    return RedirectToAction("Index");
+                        TempData["MensagemSucesso"] = "Fornecedor cadastrado com sucesso";
+                        return RedirectToAction("Index");
+                    }
+                    else
+                    {
+                        TempData["MensagemErro"] = "Fornecedor já cadastrado";
+                        return RedirectToAction("Index");
+                    }
                 }
                 else
                 {

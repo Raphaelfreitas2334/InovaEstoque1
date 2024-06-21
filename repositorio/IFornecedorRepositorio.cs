@@ -6,6 +6,7 @@ namespace WebApplication1.repositorio
 {
     public interface IFornecedorRepositorio
     {
+        FornecedorModel BuscarPorCnpj(string cnpj);
         FornecedorModel ListaPorID(int id);
         FornecedorModel ObterPorI(int id);
         List<FornecedorModel> Consutar();
