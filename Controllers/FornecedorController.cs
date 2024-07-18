@@ -48,9 +48,12 @@ namespace WebApplication1.Controllers
             {
                 if (!ModelState.IsValid)
                 {
+                    //busca no repositorio de fornecedores o cnpj que esta cendo cadastrado para ver se já existe
                     FornecedorModel fornecedor1 = _fornecedorRepositorio.BuscarPorCnpj(fornecedor.CNPJ);
+                    //verifica se não achou ninguem
                     if (fornecedor1 == null)
                     {
+                        //não existe o fornecedor então cadastra
                         fornecedor = _fornecedorRepositorio.Adicionar(fornecedor);
 
                         TempData["MensagemSucesso"] = "Fornecedor cadastrado com sucesso";
@@ -58,6 +61,7 @@ namespace WebApplication1.Controllers
                     }
                     else
                     {
+                        //tem o fornecedor já cadastrado, então da um erro 
                         TempData["MensagemErro"] = "Fornecedor já cadastrado";
                         return RedirectToAction("Index");
                     }
