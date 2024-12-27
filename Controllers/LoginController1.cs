@@ -12,14 +12,17 @@ namespace WebApplication1.Controllers
         private readonly IUsuarioRepositorio _usuarioRepositorio;
         private readonly ISessao _sessao;
         private readonly IEmail _email;
+        private readonly IUsuarioRepositorio _UsuarioRepositorio;
 
         public LoginController1(IUsuarioRepositorio usuarioRepositorio,
                                 ISessao sessao,
-                                IEmail email)
+                                IEmail email,
+                                IUsuarioRepositorio UsuarioRepositorio)
         {
             _usuarioRepositorio = usuarioRepositorio;
             _sessao = sessao;
             _email = email;
+            _UsuarioRepositorio = UsuarioRepositorio;
         }
         public IActionResult Index()
         {
@@ -68,6 +71,49 @@ namespace WebApplication1.Controllers
         }
 
         [HttpPost]
+        public IActionResult Criar(UsuarioModel usuario)
+        {
+            try
+            {
+                if (ModelState.IsValid)
+                {
+                    UsuarioModel usuario1 = _UsuarioRepositorio.BuscarPorLogin(usuario.Email);
+                    // Verifica se o e-mail já existe no banco de dados
+                    if (usuario1 == null)
+                    {
+                        usuario = _UsuarioRepositorio.Adicionar(usuario);
+                        TempData["MensagemSucesso"] = "Usuario cadastrado com sucesso";
+                        return RedirectToAction("Index");
+                    }
+                    else
+                    {
+                        TempData["MensagemErro"] = "E-mail já está em uso";
+                        return RedirectToAction("Index");
+                    }
+
+                }
+                TempData["MensagemErro"] = "Preencha todos os campo corretamentes";
+                return RedirectToAction("Index");
+            }
+            catch (Exception erro)
+            {
+                TempData["MensagemErro"] = $"Ops. nao consiguimos cadastra o Usuario, temte novamente: {erro.Message}";
+                return RedirectToAction("Index");
+            }
+        }
+
+
+        public IActionResult CadastroUsuario()
+        {
+            // Log para verificar se o método é chamado
+            Console.WriteLine("Método CadastroUsuario chamado");
+
+            return View("CadastroUsuario");
+        }
+
+
+
+        [HttpPost]
         public IActionResult LoginUsuario(LoginModel loginModel)
         {
             try
@@ -82,9 +128,9 @@ namespace WebApplication1.Controllers
                         {
                             if (usuario.StatusValido(loginModel.Status))
                             {
-                                _sessao.CriarSessaoDoUsuario(usuario);
-                                return RedirectToAction("Index", "Home");
-                            }
+                        _sessao.CriarSessaoDoUsuario(usuario);
+                        return RedirectToAction("Index", "Home");
+                    }
                             else
                             {
                                 TempData["MensagemErro"] = $"Usuario desativado";

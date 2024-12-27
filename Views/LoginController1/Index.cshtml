@@ -47,7 +47,7 @@
                                         </div>
                                        
                                         <div class="form__group field">
-                                            <input type="password" asp-for="Senha" class="form__field" placeholder="Senha" id='name' required />
+                                            <input type="password" asp-for="Senha" class="form__field" placeholder="Senha" id='senha' required />
                                             <label for="name" class="form__label">Senha</label>
                                             @Html.ValidationMessageFor(X => X.Senha)
                                         </div>
@@ -63,6 +63,10 @@
                                             <hr>
 
                                             <a asp-action="inicio" asp-controller="LoginController1" class="btn btn-primary btn-block fa-lg">Voltar para a home</a>
+                                            
+                                            <hr>
+
+                                            <a asp-action="CadastroUsuario" asp-controller="LoginController1" class="btn btn-primary btn-block fa-lg gradient-custom-2 mb-3">Cadastra Usuario</a>
                                         </div>
                                         
 
