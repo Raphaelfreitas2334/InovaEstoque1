@@ -1,0 +1,138 @@
+﻿@* Verifique se o layout está sendo renderizado *@
+@using WebApplication1.Enums;
+@model UsuarioModel
+@{
+    Layout = "_LayoutLogin";
+    ViewData["Title"] = "login";
+    Console.WriteLine("Layout _LayoutLogin renderizado");
+}
+
+<link rel="stylesheet" href="~/css/UsuarioCSS/criar.css" />
+
+<div id="containerEditarAlimento">
+
+<form asp-controller="LoginController1" asp-action="Criar" method="POST" id="formUsuario">
+    <div>
+        <div id="tituloEditarAlimento">
+            <h1>Cadastro de Usuario</h1>
+        </div>
+        <div class="row">
+            <div class="col-md-6 mb-3">
+                <label for="nomeUsuario" class="form-label">Nome do Usuario</label>
+                <input type="text" class="form-control" id="nomeUsuario" placeholder="Carlos" asp-for="NomeUsuario">
+                @Html.ValidationMessageFor(x => x.NomeUsuario)
+            </div>
+            <div class="col-md-6 mb-3">
+                <label for="email">Email:</label>
+                <input type="email" id="email" class="form-control" name="email" placeholder="email@gmail.com" asp-for="Email">
+                @Html.ValidationMessageFor(x => x.Email)
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-6 mb-3">
+                <label for="loginUsuario" class="form-label">Login do Usuario</label>
+                <input type="text" class="form-control" id="loginUsuario" placeholder="CarlosExemplo" asp-for="Login">
+                @Html.ValidationMessageFor(x => x.Login)
+            </div>
+            <div class="col-md-6 mb-3">
+                <label for="senha">Senha:</label>
+                <input type="password" class="form-control" id="senha" name="senha" asp-for="Senha">
+                @Html.ValidationMessageFor(x => x.Senha)
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-6 mb-3">
+                <label for="confirmarSenha">Confirmar Senha:</label>
+                <input type="password" class="form-control" id="confirmarSenha" name="confirmarSenha" asp-for="Senha">
+                @Html.ValidationMessageFor(x => x.Senha)
+            </div>
+            <div class="col-md-6 mb-3">
+                <label for="perfil">Perfil:</label>
+                <select id="perfil" class="form-control" asp-for="Funcao">
+                    <option value="">Selecione</option>
+                    <option value="@PerfilEnum.adimin">Administrador</option>
+                    <option value="@PerfilEnum.Cozinheiro">Cozinheiro</option>
+                </select>
+                @Html.ValidationMessageFor(x => x.Funcao)
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-6 mb-3">
+                <input type="hidden" id="status" name="Ativo" asp-for="Ativo" value="true">
+                <p>Status: Ativo</p>
+                @Html.ValidationMessageFor(x => x.Ativo)
+            </div>
+        </div>
+        <div>
+            <button type="submit" id="btnSalvar">Salvar</button>
+        </div>
+        <hr />
+        <div>
+            <a asp-action="CadastroUsuario" asp-controller="LoginController1" class="btn btn-primary btn-block fa-lg gradient-custom-2 mb-3">Voltar</a>
+        </div>
+    </div>
+</form>
+</div>
+
+<style>
+    .form__group {
+        position: relative;
+        padding: 15px 0 0;
+        margin-top: 10px;
+        width: 100%;
+    }
+
+    .form__field {
+        font-family: inherit;
+        width: 100%;
+        border: 0;
+        border-bottom: 2px solid #9b9b9b;
+        outline: 0;
+        font-size: 1.0rem;
+        color: #1e30f3;
+        padding: 7px 0;
+        background: transparent;
+        transition: border-color 0.2s;
+    }
+
+        .form__field::placeholder {
+            color: transparent;
+        }
+
+        .form__field:placeholder-shown ~ .form__label {
+            font-size: 1.3rem;
+            cursor: text;
+            top: 20px;
+        }
+
+    .form__label {
+        position: absolute;
+        top: 0;
+        display: block;
+        transition: 0.2s;
+        font-size: 1rem;
+        color: #1e30f3;
+    }
+
+    .form__field:focus {
+        padding-bottom: 6px;
+        font-weight: 700;
+        border-width: 3px;
+        border-image: linear-gradient(135deg, #1e30f3 0%, #e21e80 100%);
+        border-image-slice: 1;
+    }
+
+        .form__field:focus ~ .form__label {
+            position: absolute;
+            top: 0;
+            display: block;
+            transition: 0.2s;
+            font-size: 1rem;
+            color: #e21e80;
+            font-weight: 700;
+        }
+
+    .form__field:required, .form__field:invalid {
+        box-shadow: none;
+    }
+</style>
